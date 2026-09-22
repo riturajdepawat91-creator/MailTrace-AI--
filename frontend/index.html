@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MailTrace AI | Email Forensic Intelligence</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">
+                <span>◈</span>
+            </div>
+
+            <div>
+                <h2>MailTrace</h2>
+                <small>AI FORENSICS</small>
+            </div>
+        </div>
+
+        <div class="workspace-label">
+            WORKSPACE
+        </div>
+
+        <nav class="navigation">
+
+            <a href="#" class="nav-item active" data-page="dashboard">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#" class="nav-item" data-page="investigation">
+                <span class="nav-icon">⌕</span>
+                <span>Investigations</span>
+            </a>
+
+            <a href="#" class="nav-item" data-page="cases">
+                <span class="nav-icon">▣</span>
+                <span>Cases</span>
+                <span class="nav-count">8</span>
+            </a>
+
+            <a href="#" class="nav-item" data-page="campaigns">
+                <span class="nav-icon">◎</span>
+                <span>Campaigns</span>
+            </a>
+
+            <a href="#" class="nav-item" data-page="reports">
+                <span class="nav-icon">▤</span>
+                <span>Reports</span>
+            </a>
+
+            <a href="#" class="nav-item" data-page="ip-intelligence">
+    <span class="nav-icon">⌁</span>
+    <span>IP Intelligence</span>
+</a>
+
+        </nav>
+
+        <div class="workspace-label">
+            SYSTEM
+        </div>
+
+        <nav class="navigation">
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">⚙</span>
+                <span>Settings</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">?</span>
+                <span>Help & Docs</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+
+                <div>
+                    <strong>System Operational</strong>
+                    <small>All services running</small>
+                </div>
+            </div>
+
+            <div class="user-profile">
+
+                <div class="avatar">RD</div>
+
+                <div class="user-info">
+                    <strong>Analyst</strong>
+                    <small>Security Operations</small>
+                </div>
+
+                <button class="more-btn">•••</button>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="breadcrumb">
+                <span>Security Operations</span>
+                <span class="separator">/</span>
+                <strong>Dashboard</strong>
+            </div>
+
+            <div class="topbar-actions">
+
+                <button class="icon-button notification">
+                    ◔
+                    <span class="notification-dot"></span>
+                </button>
+
+                <div class="topbar-divider"></div>
+
+                <div class="top-user">
+                    <div class="avatar small">RD</div>
+
+                    <div>
+                        <strong>Rituraj</strong>
+                        <small>Analyst</small>
+                    </div>
+
+                    <span class="chevron">⌄</span>
+                </div>
+
+            </div>
+
+        </header>
+
+<!-- ================= PAGE ================= -->
+
+<section class="page">
+
+    <div class="dashboard-content">
+
+        <!-- ================= PAGE HEADER ================= -->
+
+        <div class="page-header">
+
+            <div>
+
+                <div class="eyebrow">
+                    SECURITY OVERVIEW
+                </div>
+
+                <h1>
+                    Threat Intelligence Dashboard
+                </h1>
+
+                <p>
+                    Monitor email threats, investigations and infrastructure intelligence.
+                </p>
+
+            </div>
+
+            <button
+                class="primary-btn"
+                id="newInvestigationBtn"
+            >
+                <span>＋</span>
+                New Investigation
+            </button>
+
+        </div>
+
+
+        <!-- ================= STAT CARDS ================= -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span>
+                        Total Analysed
+                    </span>
+
+                    <div class="stat-icon cyan">
+                        ◉
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    1,284
+                </div>
+
+                <div class="stat-bottom positive">
+
+                    <span>
+                        ↑ 12.8%
+                    </span>
+
+                    <span>
+                        vs last 30 days
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span>
+                        Threats Detected
+                    </span>
+
+                    <div class="stat-icon red">
+                        !
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    173
+                </div>
+
+                <div class="stat-bottom danger-text">
+
+                    <span>
+                        ↑ 8.4%
+                    </span>
+
+                    <span>
+                        vs last 30 days
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span>
+                        Active Cases
+                    </span>
+
+                    <div class="stat-icon violet">
+                        ◈
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    08
+                </div>
+
+                <div class="stat-bottom">
+
+                    <span class="neutral-text">
+                        3 high priority
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span>
+                        Campaigns
+                    </span>
+
+                    <div class="stat-icon amber">
+                        ◎
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    14
+                </div>
+
+                <div class="stat-bottom">
+
+                    <span class="neutral-text">
+                        4 active campaigns
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= MAIN GRID ================= -->
+
+        <div class="dashboard-grid">
+
+            <!-- ================= THREAT ACTIVITY ================= -->
+
+            <div class="panel threat-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h3>
+                            Threat Activity
+                        </h3>
+
+                        <p>
+                            Email threats detected over the last 30 days
+                        </p>
+
+                    </div>
+
+
+                    <select
+                        class="select-control"
+                        id="threatActivityRange"
+                    >
+
+                        <option value="30">
+                            Last 30 days
+                        </option>
+
+                        <option value="7">
+                            Last 7 days
+                        </option>
+
+                        <option value="90">
+                            Last 90 days
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="chart-container">
+
+                    <div class="chart-y-axis">
+
+                        <span>40</span>
+                        <span>30</span>
+                        <span>20</span>
+                        <span>10</span>
+                        <span>0</span>
+
+                    </div>
+
+
+                    <div class="chart-area">
+
+                        <div class="grid-line line-1"></div>
+                        <div class="grid-line line-2"></div>
+                        <div class="grid-line line-3"></div>
+                        <div class="grid-line line-4"></div>
+                        <div class="grid-line line-5"></div>
+
+
+                        <svg
+                            class="threat-chart"
+                            viewBox="0 0 800 240"
+                            preserveAspectRatio="none"
+                        >
+
+                            <defs>
+
+                                <linearGradient
+                                    id="areaGradient"
+                                    x1="0"
+                                    y1="0"
+                                    x2="0"
+                                    y2="1"
+                                >
+
+                                    <stop
+                                        offset="0%"
+                                        stop-color="#19B5FE"
+                                        stop-opacity="0.22"
+                                    />
+
+                                    <stop
+                                        offset="100%"
+                                        stop-color="#19B5FE"
+                                        stop-opacity="0"
+                                    />
+
+                                </linearGradient>
+
+                            </defs>
+
+
+                            <path
+                                class="chart-area-fill"
+                                d="M0,190
+                                   C50,170 70,180 100,150
+                                   S150,130 180,150
+                                   S230,105 260,130
+                                   S310,145 340,100
+                                   S390,115 420,95
+                                   S470,130 500,90
+                                   S550,75 580,105
+                                   S630,65 660,90
+                                   S710,45 740,70
+                                   S780,30 800,50
+                                   L800,240 L0,240 Z"
+                            />
+
+
+                            <path
+                                class="chart-line"
+                                d="M0,190
+                                   C50,170 70,180 100,150
+                                   S150,130 180,150
+                                   S230,105 260,130
+                                   S310,145 340,100
+                                   S390,115 420,95
+                                   S470,130 500,90
+                                   S550,75 580,105
+                                   S630,65 660,90
+                                   S710,45 740,70
+                                   S780,30 800,50"
+                            />
+
+                        </svg>
+
+
+                        <div class="chart-x-axis">
+
+                            <span>
+                                01 Aug
+                            </span>
+
+                            <span>
+                                08 Aug
+                            </span>
+
+                            <span>
+                                15 Aug
+                            </span>
+
+                            <span>
+                                22 Aug
+                            </span>
+
+                            <span>
+                                25 Aug
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= THREAT DISTRIBUTION ================= -->
+
+            <div class="panel distribution-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h3>
+                            Threat Distribution
+                        </h3>
+
+                        <p>
+                            Classification breakdown
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="donut-wrapper">
+
+                    <div class="donut">
+
+                        <div class="donut-center">
+
+                            <strong>
+                                173
+                            </strong>
+
+                            <span>
+                                Threats
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="legend">
+
+                    <div class="legend-row">
+
+                        <span>
+
+                            <i class="legend-dot phishing"></i>
+
+                            Phishing
+
+                        </span>
+
+                        <strong>
+                            42%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="legend-row">
+
+                        <span>
+
+                            <i class="legend-dot impersonation"></i>
+
+                            Impersonation
+
+                        </span>
+
+                        <strong>
+                            27%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="legend-row">
+
+                        <span>
+
+                            <i class="legend-dot bec"></i>
+
+                            BEC / Fraud
+
+                        </span>
+
+                        <strong>
+                            18%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="legend-row">
+
+                        <span>
+
+                            <i class="legend-dot malware"></i>
+
+                            Malware
+
+                        </span>
+
+                        <strong>
+                            13%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= LOWER GRID ================= -->
+
+        <div class="lower-grid">
+
+            <!-- ================= RECENT INVESTIGATIONS ================= -->
+
+            <div class="panel investigations-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h3>
+                            Recent Investigations
+                        </h3>
+
+                        <p>
+                            Latest security cases requiring attention
+                        </p>
+
+                    </div>
+
+
+                    <a
+                        href="#"
+                        class="view-all"
+                        id="viewAllInvestigations"
+                    >
+                        View all →
+                    </a>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    CASE
+                                </th>
+
+                                <th>
+                                    SUBJECT
+                                </th>
+
+                                <th>
+                                    THREAT
+                                </th>
+
+                                <th>
+                                    RISK
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                                <th>
+                                    TIME
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td class="mono">
+                                    CASE-0017
+                                </td>
+
+                                <td>
+
+                                    <div class="email-cell">
+
+                                        <strong>
+                                            Urgent Payment Request
+                                        </strong>
+
+                                        <small>
+                                            finance@micr0soft-support.com
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="badge danger">
+                                        Phishing
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="risk-score high">
+                                        92
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="status active">
+                                        Active
+                                    </span>
+
+                                </td>
+
+
+                                <td class="muted">
+                                    4 min ago
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td class="mono">
+                                    CASE-0016
+                                </td>
+
+                                <td>
+
+                                    <div class="email-cell">
+
+                                        <strong>
+                                            Account Verification
+                                        </strong>
+
+                                        <small>
+                                            support@paypa1-security.net
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="badge warning">
+                                        Impersonation
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="risk-score high">
+                                        87
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="status investigating">
+                                        Investigating
+                                    </span>
+
+                                </td>
+
+
+                                <td class="muted">
+                                    18 min ago
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td class="mono">
+                                    CASE-0015
+                                </td>
+
+                                <td>
+
+                                    <div class="email-cell">
+
+                                        <strong>
+                                            Invoice #88421
+                                        </strong>
+
+                                        <small>
+                                            billing@vendor-example.com
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="badge violet-badge">
+                                        BEC / Fraud
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="risk-score medium">
+                                        74
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="status resolved">
+                                        Resolved
+                                    </span>
+
+                                </td>
+
+
+                                <td class="muted">
+                                    1 hr ago
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td class="mono">
+                                    CASE-0014
+                                </td>
+
+                                <td>
+
+                                    <div class="email-cell">
+
+                                        <strong>
+                                            Document Shared With You
+                                        </strong>
+
+                                        <small>
+                                            no-reply@drive-alerts.co
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="badge danger">
+                                        Phishing
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="risk-score high">
+                                        89
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="status active">
+                                        Active
+                                    </span>
+
+                                </td>
+
+
+                                <td class="muted">
+                                    2 hr ago
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= TOP CAMPAIGNS ================= -->
+
+            <div class="panel campaigns-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h3>
+                            Active Campaigns
+                        </h3>
+
+                        <p>
+                            Correlated threat activity
+                        </p>
+
+                    </div>
+
+
+                    <button class="icon-button">
+                        ↗
+                    </button>
+
+                </div>
+
+
+                <div class="campaign-list">
+
+                    <div class="campaign-item">
+
+                        <div class="campaign-icon red-bg">
+                            ⚠
+                        </div>
+
+
+                        <div class="campaign-info">
+
+                            <div class="campaign-title">
+
+                                CAMPAIGN-004
+
+                                <span class="risk-pill critical">
+                                    Critical
+                                </span>
+
+                            </div>
+
+
+                            <small>
+                                Credential harvesting
+                            </small>
+
+
+                            <div class="campaign-meta">
+
+                                <span>
+                                    17 emails
+                                </span>
+
+                                <span>
+                                    •
+                                </span>
+
+                                <span>
+                                    6 indicators
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="campaign-item">
+
+                        <div class="campaign-icon amber-bg">
+                            ◈
+                        </div>
+
+
+                        <div class="campaign-info">
+
+                            <div class="campaign-title">
+
+                                CAMPAIGN-003
+
+                                <span class="risk-pill high-risk">
+                                    High
+                                </span>
+
+                            </div>
+
+
+                            <small>
+                                Payment diversion
+                            </small>
+
+
+                            <div class="campaign-meta">
+
+                                <span>
+                                    9 emails
+                                </span>
+
+                                <span>
+                                    •
+                                </span>
+
+                                <span>
+                                    4 indicators
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="campaign-item">
+
+                        <div class="campaign-icon violet-bg">
+                            ◎
+                        </div>
+
+
+                        <div class="campaign-info">
+
+                            <div class="campaign-title">
+
+                                CAMPAIGN-002
+
+                                <span class="risk-pill medium-risk">
+                                    Medium
+                                </span>
+
+                            </div>
+
+
+                            <small>
+                                Executive impersonation
+                            </small>
+
+
+                            <div class="campaign-meta">
+
+                                <span>
+                                    6 emails
+                                </span>
+
+                                <span>
+                                    •
+                                </span>
+
+                                <span>
+                                    3 indicators
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= QUICK ACTIONS ================= -->
+
+        <div class="quick-actions">
+
+            <div class="quick-action-header">
+
+                <div>
+
+                    <h3>
+                        Quick Actions
+                    </h3>
+
+                    <p>
+                        Start a new security workflow
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="quick-action-grid">
+
+                <button
+                    class="quick-card"
+                    id="uploadEmail"
+                >
+
+                    <div class="quick-icon cyan">
+                        ↑
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Analyse Email
+                        </strong>
+
+                        <span>
+                            Upload a .eml file for investigation
+                        </span>
+
+                    </div>
+
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+                <button class="quick-card">
+
+                    <div class="quick-icon violet">
+                        ◎
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Explore Campaigns
+                        </strong>
+
+                        <span>
+                            Find correlated threat activity
+                        </span>
+
+                    </div>
+
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+                <button class="quick-card">
+
+                    <div class="quick-icon amber">
+                        ▤
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Generate Report
+                        </strong>
+
+                        <span>
+                            Create a forensic investigation report
+                        </span>
+
+                    </div>
+
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+    <!-- ================= END DASHBOARD CONTENT ================= -->
+
+
+</section>
+<!-- ================= END PAGE ================= -->
+
+
+</main>
+
+
+<!-- ================= MODAL ================= -->
+
+<div
+    class="modal-overlay"
+    id="investigationModal"
+>
+
+    <div class="modal">
+
+        <button
+            class="modal-close"
+            id="closeModal"
+        >
+            ×
+        </button>
+
+
+        <div class="modal-icon">
+            ↑
+        </div>
+
+
+        <h2>
+            Start Investigation
+        </h2>
+
+
+        <p>
+            Upload a raw email file to begin forensic analysis.
+        </p>
+
+
+        <div
+            class="upload-box"
+            id="uploadBox"
+        >
+
+            <input
+                type="file"
+                id="emailFile"
+                accept=".eml,.msg"
+                hidden
+            >
+
+
+            <div class="upload-icon">
+                ↑
+            </div>
+
+
+            <strong>
+                Drop your email here
+            </strong>
+
+
+            <span>
+                or click to browse
+            </span>
+
+
+            <small>
+                Supported formats: .EML, .MSG
+            </small>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="primary-btn full-width"
+            id="startAnalysis"
+        >
+            Start Analysis
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
