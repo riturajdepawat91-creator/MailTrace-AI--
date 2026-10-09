@@ -1,4 +1,4 @@
-        console.log("ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ MAILTRACE JS LOADED");
+        console.log("🔥 MAILTRACE JS LOADED");
 
         // Shared page-header helper used by both DOM-ready navigation handlers
         // and the result renderer, which lives outside that callback scope.
@@ -373,7 +373,7 @@
                     event.preventDefault();
 
                     console.log(
-                        "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Opening all investigations..."
+                        "🔥 Opening all investigations..."
                     );
 
                     await loadInvestigations();
@@ -580,7 +580,7 @@
             event.preventDefault();
 
 
-            console.log("ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ START ANALYSIS CLICKED");
+            console.log("🔥 START ANALYSIS CLICKED");
 
             if (!emailFile.files.length) {
 
@@ -5042,7 +5042,7 @@ const existingResult =
         }
         async function loadInvestigations() {
 
-            console.log("ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Loading investigations...");
+            console.log("🔥 Loading investigations...");
 
 
             /* ==============================
@@ -5228,7 +5228,7 @@ const existingResult =
 
 
                 console.log(
-                    "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ INVESTIGATIONS:",
+                    "🔥 INVESTIGATIONS:",
                     data
                 );
 
@@ -5925,7 +5925,7 @@ const existingResult =
 
 
                                 console.log(
-                                    "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Opening investigation:",
+                                    "🔥 Opening investigation:",
                                     id
                                 );
 
@@ -6077,7 +6077,7 @@ const existingResult =
                         row.dataset.id;
 
                     console.log(
-                        "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Investigation clicked:",
+                        "🔥 Investigation clicked:",
                         id
                     );
 
@@ -6103,7 +6103,7 @@ const existingResult =
         async function openInvestigation(investigationId) {
 
             console.log(
-                "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Opening investigation:",
+                "🔥 Opening investigation:",
                 investigationId
             );
 
@@ -6129,7 +6129,7 @@ const existingResult =
                 }
 
                 console.log(
-                    "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ SINGLE INVESTIGATION:",
+                    "🔥 SINGLE INVESTIGATION:",
                     data
                 );
 
@@ -6701,7 +6701,7 @@ const existingResult =
 
         async function loadRecentInvestigations() {
 
-            console.log("ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Loading recent investigations...");
+            console.log("🔥 Loading recent investigations...");
 
             try {
 
@@ -6725,7 +6725,7 @@ const existingResult =
 
 
                 console.log(
-                    "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Recent investigations:",
+                    "🔥 Recent investigations:",
                     investigations
                 );
 
@@ -6945,7 +6945,7 @@ const existingResult =
 
 
                 /* ==============================
-                CLICK ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ INVESTIGATION RESULT
+                CLICK → INVESTIGATION RESULT
                 ============================== */
 
                 document
@@ -6968,7 +6968,7 @@ const existingResult =
 
 
                                 console.log(
-                                    "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Dashboard investigation clicked:",
+                                    "🔥 Dashboard investigation clicked:",
                                     id
                                 );
 
@@ -6999,7 +6999,7 @@ const existingResult =
 
         async function loadDashboardCharts() {
 
-            console.log("ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Loading live dashboard charts...");
+            console.log("🔥 Loading live dashboard charts...");
 
             const setChartState = (message, isError = false) => {
                 const chartArea = document.querySelector(".chart-area");
@@ -7050,7 +7050,7 @@ const existingResult =
 
 
                 console.log(
-                    "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Chart data:",
+                    "🔥 Chart data:",
                     investigations
                 );
 
@@ -7321,7 +7321,7 @@ const existingResult =
 
 
                 /* =====================================
-        THREAT ACTIVITY ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â DYNAMIC RANGE
+        THREAT ACTIVITY — DYNAMIC RANGE
         ===================================== */
 
         const chartLine =
@@ -7824,7 +7824,7 @@ const existingResult =
 
 
                 console.log(
-                    "ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ Dashboard charts updated successfully."
+                    "✅ Dashboard charts updated successfully."
                 );
 
 
@@ -8454,9 +8454,59 @@ const existingResult =
         CASES MODULE
         ========================================= */
 
-        async function loadCases() {
 
-            console.log("ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Loading cases...");
+        async function loadSlaAlerts() {
+            const host = document.getElementById("socSlaAlertsContent");
+            const statusFilter = document.getElementById("socSlaAlertStatus");
+            if (!host) return;
+            const status = String(statusFilter?.value || "OPEN").toUpperCase();
+            host.setAttribute("aria-busy", "true");
+            host.innerHTML = '<div class="investigations-loading">Loading persisted SLA alerts?</div>';
+            try {
+                const response = await fetch(
+                    "http://127.0.0.1:8000/api/soc/routing/alerts?status=" + encodeURIComponent(status) + "&limit=100",
+                    { headers: { "Accept": "application/json" }, cache: "no-store" }
+                );
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    const detail = typeof payload.detail === "string" ? payload.detail : "";
+                    if (response.status === 401 || response.status === 403) throw new Error("Sign in with an authorized SOC account to view tenant-scoped SLA alerts.");
+                    throw new Error(detail || ("SLA alerts request failed (" + response.status + ")."));
+                }
+                const alerts = Array.isArray(payload.alerts) ? payload.alerts : [];
+                if (!alerts.length) {
+                    const label = status === "ALL" ? "" : status.toLowerCase() + " ";
+                    host.innerHTML = '<div class="case-empty-state">No ' + escapeHTML(label) + 'SLA alerts returned for this tenant.</div>';
+                    return;
+                }
+                const overdueCount = alerts.filter(item => Number(item.overdue) === 1).length;
+                const total = Number(payload.count || alerts.length);
+                host.innerHTML =
+                    '<div class="soc-alert-summary" role="status"><span><strong>' + total + '</strong> alert' + (total === 1 ? '' : 's') + '</span><span><strong>' + overdueCount + '</strong> overdue</span><span>Live data ? server persisted</span></div>' +
+                    '<div class="investigations-table-wrapper"><table class="investigations-table soc-alert-table"><thead><tr><th>CASE</th><th>SEVERITY / PRIORITY</th><th>SLA DEADLINE</th><th>ASSIGNEE</th><th>ROUTING</th><th>ESCALATIONS</th><th>ALERT STATUS</th></tr></thead><tbody>' +
+                    alerts.map(item => {
+                        const statusText = String(item.status || "Unknown");
+                        const count = Number(item.escalation_count);
+                        return '<tr class="' + (Number(item.overdue) === 1 ? 'soc-case-overdue' : '') + '">' +
+                            '<td><strong>' + escapeHTML(item.case_id || "Unknown case") + '</strong><small>' + escapeHTML(item.title || item.alert_type || "SLA alert") + '</small></td>' +
+                            '<td><span class="investigation-threat ' + escapeHTML(getThreatClass(item.severity || "MEDIUM")) + '">' + escapeHTML(item.severity || "Unknown") + '</span><small>' + escapeHTML(item.priority || "Unprioritized") + '</small></td>' +
+                            '<td><strong class="' + (Number(item.overdue) === 1 ? 'soc-sla-overdue' : '') + '">' + escapeHTML(item.sla_deadline || "Not set") + '</strong><small>' + (Number(item.overdue) === 1 ? 'SLA OVERDUE' : 'Deadline not passed') + '</small></td>' +
+                            '<td>' + escapeHTML(item.assigned_analyst || "Unassigned") + '</td>' +
+                            '<td><span class="soc-routing-status">' + escapeHTML(item.routing_status || "Unknown") + '</span></td>' +
+                            '<td>' + (Number.isFinite(count) ? count : 0) + '</td>' +
+                            '<td><span class="soc-alert-status soc-alert-status-' + escapeHTML(statusText.toLowerCase()) + '">' + escapeHTML(statusText) + '</span><small>Updated ' + escapeHTML(item.last_seen_at || "unknown") + '</small></td></tr>';
+                    }).join("") + '</tbody></table></div>';
+            } catch (error) {
+                host.innerHTML = '<div class="investigations-error"><strong>Unable to load SLA alerts</strong><p>' + escapeHTML(error.message || "The alerts service could not be reached.") + '</p><button type="button" class="secondary-result-btn" id="retrySocSlaAlerts">Retry alerts</button></div>';
+                document.getElementById("retrySocSlaAlerts")?.addEventListener("click", loadSlaAlerts, { once: true });
+            } finally {
+                host.setAttribute("aria-busy", "false");
+            }
+        }
+
+async function loadCases() {
+
+            console.log("🔥 Loading cases...");
 
 
             /* ==============================
@@ -8557,7 +8607,7 @@ const existingResult =
                         </h2>
 
                         <p>
-                            Review high-risk email investigations.
+                            Review ownership, routing priority, SLA deadlines, and claim status.
                         </p>
 
                     </div>
@@ -8572,6 +8622,26 @@ const existingResult =
 
                 </div>
 
+
+                <section class="result-card soc-sla-alerts-panel" aria-labelledby="socSlaAlertsTitle">
+                    <div class="soc-alerts-heading">
+                        <div>
+                            <div class="result-card-title" id="socSlaAlertsTitle">SOC SLA ALERTS</div>
+                            <p>Persisted escalation alerts for the authenticated tenant. Alert status is read-only until lifecycle actions are available in the API.</p>
+                        </div>
+                        <div class="soc-alerts-controls">
+                            <label class="sr-only" for="socSlaAlertStatus">Alert status filter</label>
+                            <select id="socSlaAlertStatus" class="select-control">
+                                <option value="OPEN">Open alerts</option><option value="ACKNOWLEDGED">Acknowledged</option>
+                                <option value="RESOLVED">Resolved</option><option value="ALL">All statuses</option>
+                            </select>
+                            <button type="button" class="secondary-result-btn" id="refreshSocSlaAlerts">Refresh alerts</button>
+                        </div>
+                    </div>
+                    <div id="socSlaAlertsContent" aria-live="polite" aria-busy="true">
+                        <div class="investigations-loading">SLA alerts will load from the backend?</div>
+                    </div>
+                </section>
 
                 <div class="result-card">
 
@@ -8601,7 +8671,7 @@ const existingResult =
 
                 const response =
                     await fetch(
-                        "http://127.0.0.1:8000/api/cases"
+                        "http://127.0.0.1:8000/api/soc/routing/queue"
                     );
 
 
@@ -8624,7 +8694,7 @@ const existingResult =
 
 
                 console.log(
-                    "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ CASES:",
+                    "🔥 CASES:",
                     data
                 );
 
@@ -8634,7 +8704,8 @@ const existingResult =
                 ============================== */
 
                 renderCases(
-                    data.cases || []
+                    data.cases || [],
+                    data
                 );
 
 
@@ -8678,6 +8749,11 @@ const existingResult =
             }
 
 
+            /* Load persisted SLA alerts even if the case queue itself failed. */
+            await loadSlaAlerts();
+            document.getElementById("refreshSocSlaAlerts")?.addEventListener("click", loadSlaAlerts);
+            document.getElementById("socSlaAlertStatus")?.addEventListener("change", loadSlaAlerts);
+
             /* ==============================
             REFRESH BUTTON
             ============================== */
@@ -8704,7 +8780,7 @@ const existingResult =
 
         async function loadCampaigns() {
 
-            console.log("ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Loading campaigns...");
+            console.log("🔥 Loading campaigns...");
 
             const page = document.querySelector(".page");
 
@@ -8830,7 +8906,7 @@ const existingResult =
 
 
                 console.log(
-                    "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ CAMPAIGNS:",
+                    "🔥 CAMPAIGNS:",
                     data
                 );
 
@@ -9161,7 +9237,7 @@ const existingResult =
 
 
                         console.log(
-                            "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Opening campaign detail:",
+                            "🔥 Opening campaign detail:",
                             campaignId
                         );
 
@@ -9186,7 +9262,7 @@ const existingResult =
         ) {
 
             console.log(
-                "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Opening campaign:",
+                "🔥 Opening campaign:",
                 campaignId
             );
 
@@ -9216,7 +9292,7 @@ const existingResult =
 
 
                 console.log(
-                    "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ CAMPAIGN DETAIL:",
+                    "🔥 CAMPAIGN DETAIL:",
                     data
                 );
 
@@ -9654,7 +9730,7 @@ const existingResult =
         RENDER CASES
         ========================================= */
 
-        function renderCases(cases) {
+        function renderCases(cases, queueSummary = {}) {
 
             const content =
                 document.getElementById(
@@ -9765,25 +9841,25 @@ const existingResult =
 
                         const subject =
                             String(
-                                caseItem.subject || ""
+                                caseItem.subject || caseItem.title || ""
                             ).toLowerCase();
 
 
                         const sender =
                             String(
-                                caseItem.sender || ""
+                                caseItem.sender || [caseItem.region_key, caseItem.team_key].filter(Boolean).join(" ") || ""
                             ).toLowerCase();
 
 
                         const verdict =
                             String(
-                                caseItem.threat_verdict || ""
+                                caseItem.severity || caseItem.threat_verdict || ""
                             ).toUpperCase();
 
 
                         const status =
                             String(
-                                caseItem.status || "OPEN"
+                                caseItem.case_status || caseItem.status || "OPEN"
                             ).toUpperCase();
 
 
@@ -10002,7 +10078,14 @@ const existingResult =
                         </div>
 
 
-                        <div class="investigations-count">
+                        <div class="soc-queue-summary">
+                        <span><strong>${Number(queueSummary.count || 0)}</strong> active cases</span>
+                        <span><strong>${Number(queueSummary.unassigned_count || 0)}</strong> unassigned</span>
+                        <span class="${Number(queueSummary.overdue_count || 0) ? "soc-sla-overdue" : ""}"><strong>${Number(queueSummary.overdue_count || 0)}</strong> overdue</span>
+                        <span><strong>${Number(queueSummary.escalations_created || 0)}</strong> escalations this refresh</span>
+                    </div>
+
+                    <div class="investigations-count">
 
                             0 cases found
 
@@ -10011,7 +10094,7 @@ const existingResult =
 
                         <div class="investigations-empty">
 
-                            No cases match your filters.
+                            No SOC cases match these filters or are currently queued.
 
                         </div>
 
@@ -10181,6 +10264,13 @@ const existingResult =
                     </div>
 
 
+                    <div class="soc-queue-summary">
+                        <span><strong>${Number(queueSummary.count || 0)}</strong> active cases</span>
+                        <span><strong>${Number(queueSummary.unassigned_count || 0)}</strong> unassigned</span>
+                        <span class="${Number(queueSummary.overdue_count || 0) ? "soc-sla-overdue" : ""}"><strong>${Number(queueSummary.overdue_count || 0)}</strong> overdue</span>
+                        <span><strong>${Number(queueSummary.escalations_created || 0)}</strong> escalations this refresh</span>
+                    </div>
+
                     <div class="investigations-count">
 
                         ${count}
@@ -10194,43 +10284,18 @@ const existingResult =
                         <table class="investigations-table">
 
                             <thead>
-
                                 <tr>
-
-                                    <th>
-                                        CASE ID
-                                    </th>
-
-                                    <th>
-                                        INVESTIGATION ID
-                                    </th>
-
-                                    <th>
-                                        SUBJECT
-                                    </th>
-
-                                    <th>
-                                        SENDER
-                                    </th>
-
-                                    <th>
-                                        THREAT
-                                    </th>
-
-                                    <th>
-                                        SCORE
-                                    </th>
-
-                                    <th>
-                                        STATUS
-                                    </th>
-
-                                    <th>
-                                        CREATED
-                                    </th>
-
+                                    <th>CASE ID</th>
+                                    <th>CASE</th>
+                                    <th>SEVERITY</th>
+                                    <th>PRIORITY</th>
+                                    <th>ASSIGNEE / TEAM / REGION</th>
+                                    <th>CLAIM OWNER / EXPIRY</th>
+                                    <th>SLA DEADLINE</th>
+                                    <th>ROUTING STATUS</th>
+                                    <th>LAST ACTIVITY</th>
+                                    <th>ACTIONS</th>
                                 </tr>
-
                             </thead>
 
 
@@ -10238,132 +10303,19 @@ const existingResult =
 
                                 ${filteredCases.map(
                                     caseItem => `
-
-                                    <tr
-                                        class="case-row"
-                                        data-case-id="${escapeHTML(caseItem.case_id || "")}"
-                                    >
-
-                                        <td>
-
-                                            <button
-                                                class="investigation-id-btn"
-                                                type="button"
-                                            >
-
-                                                ${escapeHTML(
-                                                    caseItem.case_id ||
-                                                    "UNKNOWN"
-                                                )}
-
-                                            </button>
-
-                                        </td>
-
-
-                                        <td>
-
-                                            <span class="mono">
-
-                                                ${escapeHTML(
-                                                    caseItem.investigation_id ||
-                                                    "UNKNOWN"
-                                                )}
-
-                                            </span>
-
-                                        </td>
-
-
-                                        <td>
-
-                                            <div class="email-cell">
-
-                                                <strong>
-
-                                                    ${escapeHTML(
-                                                        caseItem.subject ||
-                                                        "No Subject"
-                                                    )}
-
-                                                </strong>
-
-                                            </div>
-
-                                        </td>
-
-
-                                        <td>
-
-                                            ${escapeHTML(
-                                                caseItem.sender ||
-                                                "Unknown Sender"
-                                            )}
-
-                                        </td>
-
-
-                                        <td>
-
-                                            <span class="
-                                                investigation-threat
-                                                ${getThreatClass(
-                                                    caseItem.threat_verdict
-                                                )}
-                                            ">
-
-                                                ${escapeHTML(
-                                                    caseItem.threat_verdict ||
-                                                    "UNKNOWN"
-                                                )}
-
-                                            </span>
-
-                                        </td>
-
-
-                                        <td>
-
-                                            <strong>
-
-                                                ${Number(
-                                                    caseItem.threat_score || 0
-                                                )}
-
-                                            </strong>
-
-                                            / 100
-
-                                        </td>
-
-
-                                        <td>
-
-                                            <span class="status active">
-
-                                                ${escapeHTML(
-                                                    caseItem.status ||
-                                                    "OPEN"
-                                                )}
-
-                                            </span>
-
-                                        </td>
-
-
-                                        <td>
-
-                                            ${escapeHTML(
-                                                caseItem.created_at ||
-                                                "Unknown"
-                                            )}
-
-                                        </td>
-
+                                    <tr class="case-row ${caseItem.overdue ? "soc-case-overdue" : ""}" data-case-id="${escapeHTML(caseItem.case_id || "")}">
+                                        <td><button class="investigation-id-btn" type="button">${escapeHTML(caseItem.case_id || "UNKNOWN")}</button></td>
+                                        <td><div class="email-cell"><strong>${escapeHTML(caseItem.title || caseItem.subject || "Untitled case")}</strong><small>${escapeHTML(caseItem.case_status || "OPEN")}</small></div></td>
+                                        <td><span class="investigation-threat ${getThreatClass(caseItem.severity || "LOW")}">${escapeHTML(caseItem.severity || "LOW")}</span><small>${Number(caseItem.threat_score || 0)}/100</small></td>
+                                        <td><span class="soc-priority soc-priority-${escapeHTML(String(caseItem.priority || "P3").toLowerCase())}">${escapeHTML(caseItem.priority || "P3")}</span></td>
+                                        <td><strong>${escapeHTML(caseItem.assigned_analyst || "Unassigned")}</strong><small>${escapeHTML([caseItem.team_key, caseItem.region_key].filter(Boolean).join(" / ") || "Central queue")}</small></td>
+                                        <td><strong>${escapeHTML(caseItem.claim_owner || "Unclaimed")}</strong><small>${caseItem.claim_expired ? "CLAIM EXPIRED" : caseItem.claim_expires_at ? `Expires ${escapeHTML(caseItem.claim_expires_at)}` : "No active claim"}</small></td>
+                                        <td><strong class="${caseItem.overdue ? "soc-sla-overdue" : ""}">${escapeHTML(caseItem.sla_deadline || "Not set")}</strong><small>${caseItem.overdue ? "SLA OVERDUE" : "Within SLA"}</small></td>
+                                        <td><span class="soc-routing-status">${escapeHTML(caseItem.routing_status || "QUEUED")}</span>${caseItem.routing_reason && !caseItem.assigned_analyst ? `<small>${escapeHTML(caseItem.routing_reason)}</small>` : ""}</td>
+                                        <td>${escapeHTML(caseItem.last_activity_at || caseItem.updated_at || caseItem.created_at || "Unknown")}</td>
+                                        <td>${window.mailtraceAuth?.hasRole(["soc_lead", "tenant_admin", "platform_admin", "admin"]) ? '<button class="soc-reassign-btn" type="button">Reassign</button>' : '<span>Lead only</span>'}</td>
                                     </tr>
-
-                                `
-                                ).join("")}
+                                `                                ).join("")}
 
                             </tbody>
 
@@ -10381,6 +10333,38 @@ const existingResult =
     document
         .querySelectorAll(".case-row")
         .forEach(row => {
+
+            row.querySelector(".soc-reassign-btn")?.addEventListener("click", async event => {
+                event.stopPropagation();
+                const button = event.currentTarget;
+                const caseId = row.dataset.caseId;
+                if (!caseId) return;
+                button.disabled = true;
+                try {
+                    const rosterResponse = await fetch("http://127.0.0.1:8000/api/soc/routing/analysts");
+                    const rosterPayload = await rosterResponse.json().catch(() => ({}));
+                    if (!rosterResponse.ok) throw new Error(rosterPayload.detail || "Unable to load the authorized analyst roster.");
+                    const activeAnalysts = (rosterPayload.analysts || []).filter(item => item.active);
+                    if (!activeAnalysts.length) throw new Error("No active analysts are configured for this tenant.");
+                    const rosterText = activeAnalysts.map(item => `${item.subject_id} - ${item.availability}, ${item.region_key}/${item.team_key || "general"}, load ${item.open_load}/${item.max_open_cases}`).join("\n");
+                    const analystSubject = (window.prompt(`Reassign case ${caseId} to an active analyst subject ID:\n\n${rosterText}`) || "").trim();
+                    if (!analystSubject) return;
+                    const reason = (window.prompt("Required audit reason for manual reassignment:", "SLA/workload balancing") || "").trim();
+                    if (reason.length < 5) throw new Error("A reassignment reason of at least 5 characters is required.");
+                    const response = await fetch(`http://127.0.0.1:8000/api/soc/routing/cases/${encodeURIComponent(caseId)}/assign`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ analyst_subject: analystSubject, reason })
+                    });
+                    const result = await response.json().catch(() => ({}));
+                    if (!response.ok) throw new Error(typeof result.detail === "string" ? result.detail : "Manual reassignment was rejected by the server.");
+                    await loadCases();
+                } catch (error) {
+                    alert(error.message || "Unable to reassign this case.");
+                } finally {
+                    button.disabled = false;
+                }
+            });
 
             row.addEventListener(
                 "click",
@@ -10544,8 +10528,22 @@ const existingResult =
 
                 }
 
+                let routing = null;
+                try {
+                    const routingResponse = await fetch(
+                        `http://127.0.0.1:8000/api/soc/routing/cases/${encodeURIComponent(caseId)}`
+                    );
+                    if (routingResponse.ok) {
+                        const routingPayload = await routingResponse.json();
+                        routing = routingPayload.routing || null;
+                    }
+                } catch (_) {
+                    // Routing may be pending reconciliation; the case remains viewable to its tenant.
+                }
+
                 renderCaseDetail({
                     ...data.case,
+                    routing,
                     investigations: data.investigations || [],
                     notes: data.notes || [],
                     evidence: data.evidence || []
@@ -10617,9 +10615,13 @@ const existingResult =
                 String(
                     caseData.status || "OPEN"
                 ).toUpperCase();
-            const assignmentActive = caseData.assignment_status === "ACTIVE";
-            const assignmentMine = Boolean(caseData.assignment_mine);
+            const assignmentExpired = Boolean(caseData.claim_expired);
+            const assignmentActive = caseData.assignment_status === "ACTIVE" && !assignmentExpired;
+            const assignmentMine = Boolean(caseData.assignment_mine) && assignmentActive;
             const assignmentOwner = caseData.assigned_analyst || "Unclaimed";
+            const routing = caseData.routing || {};
+            const routingPriority = routing.priority || "Not routed";
+            const routingStatus = routing.status || "Not routed";
 
 
             const detail =
@@ -10643,7 +10645,7 @@ const existingResult =
                             id="backToCasesBtn"
                             class="case-detail-back-btn"
                         >
-                            ← Back to Cases
+                            &larr; Back to Cases
                         </button>
 
                         <div class="case-detail-kicker">
@@ -10728,15 +10730,29 @@ const existingResult =
 
                 <section class="case-claim-controls" aria-label="Case ownership">
                     <div>
-                        <span class="case-claim-label">ANALYST OWNERSHIP</span>
+                        <span class="case-claim-label">CLAIM OWNER (LEASE)</span>
                         <strong>${escapeHTML(assignmentOwner)}</strong>
-                        <small>${assignmentActive ? `Claim expires ${escapeHTML(caseData.lease_expires_at || "soon")}` : "Unclaimed case"}</small>
+                        <small>${assignmentExpired ? `Claim expired ${escapeHTML(caseData.lease_expires_at || "recently")} - safe reclaim available` : assignmentActive ? `Claim expires ${escapeHTML(caseData.lease_expires_at || "soon")}` : "No active claim lease"}</small>
                     </div>
-                    <button
-                        type="button"
-                        id="caseClaimToggle"
-                        ${assignmentActive && !assignmentMine ? "disabled" : ""}
-                    >${assignmentMine ? "Release case" : assignmentActive ? "Claim held" : "Claim case"}</button>
+                    <div class="case-claim-actions">
+                        <button type="button" id="caseClaimToggle" ${assignmentActive && !assignmentMine ? "disabled" : ""}>${assignmentMine ? "Release case" : assignmentActive ? "Claim held" : assignmentExpired ? "Reclaim expired claim" : "Claim case"}</button>
+                        ${assignmentMine ? `<button type="button" id="caseClaimRenew">Renew lease</button>` : ""}
+                        <button type="button" id="caseClaimHistoryBtn">Assignment history</button>
+                    </div>
+                </section>
+
+                <section class="result-card body-card soc-case-routing-meta">
+                    <div class="result-card-title">SOC ROUTING & SLA</div>
+                    <div class="case-detail-fields">
+                        <div><span>QUEUE / REGION</span><strong>${escapeHTML(routing.queue_id || "Pending route")} / ${escapeHTML(routing.region_key || "Unknown")}</strong></div>
+                        <div><span>TEAM / ROUTING ASSIGNEE</span><strong>${escapeHTML([routing.team_key, routing.assigned_analyst || "Unassigned"].filter(Boolean).join(" / "))}</strong><small>Separate from the claim owner above; queued cases can remain unassigned until an eligible analyst is configured.</small></div>
+                        <div><span>PRIORITY / STATUS</span><strong>${escapeHTML(routingPriority)} / ${escapeHTML(routingStatus)}</strong></div>
+                        <div><span>SLA DEADLINE</span><strong class="${routing.sla_deadline && new Date(routing.sla_deadline).getTime() < Date.now() ? "soc-sla-overdue" : ""}">${escapeHTML(routing.sla_deadline || "Not set")}</strong></div>
+                    </div>
+                </section>
+                <section id="caseAssignmentHistory" class="result-card body-card soc-assignment-history" hidden>
+                    <div class="result-card-title">CLAIM & ROUTING AUDIT HISTORY</div>
+                    <div class="case-empty-state">Click Assignment history to load the tenant-scoped audit trail.</div>
                 </section>
 
 
@@ -10950,22 +10966,77 @@ const existingResult =
                 if (button.disabled) return;
                 button.disabled = true;
                 const action = assignmentMine ? "release" : "claim";
+                const reason = action === "release"
+                    ? (window.prompt("Reason for releasing this case claim:", "handoff to SOC queue") || "").trim()
+                    : "claim requested from case detail";
+                if (action === "release" && !reason) { button.disabled = false; return; }
                 try {
                     const response = await fetch(
                         `http://127.0.0.1:8000/api/cases/${encodeURIComponent(caseData.case_id)}/${action}`,
-                        { method: "POST" }
+                        { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ reason }) }
                     );
                     const payload = await response.json().catch(() => ({}));
                     if (!response.ok) {
                         const detailMessage = typeof payload.detail === "string"
                             ? payload.detail
-                            : payload.detail?.message || "Unable to update case ownership.";
+                            : payload.detail?.message || (payload.detail?.assignment?.assigned_analyst
+                                ? `Current owner: ${payload.detail.assignment.assigned_analyst}`
+                                : "Unable to update case ownership.");
                         throw new Error(detailMessage);
                     }
                     await openCase(caseData.case_id);
                 } catch (error) {
                     button.disabled = false;
                     alert(error.message || "Unable to update case ownership.");
+                }
+            });
+
+            detail.querySelector("#caseClaimRenew")?.addEventListener("click", async event => {
+                const button = event.currentTarget;
+                button.disabled = true;
+                try {
+                    const response = await fetch(
+                        `http://127.0.0.1:8000/api/cases/${encodeURIComponent(caseData.case_id)}/renew`,
+                        { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ reason: "owner renewal from case detail" }) }
+                    );
+                    const payload = await response.json().catch(() => ({}));
+                    if (!response.ok) {
+                        const message = typeof payload.detail === "string" ? payload.detail : payload.detail?.message || "Claim renewal failed; another analyst may own the case.";
+                        throw new Error(message);
+                    }
+                    await openCase(caseData.case_id);
+                } catch (error) {
+                    button.disabled = false;
+                    alert(error.message || "Unable to renew the claim.");
+                }
+            });
+
+            detail.querySelector("#caseClaimHistoryBtn")?.addEventListener("click", async event => {
+                const button = event.currentTarget;
+                const panel = detail.querySelector("#caseAssignmentHistory");
+                if (!panel) return;
+                button.disabled = true;
+                panel.hidden = false;
+                panel.querySelector(".result-card-title + .case-empty-state")?.replaceChildren(document.createTextNode("Loading audit history?"));
+                try {
+                    const base = `http://127.0.0.1:8000`;
+                    const [claimResponse, routingResponse] = await Promise.all([
+                        fetch(`${base}/api/cases/${encodeURIComponent(caseData.case_id)}/history`),
+                        fetch(`${base}/api/soc/routing/cases/${encodeURIComponent(caseData.case_id)}/history`)
+                    ]);
+                    const claimPayload = claimResponse.ok ? await claimResponse.json() : { events: [] };
+                    const routingPayload = routingResponse.ok ? await routingResponse.json() : { events: [] };
+                    const events = [
+                        ...(claimPayload.events || []).map(item => ({ ...item, audit_type: "CLAIM" })),
+                        ...(routingPayload.events || []).map(item => ({ ...item, audit_type: "ROUTING" }))
+                    ].sort((a, b) => String(a.created_at || "").localeCompare(String(b.created_at || "")));
+                    panel.innerHTML = `<div class="result-card-title">CLAIM & ROUTING AUDIT HISTORY</div>` + (events.length
+                        ? `<div class="soc-audit-list">${events.map(item => { let details = {}; try { details = JSON.parse(item.details_json || "{}"); } catch (_) {} return `<div class="soc-audit-item"><strong>${escapeHTML(item.action || "EVENT")} | ${escapeHTML(item.audit_type)}</strong><span>${escapeHTML(item.created_at || "")}</span><small>Actor: ${escapeHTML(item.actor_subject || "system")} | Reason: ${escapeHTML(details.reason || item.reason || "not recorded")}</small></div>`; }).join("")}</div>`
+                        : `<div class="case-empty-state">No assignment audit events recorded yet.</div>`);
+                } catch (error) {
+                    panel.innerHTML = `<div class="result-card-title">CLAIM & ROUTING AUDIT HISTORY</div><div class="case-empty-state">${escapeHTML(error.message || "Unable to load assignment history.")}</div>`;
+                } finally {
+                    button.disabled = false;
                 }
             });
 
@@ -11030,7 +11101,7 @@ const existingResult =
 
         async function loadIPIntelligence() {
 
-            console.log("ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Loading IP Intelligence...");
+            console.log("🔥 Loading IP Intelligence...");
 
             const page =
                 document.querySelector(".page");
@@ -11338,7 +11409,7 @@ const existingResult =
 
 
                     console.log(
-                        "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ IP INTELLIGENCE:",
+                        "🔥 IP INTELLIGENCE:",
                         data
                     );
 
@@ -13474,56 +13545,56 @@ const existingResult =
 
     function getCountryFlag(country) {
 
-        if (!country) return "ðŸŒ";
+        if (!country) return "🌐";
 
         var value = country.toLowerCase().trim();
 
 
         var flags = {
 
-            "united states": "ðŸ‡ºðŸ‡¸",
-            "usa": "ðŸ‡ºðŸ‡¸",
-            "us": "ðŸ‡ºðŸ‡¸",
+            "united states": "🇺🇸",
+            "usa": "🇺🇸",
+            "us": "🇺🇸",
 
-            "india": "ðŸ‡®ðŸ‡³",
+            "india": "🇮🇳",
 
-            "united kingdom": "ðŸ‡¬ðŸ‡§",
-            "england": "ðŸ‡¬ðŸ‡§",
-            "uk": "ðŸ‡¬ðŸ‡§",
+            "united kingdom": "🇬🇧",
+            "england": "🇬🇧",
+            "uk": "🇬🇧",
 
-            "singapore": "ðŸ‡¸ðŸ‡¬",
+            "singapore": "🇸🇬",
 
-            "canada": "ðŸ‡¨ðŸ‡¦",
+            "canada": "🇨🇦",
 
-            "germany": "ðŸ‡©ðŸ‡ª",
+            "germany": "🇩🇪",
 
-            "france": "ðŸ‡«ðŸ‡·",
+            "france": "🇫🇷",
 
-            "japan": "ðŸ‡¯ðŸ‡µ",
+            "japan": "🇯🇵",
 
-            "china": "ðŸ‡¨ðŸ‡³",
+            "china": "🇨🇳",
 
-            "australia": "ðŸ‡¦ðŸ‡º",
+            "australia": "🇦🇺",
 
-            "russia": "ðŸ‡·ðŸ‡º",
+            "russia": "🇷🇺",
 
-            "brazil": "ðŸ‡§ðŸ‡·",
+            "brazil": "🇧🇷",
 
-            "netherlands": "ðŸ‡³ðŸ‡±",
+            "netherlands": "🇳🇱",
 
-            "ireland": "ðŸ‡®ðŸ‡ª",
+            "ireland": "🇮🇪",
 
-            "sweden": "ðŸ‡¸ðŸ‡ª",
+            "sweden": "🇸🇪",
 
-            "switzerland": "ðŸ‡¨ðŸ‡­",
+            "switzerland": "🇨🇭",
 
-            "south korea": "ðŸ‡°ðŸ‡·",
+            "south korea": "🇰🇷",
 
-            "korea": "ðŸ‡°ðŸ‡·",
+            "korea": "🇰🇷",
 
-            "uae": "ðŸ‡¦ðŸ‡ª",
+            "uae": "🇦🇪",
 
-            "united arab emirates": "ðŸ‡¦ðŸ‡ª"
+            "united arab emirates": "🇦🇪"
 
         };
 
@@ -13542,7 +13613,7 @@ const existingResult =
         }
 
 
-        return "ðŸŒ";
+        return "🌐";
 
     }
 
@@ -13960,7 +14031,7 @@ const existingResult =
             <div class="observed-infrastructure-header">
 
                 <div class="observed-location-icon">
-                    ðŸ“
+                    📍
                 </div>
 
 

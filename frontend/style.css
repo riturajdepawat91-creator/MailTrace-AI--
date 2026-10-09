@@ -1,5 +1,5 @@
 /* =========================================================
-   MAILTRACE AI Ã¢â‚¬â€ CLEAN UI FOUNDATION
+   MAILTRACE AI — CLEAN UI FOUNDATION
    FINAL STRUCTURE
 
    HEADER       : 80px
@@ -124,38 +124,6 @@ a {
 
 
 /* =========================================================
-   APPLICATION ROOT
-   ========================================================= */
-
-#app {
-    position: relative;
-
-    width: 100%;
-    min-height: 100vh;
-
-    background:
-        radial-gradient(
-            circle at 72% 12%,
-            rgba(0, 104, 151, 0.055),
-            transparent 34%
-        ),
-        #020a13;
-}
-
-
-/* =========================================================
-   MAIN APPLICATION STRUCTURE
-   ========================================================= */
-
-.app-layout {
-    position: relative;
-
-    width: 100%;
-    min-height: 100vh;
-}
-
-
-/* =========================================================
    HEADER
    ========================================================= */
 
@@ -209,7 +177,7 @@ a {
 
 /* =========================================================
    SIDEBAR TOGGLE
-   DISABLED Ã¢â‚¬â€ SIDEBAR IS PERMANENTLY OPEN
+   DISABLED — SIDEBAR IS PERMANENTLY OPEN
    ========================================================= */
 
 .menu-toggle {
@@ -414,60 +382,6 @@ a {
 }
 
 
-.top-search {
-
-    width: 100%;
-    height: 100%;
-
-    padding: 0 18px 0 47px;
-
-    border: 1px solid #123a52;
-    border-radius: 11px;
-
-    outline: none;
-
-    background: #071a29;
-
-    color: #dcecf6;
-
-    font-family: inherit;
-    font-size: 13px;
-
-    transition: none;
-}
-
-
-.top-search::placeholder {
-    color: #71899a;
-}
-
-
-.top-search:focus {
-
-    border-color: #087da6;
-
-    box-shadow:
-        0 0 0 2px rgba(0, 200, 255, 0.06);
-}
-
-
-.search-icon {
-
-    position: absolute;
-
-    left: 17px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    color: #8ca7b8;
-
-    font-size: 18px;
-
-    pointer-events: none;
-}
-
-
 /* =========================================================
    HEADER RIGHT
    ========================================================= */
@@ -663,15 +577,6 @@ a {
     overflow: hidden;
 
     transition: none;
-}
-
-
-/* =========================================================
-   REMOVE OLD SIDEBAR OPEN/CLOSED STATES
-   ========================================================= */
-
-.sidebar.is-open {
-    width: var(--sidebar-width);
 }
 
 
@@ -1034,17 +939,6 @@ a {
 }
 
 
-/*
-   Old selector kept harmlessly so any existing HTML
-   using the previous JS class cannot break layout.
-*/
-
-.sidebar.is-open ~ .main-content .page {
-
-    padding-left: var(--sidebar-width);
-}
-
-
 /* =========================================================
    MAIN CONTENT
    ========================================================= */
@@ -1081,69 +975,6 @@ main,
 
 
 /* =========================================================
-   DASHBOARD INTRO
-   ========================================================= */
-
-.dashboard-header {
-
-    position: relative;
-
-    width: 100%;
-
-    margin-bottom: 24px;
-}
-
-
-.dashboard-header h1 {
-
-    margin: 0;
-
-    color: #f1f7fb;
-
-    font-size: 32px;
-    line-height: 1.15;
-
-    font-weight: 700;
-
-    letter-spacing: -0.8px;
-}
-
-
-.dashboard-header p {
-
-    margin: 10px 0 0;
-
-    color: #8199aa;
-
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-
-/* =========================================================
-   SECTION LABEL
-   ========================================================= */
-
-.section-label {
-
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: var(--cyan);
-
-    font-size: 12px;
-    line-height: 1.2;
-
-    font-weight: 700;
-
-    letter-spacing: 0.7px;
-
-    text-transform: uppercase;
-}
-
-
-/* =========================================================
    PRIMARY BUTTON
    ========================================================= */
 
@@ -1152,52 +983,6 @@ button,
 .primary-button {
 
     border-radius: 9px;
-}
-
-
-.primary-button {
-
-    min-height: 42px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 0 18px;
-
-    border: 1px solid #075b7b;
-
-    background:
-        linear-gradient(
-            180deg,
-            #08283b 0%,
-            #061c2c 100%
-        );
-
-    color: #dff5ff;
-
-    font-size: 13px;
-    font-weight: 650;
-
-    cursor: pointer;
-
-    transition: none;
-}
-
-
-.primary-button:hover {
-
-    border-color: #00bfe9;
-
-    background:
-        linear-gradient(
-            180deg,
-            #0a3046 0%,
-            #072236 100%
-        );
-
-    box-shadow:
-        0 0 18px rgba(0, 200, 255, 0.08);
 }
 
 
@@ -1239,32 +1024,6 @@ button,
 
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.015);
-}
-
-
-/* =========================================================
-   PANEL TITLES
-   ========================================================= */
-
-.panel-title {
-
-    color: #e9f4fa;
-
-    font-size: 15px;
-    line-height: 1.2;
-
-    font-weight: 700;
-}
-
-
-.panel-subtitle {
-
-    margin-top: 6px;
-
-    color: #7891a2;
-
-    font-size: 12px;
-    line-height: 1.4;
 }
 
 
@@ -1335,7 +1094,7 @@ textarea:focus {
 
 
 /* =========================================================
-   RESPONSIVE Ã¢â‚¬â€ TABLET
+   RESPONSIVE — TABLET
    ========================================================= */
 
 @media (max-width: 1200px) {
@@ -1359,11 +1118,6 @@ textarea:focus {
     }
 
 
-    .dashboard-header h1 {
-        font-size: 29px;
-    }
-
-
     .search-wrapper {
         width: min(500px, 34vw);
     }
@@ -1371,7 +1125,7 @@ textarea:focus {
 
 
 /* =========================================================
-   RESPONSIVE Ã¢â‚¬â€ SMALL TABLET
+   RESPONSIVE — SMALL TABLET
    ========================================================= */
 
 @media (max-width: 900px) {
@@ -1413,7 +1167,7 @@ textarea:focus {
 
 
 /* =========================================================
-   RESPONSIVE Ã¢â‚¬â€ MOBILE
+   RESPONSIVE — MOBILE
    ========================================================= */
 
 @media (max-width: 760px) {
@@ -1470,20 +1224,6 @@ textarea:focus {
 
         width: 36vw;
         height: 40px;
-    }
-
-
-    .top-search {
-
-        padding-left: 40px;
-
-        font-size: 11px;
-    }
-
-
-    .search-icon {
-        left: 13px;
-        font-size: 16px;
     }
 
 
@@ -1631,16 +1371,6 @@ textarea:focus {
             16px
             34px;
     }
-
-
-    .dashboard-header h1 {
-        font-size: 25px;
-    }
-
-
-    .dashboard-header p {
-        font-size: 13px;
-    }
 }
 
 /* =========================================================
@@ -1699,7 +1429,7 @@ textarea:focus {
     }
 }
 /* =========================================================
-   MAILTRACE Ã¢â‚¬â€ FLOATING HEADER
+   MAILTRACE — FLOATING HEADER
    Reference-style elevated header
    ========================================================= */
 
@@ -1827,18 +1557,6 @@ textarea:focus {
 }
 
 
-.top-search {
-    border-radius: 10px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #071b2a 0%,
-            #061725 100%
-        );
-}
-
-
 /* =========================================================
    HEADER RIGHT
    ========================================================= */
@@ -1876,7 +1594,7 @@ textarea:focus {
 
 
 /* =========================================================
-   SIDEBAR Ã¢â‚¬â€ MOVE BELOW FLOATING HEADER
+   SIDEBAR — MOVE BELOW FLOATING HEADER
    ========================================================= */
 
 .sidebar {
@@ -1903,12 +1621,6 @@ textarea:focus {
 .page {
 
     padding-top: 94px;
-    padding-left: var(--sidebar-width);
-}
-
-
-/* Keep old JS class harmless */
-.sidebar.is-open ~ .main-content .page {
     padding-left: var(--sidebar-width);
 }
 
@@ -1945,7 +1657,7 @@ main,
         inset 0 1px 0 rgba(255, 255, 255, 0.015);
 }
 /* =========================================================
-   MAILTRACE Ã¢â‚¬â€ SIDEBAR AS FLOATING CARD
+   MAILTRACE — SIDEBAR AS FLOATING CARD
    ========================================================= */
 
 .sidebar {
@@ -1984,20 +1696,6 @@ main,
     overflow: hidden !important;
 
     transition: none !important;
-}
-
-
-/* =========================================================
-   SIDEBAR CONTENT
-   ========================================================= */
-
-.sidebar-content {
-    flex: 1 1 auto !important;
-
-    min-height: 0 !important;
-
-    display: flex !important;
-    flex-direction: column !important;
 }
 
 
@@ -2086,7 +1784,7 @@ main,
 
 
 /* =========================================================
-   SYSTEM STATUS Ã¢â‚¬â€ BOTTOM
+   SYSTEM STATUS — BOTTOM
    ========================================================= */
 
 .sidebar .system-status,
@@ -2116,7 +1814,7 @@ main,
 
 
 /* =========================================================
-   USER PROFILE Ã¢â‚¬â€ BOTTOM
+   USER PROFILE — BOTTOM
    ========================================================= */
 
 .sidebar .user-profile,
@@ -2159,7 +1857,7 @@ main,
     }
 }
     /* =========================================================
-    MAILTRACE Ã¢â‚¬â€ SIDEBAR FINAL PROPORTION
+    MAILTRACE — SIDEBAR FINAL PROPORTION
     Tall + Narrow card
     ========================================================= */
 
@@ -2180,7 +1878,7 @@ main,
 
 
     /* =========================================================
-    SIDEBAR MENU Ã¢â‚¬â€ COMPACT HORIZONTAL WIDTH
+    SIDEBAR MENU — COMPACT HORIZONTAL WIDTH
     ========================================================= */
 
     .sidebar a,
@@ -2198,7 +1896,7 @@ main,
 
 
     /* =========================================================
-    CONTENT OFFSET Ã¢â‚¬â€ MATCH SIDEBAR WIDTH
+    CONTENT OFFSET — MATCH SIDEBAR WIDTH
     ========================================================= */
 
     .page,
@@ -2244,7 +1942,7 @@ main,
         }
     }
     /* =========================================================
-    MAILTRACE SIDEBAR Ã¢â‚¬â€ FINAL SPACING / FOOTER FIX
+    MAILTRACE SIDEBAR — FINAL SPACING / FOOTER FIX
     ========================================================= */
 
     .sidebar {
@@ -2323,7 +2021,7 @@ main,
 
 
     /* =========================================================
-    PROFILE Ã¢â‚¬â€ FORCE IT TO REMAIN VISIBLE
+    PROFILE — FORCE IT TO REMAIN VISIBLE
     ========================================================= */
 
     .sidebar .user-profile,
@@ -2386,170 +2084,6 @@ main,
     }
 
 
-    /* =========================================================
-    SIDEBAR CONTENT OFFSET
-    ========================================================= */
-
-    .page,
-    .main-content {
-        margin-left: 252px !important;
-    }
-
-    /* =========================================================
-   MAILTRACE Ã¢â‚¬â€ REAL-TIME THREAT MONITORING
-   STEP 3 Ã¢â‚¬â€ SECTION CARD / LAYOUT
-   ========================================================= */
-
-.realtime-threat-section {
-    position: relative !important;
-
-    width: 100% !important;
-    min-height: 188px !important;
-
-    box-sizing: border-box !important;
-
-    margin: 0 0 16px 0 !important;
-    padding: 20px 22px !important;
-
-    display: flex !important;
-    align-items: stretch !important;
-
-    background:
-        linear-gradient(
-            135deg,
-            #031522 0%,
-            #041a29 55%,
-            #03121f 100%
-        ) !important;
-
-    border: 1px solid #0b4260 !important;
-    border-radius: 10px !important;
-
-    overflow: hidden !important;
-
-    box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.28),
-        inset 0 1px 0 rgba(255, 255, 255, 0.025) !important;
-}
-
-
-/* =========================================================
-   LEFT INFORMATION AREA
-   ========================================================= */
-
-.realtime-threat-content {
-    position: relative !important;
-
-    z-index: 3 !important;
-
-    width: 38% !important;
-    min-width: 300px !important;
-
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-
-    padding-right: 20px !important;
-
-    box-sizing: border-box !important;
-}
-
-
-.realtime-threat-content .section-eyebrow {
-    margin: 0 0 7px 0 !important;
-
-    color: #00d9ff !important;
-
-    font-size: 11px !important;
-    line-height: 1.2 !important;
-
-    font-weight: 800 !important;
-
-    letter-spacing: 0.5px !important;
-
-    text-transform: uppercase !important;
-}
-
-
-.realtime-threat-content h2 {
-    margin: 0 !important;
-
-    color: #eef7ff !important;
-
-    font-size: 22px !important;
-    line-height: 1.2 !important;
-
-    font-weight: 750 !important;
-
-    letter-spacing: -0.35px !important;
-}
-
-
-.realtime-threat-content p {
-    max-width: 410px !important;
-
-    margin: 8px 0 12px 0 !important;
-
-    color: #a9bfce !important;
-
-    font-size: 12px !important;
-    line-height: 1.55 !important;
-}
-
-
-/* =========================================================
-   VIEW REPORTS BUTTON
-   ========================================================= */
-
-.realtime-threat-content .view-reports-btn {
-    width: fit-content !important;
-
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    min-height: 34px !important;
-
-    padding: 0 14px !important;
-
-    color: #dff8ff !important;
-
-    background: #061f30 !important;
-
-    border: 1px solid #08749d !important;
-    border-radius: 6px !important;
-
-    font-size: 11px !important;
-    font-weight: 650 !important;
-
-    cursor: pointer !important;
-
-    box-sizing: border-box !important;
-}
-
-
-/* =========================================================
-   MAP AREA
-   ========================================================= */
-
-.realtime-map-wrapper {
-    position: relative !important;
-
-    flex: 1 1 auto !important;
-
-    min-width: 0 !important;
-    min-height: 145px !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    box-sizing: border-box !important;
-
-    overflow: hidden !important;
-}
-
-
 .world-map {
     position: relative !important;
 
@@ -2561,64 +2095,6 @@ main,
     overflow: hidden !important;
 
     box-sizing: border-box !important;
-}
-
-
-/* =========================================================
-   MAP BASE
-   ========================================================= */
-
-.world-map-base {
-    position: absolute !important;
-
-    inset: 5px 0 5px 0 !important;
-
-    z-index: 1 !important;
-
-    opacity: 0.95 !important;
-
-    pointer-events: none !important;
-}
-
-
-/* =========================================================
-   MAP ROUTES
-   ========================================================= */
-
-.world-map-routes {
-    position: absolute !important;
-
-    inset: 0 !important;
-
-    z-index: 3 !important;
-
-    pointer-events: none !important;
-}
-
-
-.map-route {
-    position: absolute !important;
-
-    height: 1px !important;
-
-    transform-origin: left center !important;
-
-    pointer-events: none !important;
-}
-
-
-/* =========================================================
-   MAP THREAT NODES
-   ========================================================= */
-
-.world-map-nodes {
-    position: absolute !important;
-
-    inset: 0 !important;
-
-    z-index: 5 !important;
-
-    pointer-events: none !important;
 }
 
 
@@ -2639,436 +2115,14 @@ main,
 
 
 /* =========================================================
-   THREAT NODE POSITIONS
-   ========================================================= */
-
-.world-map .node-1 {
-    left: 27% !important;
-    top: 40% !important;
-}
-
-.world-map .node-2 {
-    left: 39% !important;
-    top: 66% !important;
-}
-
-.world-map .node-3 {
-    left: 55% !important;
-    top: 35% !important;
-}
-
-.world-map .node-4 {
-    left: 68% !important;
-    top: 47% !important;
-}
-
-.world-map .node-5 {
-    left: 75% !important;
-    top: 58% !important;
-}
-
-.world-map .node-6 {
-    left: 84% !important;
-    top: 72% !important;
-}
-
-
-/* =========================================================
-   MAP OVERLAY
-   ========================================================= */
-
-.world-map-overlay {
-    position: absolute !important;
-
-    inset: 0 !important;
-
-    z-index: 10 !important;
-
-    pointer-events: none !important;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(2, 14, 24, 0.25),
-            transparent 18%,
-            transparent 82%,
-            rgba(2, 14, 24, 0.3)
-        ) !important;
-}
-
-
-/* =========================================================
-   THREAT LEVEL CARD
-   ========================================================= */
-
-.realtime-threat-level {
-    position: relative !important;
-
-    z-index: 12 !important;
-
-    flex: 0 0 185px !important;
-
-    align-self: center !important;
-
-    min-height: 112px !important;
-
-    margin-left: 16px !important;
-
-    padding: 16px !important;
-
-    box-sizing: border-box !important;
-
-    background:
-        linear-gradient(
-            145deg,
-            #061b2a,
-            #041522
-        ) !important;
-
-    border: 1px solid #0b344d !important;
-    border-radius: 8px !important;
-
-    box-shadow:
-        0 5px 18px rgba(0, 0, 0, 0.25) !important;
-}
-
-
-.realtime-threat-level .level-label {
-    display: block !important;
-
-    margin-bottom: 8px !important;
-
-    color: #9fb4c2 !important;
-
-    font-size: 10px !important;
-
-    text-transform: uppercase !important;
-
-    letter-spacing: 0.5px !important;
-}
-
-
-.realtime-threat-level .level-value {
-    display: flex !important;
-    align-items: center !important;
-
-    gap: 7px !important;
-
-    margin: 0 !important;
-
-    color: #ffab00 !important;
-
-    font-size: 22px !important;
-    line-height: 1 !important;
-
-    font-weight: 800 !important;
-}
-
-
-.realtime-threat-level .last-updated {
-    display: flex !important;
-    align-items: center !important;
-
-    gap: 7px !important;
-
-    margin-top: 14px !important;
-
-    color: #aabcc8 !important;
-
-    font-size: 10px !important;
-}
-
-
-.realtime-threat-level .last-updated::before {
-    content: "" !important;
-
-    width: 7px !important;
-    height: 7px !important;
-
-    flex: 0 0 7px !important;
-
-    border-radius: 50% !important;
-
-    background: #00e6a0 !important;
-
-    box-shadow: 0 0 7px rgba(0, 230, 160, 0.8) !important;
-}
-
-
-/* =========================================================
    RESPONSIVE
    ========================================================= */
 
 @media (max-width: 1100px) {
-
-    .realtime-threat-section {
-        min-height: 175px !important;
-    }
-
-    .realtime-threat-content {
-        width: 35% !important;
-        min-width: 250px !important;
-    }
-
-    .realtime-threat-level {
-        flex-basis: 165px !important;
-    }
 }
 
 
 @media (max-width: 850px) {
-
-    .realtime-threat-section {
-        flex-direction: column !important;
-
-        gap: 14px !important;
-    }
-
-    .realtime-threat-content {
-        width: 100% !important;
-        min-width: 0 !important;
-
-        padding-right: 0 !important;
-    }
-
-    .realtime-map-wrapper {
-        width: 100% !important;
-    }
-
-    .realtime-threat-level {
-        width: 100% !important;
-
-        margin-left: 0 !important;
-    }
-}
-/* =========================================================
-   MAILTRACE Ã¢â‚¬â€ REAL-TIME THREAT MONITORING
-   STEP 3A Ã¢â‚¬â€ OUTER CARD / MAP / THREAT LEVEL
-   ========================================================= */
-
-
-/* =========================================================
-   OUTER REAL-TIME CARD
-   ========================================================= */
-
-.realtime-threat-panel {
-    width: 100% !important;
-    min-height: 190px !important;
-
-    display: grid !important;
-
-    grid-template-columns:
-        minmax(300px, 0.85fr)
-        minmax(420px, 1.8fr)
-        225px !important;
-
-    align-items: stretch !important;
-
-    gap: 0 !important;
-
-    margin: 0 0 16px 0 !important;
-    padding: 0 !important;
-
-    box-sizing: border-box !important;
-
-    background:
-        linear-gradient(
-            135deg,
-            #061827 0%,
-            #04121f 55%,
-            #03101b 100%
-        ) !important;
-
-    border: 1px solid #0b3b57 !important;
-
-    border-radius: 9px !important;
-
-    overflow: hidden !important;
-
-    position: relative !important;
-
-    box-shadow:
-        0 8px 28px rgba(0, 0, 0, 0.28),
-        inset 0 1px 0 rgba(255, 255, 255, 0.025) !important;
-}
-
-
-/* =========================================================
-   LEFT INFORMATION AREA
-   ========================================================= */
-
-.realtime-threat-info {
-    min-width: 0 !important;
-
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-
-    padding: 20px 18px 20px 28px !important;
-
-    box-sizing: border-box !important;
-
-    position: relative !important;
-
-    z-index: 3 !important;
-}
-
-
-/* =========================================================
-   SECURITY OVERVIEW LABEL
-   ========================================================= */
-
-.realtime-threat-info .eyebrow {
-    margin: 0 0 8px 0 !important;
-
-    color: #00d9ff !important;
-
-    font-family:
-        Inter,
-        system-ui,
-        sans-serif !important;
-
-    font-size: 11px !important;
-
-    line-height: 1.2 !important;
-
-    font-weight: 700 !important;
-
-    letter-spacing: 0.45px !important;
-
-    text-transform: uppercase !important;
-}
-
-
-/* =========================================================
-   MAIN TITLE
-   ========================================================= */
-
-.realtime-threat-info h2 {
-    margin: 0 !important;
-
-    color: #eef7ff !important;
-
-    font-family:
-        Inter,
-        system-ui,
-        sans-serif !important;
-
-    font-size: 24px !important;
-
-    line-height: 1.15 !important;
-
-    font-weight: 700 !important;
-
-    letter-spacing: -0.45px !important;
-}
-
-
-/* =========================================================
-   DESCRIPTION
-   ========================================================= */
-
-.realtime-threat-info p {
-    max-width: 390px !important;
-
-    margin: 9px 0 14px 0 !important;
-
-    color: #91a8ba !important;
-
-    font-family:
-        Inter,
-        system-ui,
-        sans-serif !important;
-
-    font-size: 11px !important;
-
-    line-height: 1.55 !important;
-
-    font-weight: 400 !important;
-}
-
-
-/* =========================================================
-   VIEW ALL REPORTS BUTTON
-   ========================================================= */
-
-.realtime-reports-btn {
-    width: fit-content !important;
-
-    min-height: 34px !important;
-
-    display: inline-flex !important;
-
-    align-items: center !important;
-    justify-content: center !important;
-
-    gap: 18px !important;
-
-    padding: 0 12px !important;
-
-    margin: 0 !important;
-
-    background: #061c2d !important;
-
-    border: 1px solid #08719a !important;
-
-    border-radius: 6px !important;
-
-    color: #e8f7ff !important;
-
-    font-family:
-        Inter,
-        system-ui,
-        sans-serif !important;
-
-    font-size: 11px !important;
-
-    font-weight: 600 !important;
-
-    cursor: pointer !important;
-
-    box-sizing: border-box !important;
-}
-
-
-/* BUTTON ARROW */
-
-.realtime-reports-btn .btn-arrow {
-    color: #00d9ff !important;
-
-    font-size: 18px !important;
-
-    line-height: 1 !important;
-
-    margin-top: -1px !important;
-}
-
-
-/* =========================================================
-   WORLD MAP WRAPPER
-   ========================================================= */
-
-.realtime-map-wrapper {
-    min-width: 0 !important;
-
-    height: 100% !important;
-
-    display: flex !important;
-
-    align-items: stretch !important;
-    justify-content: stretch !important;
-
-    position: relative !important;
-
-    overflow: hidden !important;
-
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(0, 105, 150, 0.07) 0%,
-            rgba(0, 30, 50, 0.025) 48%,
-            transparent 78%
-        ) !important;
 }
 
 
@@ -3088,119 +2142,8 @@ main,
 
     box-sizing: border-box !important;
 }
-
-
 /* =========================================================
-   MAP BASE
-   ========================================================= */
-
-.world-map-base {
-    position: absolute !important;
-
-    inset: 0 !important;
-
-    width: 100% !important;
-    height: 100% !important;
-
-    z-index: 1 !important;
-
-    pointer-events: none !important;
-}
-
-
-/* =========================================================
-   MAP ROUTES
-   ========================================================= */
-
-.world-map-routes {
-    position: absolute !important;
-
-    inset: 0 !important;
-
-    width: 100% !important;
-    height: 100% !important;
-
-    z-index: 3 !important;
-
-    pointer-events: none !important;
-}
-
-
-/* =========================================================
-   MAP NODES
-   ========================================================= */
-
-.world-map-nodes {
-    position: absolute !important;
-
-    inset: 0 !important;
-
-    width: 100% !important;
-    height: 100% !important;
-
-    z-index: 4 !important;
-
-    pointer-events: none !important;
-}
-
-
-/* =========================================================
-   MAP OVERLAY
-   ========================================================= */
-
-.world-map-overlay {
-    position: absolute !important;
-
-    inset: 0 !important;
-
-    width: 100% !important;
-    height: 100% !important;
-
-    z-index: 5 !important;
-
-    pointer-events: none !important;
-}
-
-
-/* =========================================================
-   THREAT LEVEL CARD
-   ========================================================= */
-
-.threat-level-card {
-    align-self: center !important;
-
-    width: calc(100% - 22px) !important;
-
-    min-height: 130px !important;
-
-    margin: 0 11px 0 0 !important;
-
-    padding: 17px 16px !important;
-
-    box-sizing: border-box !important;
-
-    display: flex !important;
-    flex-direction: column !important;
-
-    justify-content: center !important;
-
-    background:
-        linear-gradient(
-            145deg,
-            #071c2c 0%,
-            #061725 100%
-        ) !important;
-
-    border: 1px solid #0d344d !important;
-
-    border-radius: 8px !important;
-
-    position: relative !important;
-
-    z-index: 6 !important;
-}
-/* =========================================================
-   MAILTRACE Ã¢â‚¬â€ MAIN CONTENT POSITION RESET
+   MAILTRACE — MAIN CONTENT POSITION RESET
    Sidebar = 220px
    Main content starts after sidebar
    ========================================================= */
@@ -3224,7 +2167,7 @@ main,
 
 
 /* =========================================================
-   DASHBOARD CONTENT Ã¢â‚¬â€ RESET
+   DASHBOARD CONTENT — RESET
    ========================================================= */
 
 .main-content .dashboard-content {
@@ -3244,7 +2187,7 @@ main,
 
 
 /* =========================================================
-   DASHBOARD SECTIONS Ã¢â‚¬â€ NORMAL FLOW
+   DASHBOARD SECTIONS — NORMAL FLOW
    ========================================================= */
 
 .dashboard-content > * {
@@ -3257,24 +2200,6 @@ main,
     margin-right: 0 !important;
 
     transform: none !important;
-}
-
-
-/* =========================================================
-   REAL-TIME THREAT CARD
-   ========================================================= */
-
-.dashboard-content .realtime-threat-panel,
-.dashboard-content .threat-monitoring,
-.dashboard-content .hero-card,
-.dashboard-content .hero-section {
-    width: 100% !important;
-    max-width: none !important;
-
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-
-    box-sizing: border-box !important;
 }
 
 
@@ -3308,7 +2233,7 @@ main,
     }
 }
 /* =========================================================
-   MAILTRACE Ã¢â‚¬â€ FINAL CONTENT ALIGNMENT FIX
+   MAILTRACE — FINAL CONTENT ALIGNMENT FIX
    Sidebar handles the visual offset.
    Main content must NOT receive a second left margin.
    ========================================================= */
@@ -3367,22 +2292,6 @@ main,
 
 
 /* ---------------------------------------------------------
-   REAL-TIME THREAT PANEL
-   Full available dashboard width
-   --------------------------------------------------------- */
-
-.realtime-threat-panel {
-    width: 100% !important;
-    max-width: none !important;
-
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-
-    box-sizing: border-box !important;
-}
-
-
-/* ---------------------------------------------------------
    DESKTOP
    --------------------------------------------------------- */
 
@@ -3401,13 +2310,9 @@ main,
     .main-content .dashboard {
         width: 100% !important;
     }
-
-    .realtime-threat-panel {
-        width: 100% !important;
-    }
 }
 /* =========================================================
-   MAILTRACE Ã¢â‚¬â€ DASHBOARD REFERENCE MATCH
+   MAILTRACE — DASHBOARD REFERENCE MATCH
    FINAL LAYOUT OVERRIDE
    ========================================================= */
 
@@ -3422,7 +2327,7 @@ main,
 
 
 /* ---------------------------------------------------------
-   2. MAIN CONTENT Ã¢â‚¬â€ REMOVE DOUBLE OFFSET
+   2. MAIN CONTENT — REMOVE DOUBLE OFFSET
    --------------------------------------------------------- */
 
 .main-content {
@@ -3501,165 +2406,6 @@ main,
 }
 
 
-/* =========================================================
-   REAL-TIME THREAT MONITORING
-   ========================================================= */
-
-.realtime-threat-panel {
-    position: relative !important;
-
-    width: 100% !important;
-    max-width: none !important;
-
-    min-height: 190px !important;
-    height: 190px !important;
-
-    margin: 0 0 16px 0 !important;
-    padding: 0 !important;
-
-    display: grid !important;
-
-    grid-template-columns:
-        340px
-        minmax(0, 1fr)
-        225px !important;
-
-    gap: 0 !important;
-
-    box-sizing: border-box !important;
-
-    overflow: hidden !important;
-
-    border-radius: 9px !important;
-}
-
-
-/* ---------------------------------------------------------
-   REAL-TIME LEFT CONTENT
-   --------------------------------------------------------- */
-
-.realtime-threat-info {
-    width: auto !important;
-    min-width: 0 !important;
-
-    padding:
-        20px
-        18px
-        20px
-        28px !important;
-
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-
-    box-sizing: border-box !important;
-}
-
-
-.realtime-threat-info .eyebrow {
-    margin-bottom: 8px !important;
-
-    font-size: 11px !important;
-    line-height: 1.2 !important;
-
-    color: #00d9ff !important;
-
-    letter-spacing: 0.45px !important;
-}
-
-
-.realtime-threat-info h2 {
-    margin: 0 !important;
-
-    max-width: 320px !important;
-
-    font-size: 24px !important;
-    line-height: 1.15 !important;
-
-    font-weight: 700 !important;
-
-    letter-spacing: -0.45px !important;
-}
-
-
-.realtime-threat-info p {
-    max-width: 315px !important;
-
-    margin:
-        9px
-        0
-        14px
-        0 !important;
-
-    font-size: 11px !important;
-    line-height: 1.55 !important;
-
-    color: #91a8ba !important;
-}
-
-
-/* ---------------------------------------------------------
-   VIEW REPORTS
-   --------------------------------------------------------- */
-
-.realtime-reports-btn {
-    width: fit-content !important;
-
-    min-height: 34px !important;
-
-    padding: 0 12px !important;
-
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    gap: 18px !important;
-
-    margin: 0 !important;
-
-    border: 1px solid #08719a !important;
-    border-radius: 6px !important;
-
-    background: #061c2d !important;
-
-    color: #e8f7ff !important;
-
-    font-size: 11px !important;
-    font-weight: 600 !important;
-
-    box-sizing: border-box !important;
-}
-
-
-.realtime-reports-btn .btn-arrow {
-    color: #00d9ff !important;
-
-    font-size: 18px !important;
-}
-
-
-/* =========================================================
-   WORLD MAP
-   ========================================================= */
-
-.realtime-map-wrapper {
-    position: relative !important;
-
-    width: 100% !important;
-    min-width: 0 !important;
-    height: 100% !important;
-
-    overflow: hidden !important;
-
-    display: flex !important;
-
-    align-items: stretch !important;
-    justify-content: stretch !important;
-
-    box-sizing: border-box !important;
-}
-
-
 .world-map {
     position: relative !important;
 
@@ -3669,21 +2415,6 @@ main,
     min-height: 0 !important;
 
     overflow: hidden !important;
-
-    box-sizing: border-box !important;
-}
-
-
-.world-map-base,
-.world-map-routes,
-.world-map-nodes,
-.world-map-overlay {
-    position: absolute !important;
-
-    inset: 0 !important;
-
-    width: 100% !important;
-    height: 100% !important;
 
     box-sizing: border-box !important;
 }
@@ -3704,72 +2435,6 @@ main,
     box-shadow:
         0 0 5px #00d9ff,
         0 0 12px rgba(0, 217, 255, 0.8) !important;
-}
-
-
-/* =========================================================
-   THREAT LEVEL
-   ========================================================= */
-
-.threat-level-card {
-    align-self: center !important;
-
-    width: calc(100% - 22px) !important;
-
-    min-height: 130px !important;
-
-    margin: 0 11px 0 0 !important;
-
-    padding: 17px 16px !important;
-
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-
-    box-sizing: border-box !important;
-
-    border-radius: 8px !important;
-
-    background:
-        linear-gradient(
-            145deg,
-            #071c2c 0%,
-            #061725 100%
-        ) !important;
-}
-
-
-.threat-level-label {
-    display: block !important;
-
-    margin-bottom: 8px !important;
-
-    color: #9fb4c2 !important;
-
-    font-size: 10px !important;
-}
-
-
-.threat-level-value {
-    display: flex !important;
-    align-items: center !important;
-
-    gap: 7px !important;
-}
-
-
-.threat-level-value strong {
-    color: #ffab00 !important;
-
-    font-size: 22px !important;
-    line-height: 1 !important;
-
-    font-weight: 800 !important;
-}
-
-
-.threat-level-icon {
-    color: #ffab00 !important;
 }
 
 
@@ -3803,7 +2468,7 @@ main,
 
 
 /* =========================================================
-   STAT CARDS Ã¢â‚¬â€ THIS WAS MISSING
+   STAT CARDS — THIS WAS MISSING
    ========================================================= */
 
 .stats-grid {
@@ -4214,10 +2879,6 @@ main,
         padding-right: 24px !important;
     }
 
-    .realtime-threat-panel {
-        height: 190px !important;
-    }
-
     .stats-grid {
         grid-template-columns:
             repeat(4, minmax(0, 1fr)) !important;
@@ -4234,13 +2895,6 @@ main,
     .main-content .page {
         padding-left: 252px !important;
         padding-right: 18px !important;
-    }
-
-    .realtime-threat-panel {
-        grid-template-columns:
-            300px
-            minmax(0, 1fr)
-            190px !important;
     }
 
     .stats-grid {
@@ -4266,28 +2920,6 @@ main,
         padding-right: 12px !important;
     }
 
-    .realtime-threat-panel {
-        height: auto !important;
-
-        min-height: 0 !important;
-
-        grid-template-columns: 1fr !important;
-    }
-
-    .realtime-threat-info {
-        min-height: 180px !important;
-    }
-
-    .realtime-map-wrapper {
-        min-height: 170px !important;
-    }
-
-    .threat-level-card {
-        width: calc(100% - 22px) !important;
-
-        margin: 11px !important;
-    }
-
     .stats-grid {
         grid-template-columns: 1fr !important;
     }
@@ -4296,110 +2928,10 @@ main,
         height: 145px !important;
     }
 }
-/* =========================================================
-   MAILTRACE Ã¢â‚¬â€ DASHBOARD REFINEMENT
-   STEP 2 Ã¢â‚¬â€ HERO + CHART FIX
-   ========================================================= */
-
-
-/* =========================================================
-   1. HERO Ã¢â‚¬â€ MAKE IT COMPACT LIKE REFERENCE
-   ========================================================= */
-
-.realtime-threat-panel {
-    height: 150px !important;
-    min-height: 150px !important;
-
-    grid-template-columns:
-        320px
-        minmax(0, 1fr)
-        200px !important;
-
-    margin-bottom: 16px !important;
-}
-
-
-/* LEFT HERO CONTENT */
-
-.realtime-threat-info {
-    padding:
-        16px
-        16px
-        16px
-        28px !important;
-}
-
-.realtime-threat-info .eyebrow {
-    margin-bottom: 6px !important;
-    font-size: 10px !important;
-}
-
-.realtime-threat-info h2 {
-    font-size: 21px !important;
-    line-height: 1.12 !important;
-    max-width: 290px !important;
-}
-
-.realtime-threat-info p {
-    max-width: 300px !important;
-
-    margin:
-        7px
-        0
-        10px
-        0 !important;
-
-    font-size: 10px !important;
-    line-height: 1.45 !important;
-}
-
-.realtime-reports-btn {
-    min-height: 31px !important;
-    font-size: 10px !important;
-}
-
-
-/* THREAT LEVEL */
-
-.threat-level-card {
-    min-height: 116px !important;
-
-    width: calc(100% - 20px) !important;
-
-    margin-right: 10px !important;
-
-    padding:
-        14px
-        15px !important;
-}
-
-.threat-level-label {
-    margin-bottom: 6px !important;
-    font-size: 9px !important;
-}
-
-.threat-level-value strong {
-    font-size: 20px !important;
-}
 
 .threat-level-status {
     margin-top: 10px !important;
     font-size: 9px !important;
-}
-
-
-/* =========================================================
-   2. MAP Ã¢â‚¬â€ GIVE IT THE REFERENCE FEEL
-   ========================================================= */
-
-.realtime-map-wrapper {
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(0, 145, 200, 0.09) 0%,
-            rgba(0, 70, 100, 0.035) 48%,
-            transparent 76%
-        ) !important;
 }
 
 
@@ -4452,169 +2984,8 @@ main,
 }
 
 
-/* DIFFERENT THREAT NODE STATES */
-
-.node-1,
-.node-4 {
-    background: #00d9ff !important;
-
-    box-shadow:
-        0 0 5px #00d9ff,
-        0 0 15px rgba(0, 217, 255, 0.9) !important;
-}
-
-.node-2 {
-    background: #b44cff !important;
-
-    box-shadow:
-        0 0 5px #b44cff,
-        0 0 15px rgba(180, 76, 255, 0.85) !important;
-}
-
-.node-3 {
-    background: #ff315b !important;
-
-    box-shadow:
-        0 0 6px #ff315b,
-        0 0 16px rgba(255, 49, 91, 0.9) !important;
-}
-
-.node-5 {
-    background: #ff9d00 !important;
-
-    box-shadow:
-        0 0 6px #ff9d00,
-        0 0 16px rgba(255, 157, 0, 0.85) !important;
-}
-
-
 /* =========================================================
-   3. ROUTES Ã¢â‚¬â€ CURVED CYBER ATTACK LINES
-   ========================================================= */
-
-.map-route {
-    position: absolute !important;
-
-    height: 1px !important;
-
-    transform-origin: left center !important;
-
-    border-radius: 999px !important;
-
-    opacity: 0.8 !important;
-}
-
-
-/* ROUTE 1 */
-
-.route-1 {
-    width: 28% !important;
-
-    left: 28% !important;
-    top: 48% !important;
-
-    transform:
-        rotate(-17deg) !important;
-
-    background:
-        linear-gradient(
-            90deg,
-            #ff315b,
-            #1680ff,
-            transparent
-        ) !important;
-
-    box-shadow:
-        0 0 6px rgba(22, 128, 255, 0.6) !important;
-}
-
-
-/* ROUTE 2 */
-
-.route-2 {
-    width: 22% !important;
-
-    left: 43% !important;
-    top: 47% !important;
-
-    transform:
-        rotate(14deg) !important;
-
-    background:
-        linear-gradient(
-            90deg,
-            #1680ff,
-            #00d9ff,
-            transparent
-        ) !important;
-}
-
-
-/* ROUTE 3 */
-
-.route-3 {
-    width: 20% !important;
-
-    left: 52% !important;
-    top: 40% !important;
-
-    transform:
-        rotate(27deg) !important;
-
-    background:
-        linear-gradient(
-            90deg,
-            #00d9ff,
-            #ff9d00,
-            transparent
-        ) !important;
-}
-
-
-/* ROUTE 4 */
-
-.route-4 {
-    width: 18% !important;
-
-    left: 35% !important;
-    top: 58% !important;
-
-    transform:
-        rotate(-28deg) !important;
-
-    background:
-        linear-gradient(
-            90deg,
-            #b44cff,
-            #1680ff,
-            transparent
-        ) !important;
-}
-
-
-/* ROUTE 5 */
-
-.route-5 {
-    width: 25% !important;
-
-    left: 48% !important;
-    top: 55% !important;
-
-    transform:
-        rotate(-8deg) !important;
-
-    background:
-        linear-gradient(
-            90deg,
-            #1680ff,
-            #ff315b,
-            transparent
-        ) !important;
-}
-
-
-/* =========================================================
-   4. THREAT ACTIVITY Ã¢â‚¬â€ FIX AXIS
+   4. THREAT ACTIVITY — FIX AXIS
    ========================================================= */
 
 .chart-container {
@@ -4698,7 +3069,7 @@ main,
 
 
 /* =========================================================
-   6. SVG Ã¢â‚¬â€ FIX BLACK GRAPH
+   6. SVG — FIX BLACK GRAPH
    ========================================================= */
 
 .threat-chart {
@@ -4787,7 +3158,7 @@ main,
 
 
 /* =========================================================
-   9. DONUT Ã¢â‚¬â€ KEEP IT BALANCED
+   9. DONUT — KEEP IT BALANCED
    ========================================================= */
 
 .donut-wrapper {
@@ -4813,7 +3184,7 @@ main,
 
 
 /* =========================================================
-   10. STATS Ã¢â‚¬â€ SLIGHTLY MORE COMPACT
+   10. STATS — SLIGHTLY MORE COMPACT
    ========================================================= */
 
 .stat-card {
@@ -4847,23 +3218,13 @@ main,
 
 @media (min-width: 1400px) {
 
-    .realtime-threat-panel {
-        height: 150px !important;
-        min-height: 150px !important;
-
-        grid-template-columns:
-            320px
-            minmax(0, 1fr)
-            200px !important;
-    }
-
     .chart-area,
     .chart-y-axis {
         height: 180px !important;
     }
 }
 /* =========================================================
-   MAILTRACE Ã¢â‚¬â€ STAT CARDS 10/10 REFINEMENT
+   MAILTRACE — STAT CARDS 10/10 REFINEMENT
    PREMIUM REFERENCE STYLE
    ========================================================= */
 
@@ -5005,17 +3366,6 @@ main,
         ) !important;
 
     box-sizing: border-box !important;
-}
-
-
-.stats-grid .stat-icon-symbol {
-    position: relative !important;
-
-    z-index: 2 !important;
-
-    font-size: 22px !important;
-
-    line-height: 1 !important;
 }
 
 
@@ -5320,11 +3670,6 @@ main,
    --------------------------------------------------------- */
 
 @media (max-width: 1200px) {
-
-    .stats-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr)) !important;
-    }
 }
 
 
@@ -5334,112 +3679,9 @@ main,
 
 @media (max-width: 760px) {
 
-    .stats-grid {
-        grid-template-columns: 1fr !important;
-    }
-
     .stats-grid .stat-card {
         height: 145px !important;
     }
-}
-
-
-/* =========================================================
-   MAILTRACE AI Ã¢â‚¬â€ THREAT INTELLIGENCE / IOC CORRELATION
-   ========================================================= */
-
-.mt-ti-panel {
-    width: 100%;
-    margin-top: 20px;
-    padding: 22px;
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,.08);
-    background: rgba(255,255,255,.025);
-    box-sizing: border-box;
-}
-
-.mt-ti-panel-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 18px;
-}
-
-.mt-ti-eyebrow {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .12em;
-    opacity: .55;
-}
-
-.mt-ti-title {
-    margin-top: 4px;
-    font-size: 20px;
-    font-weight: 700;
-}
-
-.mt-ti-subtitle {
-    margin-top: 4px;
-    font-size: 12px;
-    opacity: .55;
-}
-
-.mt-ti-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 7px 11px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .04em;
-}
-
-.mt-ti-status.danger {
-    background: rgba(255,80,80,.12);
-}
-
-.mt-ti-status.safe {
-    background: rgba(80,200,120,.10);
-}
-
-.mt-ti-status.neutral {
-    background: rgba(255,255,255,.07);
-}
-
-.mt-ti-status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: currentColor;
-}
-
-.mt-ti-stat-bar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.mt-ti-stat {
-    padding: 13px 15px;
-    border-radius: 12px;
-    background: rgba(255,255,255,.035);
-}
-
-.mt-ti-stat-label {
-    display: block;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .08em;
-    opacity: .5;
-}
-
-.mt-ti-stat-value {
-    display: block;
-    margin-top: 5px;
-    font-size: 15px;
-    font-weight: 700;
 }
 
 .mt-ti-section {
@@ -5569,83 +3811,6 @@ main,
     .mt-ti-match-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-
-    .mt-ti-stat-bar {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* =========================================================
-
-/* =========================================================
-   MAILTRACE AI Ã¢â‚¬â€ REALTIME THREAT MONITORING
-   FINAL CONSOLIDATED OVERRIDE
-   ========================================================= */
-
-.realtime-threat-panel {
-    width: 100% !important;
-    min-height: 212px !important;
-    height: 212px !important;
-    display: grid !important;
-    grid-template-columns: 320px minmax(0, 1fr) 200px !important;
-    margin: 0 0 16px !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    border-radius: 9px !important;
-}
-
-.realtime-threat-info {
-    min-width: 0 !important;
-    padding: 20px 16px 20px 28px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-}
-
-.realtime-threat-info .eyebrow {
-    margin: 0 0 6px !important;
-    font-size: 10px !important;
-    line-height: 1.2 !important;
-}
-
-.realtime-threat-info h2 {
-    margin: 0 !important;
-    max-width: 290px !important;
-    font-size: 21px !important;
-    line-height: 1.12 !important;
-    font-weight: 700 !important;
-}
-
-.realtime-threat-info p {
-    max-width: 300px !important;
-    margin: 7px 0 10px !important;
-    font-size: 10px !important;
-    line-height: 1.45 !important;
-}
-
-.realtime-reports-btn {
-    width: fit-content !important;
-    min-height: 31px !important;
-    padding: 0 12px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 18px !important;
-    margin: 0 !important;
-    border-radius: 6px !important;
-    font-size: 10px !important;
-    font-weight: 600 !important;
-}
-
-.realtime-map-wrapper {
-    position: relative !important;
-    width: 100% !important;
-    height: 100% !important;
-    min-width: 0 !important;
-    overflow: hidden !important;
-    display: flex !important;
-    align-items: stretch !important;
-    justify-content: stretch !important;
 }
 
 .world-map {
@@ -5656,29 +3821,6 @@ main,
     overflow: hidden !important;
 }
 
-.world-map-base,
-.world-map-routes,
-.world-map-nodes,
-.world-map-overlay {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    box-sizing: border-box !important;
-}
-
-.world-map-base { z-index: 1 !important; pointer-events: none !important; }
-.world-map-routes { z-index: 3 !important; pointer-events: none !important; overflow: hidden !important; }
-.world-map-nodes { z-index: 5 !important; pointer-events: none !important; }
-.world-map-overlay { z-index: 10 !important; pointer-events: none !important; }
-
-.map-route {
-    position: absolute !important;
-    height: 1px !important;
-    transform-origin: left center !important;
-    pointer-events: none !important;
-}
-
 .map-threat-node {
     position: absolute !important;
     width: 8px !important;
@@ -5686,42 +3828,6 @@ main,
     border-radius: 50% !important;
     transform: translate(-50%, -50%) !important;
     pointer-events: none !important;
-}
-
-.world-map .node-1 { left: 25% !important; top: 41% !important; }
-.world-map .node-2 { left: 38% !important; top: 68% !important; }
-.world-map .node-3 { left: 54% !important; top: 34% !important; }
-.world-map .node-4 { left: 68% !important; top: 46% !important; }
-.world-map .node-5 { left: 74% !important; top: 58% !important; }
-.world-map .node-6 { left: 86% !important; top: 72% !important; }
-
-.threat-level-card {
-    align-self: center !important;
-    width: calc(100% - 20px) !important;
-    min-height: 142px !important;
-    margin: 0 10px 0 0 !important;
-    padding: 17px 16px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    box-sizing: border-box !important;
-    border-radius: 8px !important;
-}
-
-.threat-level-label {
-    margin-bottom: 8px !important;
-    font-size: 10px !important;
-}
-
-.threat-level-value {
-    display: flex !important;
-    align-items: center !important;
-    gap: 7px !important;
-}
-
-.threat-level-value strong {
-    font-size: 22px !important;
-    line-height: 1 !important;
 }
 
 .threat-level-status {
@@ -5740,114 +3846,10 @@ main,
 }
 
 @media (max-width: 1100px) {
-    .realtime-threat-panel {
-        grid-template-columns: 280px minmax(0, 1fr) 175px !important;
-    }
 }
 
 @media (max-width: 850px) {
-    .realtime-threat-panel {
-        height: auto !important;
-        min-height: 0 !important;
-        grid-template-columns: 1fr !important;
-    }
-    .realtime-threat-info { padding: 24px !important; }
-    .realtime-map-wrapper { min-height: 230px !important; }
     .world-map { min-height: 230px !important; }
-    .threat-level-card {
-        width: calc(100% - 32px) !important;
-        margin: 0 16px 18px !important;
-    }
-}
-
-/* =========================================================
-   END REALTIME THREAT MONITORING
-   ========================================================= */
-
-
-/* ==========================================================
-   MAILTRACE REALTIME MAP CLEAN MODE
-   Geographic dotted map remains visible.
-   Demo/fake route visuals are permanently hidden.
-   ========================================================== */
-
-#worldMapBase .map-route,
-#worldMapBase .dynamic-route,
-#worldMapBase .map-route-packet,
-#worldMapBase .threat-route,
-#worldMapBase .threat-line,
-#worldMapBase .route-line,
-#worldMapBase .route-packet,
-#worldMapBase .animated-route,
-#worldMapBase .attack-route,
-#worldMapBase .attack-line,
-#worldMapBase .connection-line,
-#worldMapBase .map-line,
-#worldMapBase .map-connection {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    animation: none !important;
-}
-
-#worldMapBase svg line,
-#worldMapBase svg polyline {
-    display: none !important;
-}
-
-
-/* ============================================================
-   MAILTRACE MAP ROUTE HARD DISABLE
-   Old animated route systems are intentionally disabled.
-   Geographic dotted map remains active.
-   ============================================================ */
-
-.map-route,
-.dynamic-route,
-.map-route-packet,
-.world-map-route,
-.world-route,
-.threat-route,
-.threat-line,
-.attack-route,
-.attack-line,
-.route-line,
-.route-packet,
-#worldMapRoutes,
-.world-map-routes,
-.map-routes,
-.threat-routes {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    animation: none !important;
-    pointer-events: none !important;
-}
-
-/* ============================================================
-   FINAL THREAT MAP CLEANUP
-   REAL WORLD MAP PRESERVED
-   ============================================================ */
-
-#worldMapBase .map-threat-node,
-#worldMapBase .map-route,
-#worldMapBase .map-route-packet,
-#worldMapRoutes,
-.world-map-routes {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-}
-
-/* Keep actual geographical dotted map visible */
-#worldMapBase svg.mailtrace-reference-world-map,
-#worldMapBase .mailtrace-reference-world-map,
-#worldMapBase .mailtrace-world-land-group,
-#worldMapBase .mailtrace-dotted-continent {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
 }
 
 /* =========================================================
@@ -6302,42 +4304,7 @@ button[aria-disabled="true"] {
     font-size: 12px;
     line-height: 1.55;
 }
-
-.investigation-result .result-action-dock {
-    position: sticky;
-    z-index: 40;
-    top: calc(var(--header-height) + 8px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin: -8px 0 22px;
-    padding: 9px 12px 9px 15px;
-    border: 1px solid rgba(47, 166, 198, .28);
-    border-radius: 12px;
-    background: rgba(5, 19, 30, .94);
-    box-shadow: 0 10px 26px rgba(0, 0, 0, .25);
-    backdrop-filter: blur(12px);
-}
-.investigation-result .result-action-dock > span {
-    color: #8da8b8;
-    font-size: 11px;
-    font-weight: 600;
-}
 .investigation-result { scroll-margin-top: calc(var(--header-height) + 14px); }
-.investigation-result .result-action-dock .investigation-map-view-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    min-height: 38px;
-    padding: 9px 14px;
-    color: #e7fbff;
-    background: linear-gradient(135deg, #087e9e, #075b76);
-    border-color: rgba(43, 211, 239, .48);
-    letter-spacing: .04em;
-}
-.investigation-result .result-action-dock .investigation-map-view-btn svg { width: 16px; height: 16px; }
 
 #helpDocsPage .quick-card {
     position: relative;
@@ -6436,70 +4403,6 @@ button[aria-disabled="true"] {
 .system-status:has(#sidebarSystemStatusValue[data-status="checking"]) .status-dot { background: #8499a8 !important; box-shadow: none !important; }
 
 @media (max-width: 760px) {
-    .investigation-result .result-action-dock { top: calc(var(--header-height) + 6px); }
-    .investigation-result .result-action-dock > span { font-size: 10px; }
-    .investigation-result .result-action-dock .investigation-map-view-btn { min-height: 36px; }
-}
-
-/* =========================================
-   INVESTIGATION MODAL
-========================================= */
-
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-
-    display: none;
-    align-items: center;
-    justify-content: center;
-
-    padding: 24px;
-
-    background: rgba(2, 8, 18, 0.78);
-    backdrop-filter: blur(8px);
-
-    opacity: 0;
-    visibility: hidden;
-
-    transition:
-        opacity 0.25s ease,
-        visibility 0.25s ease;
-}
-
-.modal-overlay.show {
-    display: flex;
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal {
-    position: relative;
-
-    width: min(560px, 100%);
-    max-height: 90vh;
-
-    overflow-y: auto;
-
-    padding: 32px;
-
-    border: 1px solid rgba(34, 211, 238, 0.22);
-    border-radius: 18px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(15, 31, 48, 0.98),
-            rgba(7, 18, 30, 0.98)
-        );
-
-    box-shadow:
-        0 25px 80px rgba(0, 0, 0, 0.65),
-        0 0 40px rgba(34, 211, 238, 0.08);
-
-    color: #f8fafc;
-
-    animation: modalEnter 0.25s ease;
 }
 
 @keyframes modalEnter {
@@ -6513,149 +4416,6 @@ button[aria-disabled="true"] {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
-
-}
-
-.modal-close {
-    position: absolute;
-
-    top: 18px;
-    right: 18px;
-
-    width: 38px;
-    height: 38px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: 1px solid rgba(148, 163, 184, 0.18);
-    border-radius: 10px;
-
-    background: rgba(255, 255, 255, 0.04);
-
-    color: #94a3b8;
-
-    font-size: 24px;
-    line-height: 1;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
-}
-
-.modal-close:hover {
-
-    background: rgba(239, 68, 68, 0.12);
-
-    border-color: rgba(239, 68, 68, 0.45);
-
-    color: #f87171;
-
-}
-
-.modal-icon {
-
-    width: 54px;
-    height: 54px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-bottom: 22px;
-
-    border: 1px solid rgba(34, 211, 238, 0.35);
-    border-radius: 14px;
-
-    background: rgba(34, 211, 238, 0.08);
-
-    color: #22d3ee;
-
-    font-size: 26px;
-}
-
-.modal h2 {
-
-    margin: 0 0 10px;
-
-    color: #f8fafc;
-
-    font-size: 26px;
-    font-weight: 700;
-
-    letter-spacing: -0.5px;
-}
-
-.modal > p {
-
-    margin: 0 0 28px;
-
-    color: #94a3b8;
-
-    font-size: 14px;
-
-    line-height: 1.7;
-}
-
-.upload-box {
-
-    position: relative;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    min-height: 180px;
-
-    padding: 24px;
-
-    border: 1px dashed rgba(34, 211, 238, 0.45);
-    border-radius: 14px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(34, 211, 238, 0.05),
-            rgba(15, 23, 42, 0.25)
-        );
-
-    text-align: center;
-
-    cursor: pointer;
-
-    transition:
-        border-color 0.2s ease,
-        background 0.2s ease,
-        transform 0.2s ease;
-}
-
-.upload-box:hover {
-
-    border-color: #22d3ee;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(34, 211, 238, 0.1),
-            rgba(15, 23, 42, 0.4)
-        );
-
-}
-
-.upload-box:active {
-
-    transform: scale(0.99);
-
-}
-
-.upload-box input[type="file"] {
-
-    display: none;
 
 }
 
@@ -6681,105 +4441,7 @@ button[aria-disabled="true"] {
     font-size: 24px;
 }
 
-.upload-box strong {
-
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: #e2e8f0;
-
-    font-size: 15px;
-}
-
-.upload-box span,
-.upload-box small {
-
-    color: #64748b;
-
-    font-size: 12px;
-}
-
-#startAnalysis {
-
-    width: 100%;
-
-    margin-top: 22px;
-
-    padding: 14px 20px;
-
-    border: 1px solid rgba(34, 211, 238, 0.5);
-    border-radius: 10px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #0891b2,
-            #0e7490
-        );
-
-    color: #ffffff;
-
-    font-size: 14px;
-    font-weight: 700;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 8px 25px rgba(6, 182, 212, 0.15);
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
-}
-
-#startAnalysis:hover {
-
-    transform: translateY(-1px);
-
-    background:
-        linear-gradient(
-            135deg,
-            #06b6d4,
-            #0891b2
-        );
-
-    box-shadow:
-        0 12px 30px rgba(6, 182, 212, 0.25);
-
-}
-
-#startAnalysis:disabled {
-
-    opacity: 0.5;
-
-    cursor: not-allowed;
-
-    transform: none;
-}
-
 @media (max-width: 600px) {
-
-    .modal-overlay {
-
-        padding: 15px;
-
-    }
-
-    .modal {
-
-        padding: 25px 20px;
-
-        border-radius: 15px;
-
-    }
-
-    .modal h2 {
-
-        font-size: 22px;
-
-    }
 
 }
 
@@ -6853,10 +4515,6 @@ button[aria-disabled="true"] {
     background: linear-gradient(118deg, color-mix(in srgb, var(--result-accent) 10%, #071421), #0b1927 70%);
     box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
 }
-.investigation-result .result-overview-high { --result-accent: #ff4d6d; }
-.investigation-result .result-overview-elevated { --result-accent: #ffad33; }
-.investigation-result .result-overview-guarded { --result-accent: #a78bfa; }
-.investigation-result .result-overview-low { --result-accent: #35d6a0; }
 .investigation-result .result-overview-score-wrap { display: grid; place-items: center; }
 .investigation-result .result-score-ring {
     width: 122px;
@@ -6885,7 +4543,6 @@ button[aria-disabled="true"] {
 .investigation-result .result-top-signals > span { flex: 0 0 auto; color: #8196a8; font-size: 9px; font-weight: 700; letter-spacing: .12em; }
 .investigation-result .result-top-signals ul { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
 .investigation-result .result-top-signals li { padding: 5px 8px; border: 1px solid color-mix(in srgb, var(--result-accent) 22%, transparent); border-radius: 6px; color: #d6e1ea; background: color-mix(in srgb, var(--result-accent) 7%, transparent); font-size: 10px; }
-.investigation-result .result-action-dock { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
 
 @media (max-width: 700px) {
     .investigation-result .result-overview { grid-template-columns: 1fr; gap: 18px; padding: 20px; }
@@ -6895,8 +4552,6 @@ button[aria-disabled="true"] {
     .investigation-result .result-overview-heading { align-items: flex-start; flex-direction: column; gap: 9px; }
     .investigation-result .result-overview-metrics > div { min-width: calc(50% - 6px); flex: 1 1 42%; }
     .investigation-result .result-top-signals { align-items: flex-start; flex-direction: column; gap: 8px; }
-    .investigation-result .result-action-dock { gap: 8px; }
-    .investigation-result .result-action-dock > span { max-width: 55%; line-height: 1.4; }
 }
 
 /* Relay intelligence: turn parsed hops and IP metadata into readable evidence cards. */
@@ -6945,11 +4600,6 @@ button[aria-disabled="true"] {
 .investigation-result .mt-future-card .mt-governance-status-item strong.pending,
 .investigation-result .mt-future-card .mt-governance-status-item strong.unverified { color: #f0bc65; }
 .investigation-result .mt-future-card .mt-future-section { padding-top: 16px; }
-
-/* The map remains reachable on scroll without a full-width banner covering evidence. */
-.investigation-result .result-action-dock { width: fit-content; max-width: 100%; justify-content: flex-end; margin: -8px 0 18px auto; padding: 5px; border-radius: 11px; }
-.investigation-result .result-action-dock > span { display: none; }
-.investigation-result .result-action-dock .investigation-map-view-btn { min-height: 38px; }
 @media (max-width: 760px) {
     .investigation-result .origin-list { grid-template-columns: 1fr; }
     .investigation-result .origin-details { grid-template-columns: 1fr 1fr; }
@@ -7245,11 +4895,6 @@ button[aria-disabled="true"] {
     }
 
 }
-
-/* =========================================================
-   REPORTS + REPORT MAP VIEW
-   ========================================================= */
-.dashboard-map-placeholder { min-height: 100%; pointer-events: none; }
 .reports-page { width: 100%; padding: 34px; min-height: calc(100vh - var(--header-height)); }
 .reports-header { display:flex; justify-content:space-between; gap:24px; align-items:flex-start; margin-bottom:24px; }
 .reports-header h2 { margin:8px 0; font-size:28px; }
@@ -7339,7 +4984,6 @@ button[aria-disabled="true"] {
     background: rgba(4, 14, 22, 0.78) !important;
     color: #8fa7b5 !important;
 }
-.report-map-marker { position:absolute; width:14px; height:14px; transform:translate(-50%,-50%); border-radius:50%; border:2px solid var(--cyan); background:#061522; box-shadow:0 0 0 6px rgba(0,200,255,.08),0 0 18px rgba(0,200,255,.7); cursor:pointer; }
 .report-map-details { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:16px; }
 .map-node-detail, .map-no-data { border:1px solid var(--border-soft); border-radius:10px; padding:14px; background:#04111c; }
 .map-node-detail strong, .map-node-detail span, .map-node-detail small { display:block; }
@@ -7800,112 +5444,6 @@ button[aria-disabled="true"] {
 }
 
 
-/* MAILTRACE_SOC_GEO_PANEL_START */
-
-/* =========================================================
-   MAILTRACE AI
-   SOC GEOLOCATION INTELLIGENCE PANEL
-   ========================================================= */
-
-.soc-geo-intelligence-panel {
-    position: relative !important;
-
-    width: 100% !important;
-
-    box-sizing: border-box !important;
-
-    margin-top: 16px !important;
-
-    padding: 22px 24px !important;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(11, 30, 42, 0.98),
-            rgba(6, 20, 30, 0.98)
-        ) !important;
-
-    border: 1px solid rgba(0, 217, 255, 0.20) !important;
-
-    border-radius: 14px !important;
-
-    overflow: hidden !important;
-
-    box-shadow:
-        0 10px 35px rgba(0,0,0,0.25),
-        inset 0 1px 0 rgba(255,255,255,0.025) !important;
-}
-
-
-.soc-geo-intelligence-panel::before {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 2px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            #00d9ff,
-            rgba(0,217,255,0.35),
-            transparent
-        );
-
-    opacity: 0.9;
-}
-
-
-.soc-geo-header {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 20px;
-
-    margin-bottom: 22px;
-
-    padding-bottom: 16px;
-
-    border-bottom: 1px solid rgba(130, 180, 200, 0.12);
-}
-
-
-.soc-geo-title-group {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-}
-
-
-.soc-geo-indicator {
-
-    width: 9px;
-    height: 9px;
-
-    border-radius: 50%;
-
-    background: #00d9ff;
-
-    box-shadow:
-        0 0 10px #00d9ff,
-        0 0 20px rgba(0,217,255,0.4);
-
-    animation: socGeoPulse 2s infinite;
-}
-
-
 @keyframes socGeoPulse {
 
     0% {
@@ -7926,317 +5464,7 @@ button[aria-disabled="true"] {
 }
 
 
-.soc-geo-title {
-
-    font-size: 13px !important;
-
-    font-weight: 700 !important;
-
-    letter-spacing: 1.2px !important;
-
-    color: #dcecf4 !important;
-
-    text-transform: uppercase !important;
-}
-
-
-.soc-geo-subtitle {
-
-    margin-top: 4px;
-
-    font-size: 10px;
-
-    letter-spacing: 1px;
-
-    color: #6f8b99;
-
-    text-transform: uppercase;
-}
-
-
-.soc-risk-badge {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    padding: 7px 11px;
-
-    border-radius: 6px;
-
-    background: rgba(33, 180, 110, 0.08);
-
-    border: 1px solid rgba(33, 180, 110, 0.28);
-
-    color: #53d28c;
-
-    font-size: 10px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.8px;
-
-    text-transform: uppercase;
-}
-
-
-.soc-risk-dot {
-
-    width: 6px;
-    height: 6px;
-
-    border-radius: 50%;
-
-    background: #53d28c;
-
-    box-shadow: 0 0 8px rgba(83,210,140,0.8);
-}
-
-
-.soc-geo-grid {
-
-    display: grid !important;
-
-    grid-template-columns:
-        repeat(auto-fit, minmax(190px, 1fr)) !important;
-
-    gap: 14px !important;
-}
-
-
-.soc-intel-item {
-
-    position: relative;
-
-    min-height: 82px;
-
-    padding: 15px;
-
-    box-sizing: border-box;
-
-    border-radius: 9px;
-
-    background: rgba(255,255,255,0.018);
-
-    border: 1px solid rgba(120,170,190,0.10);
-
-    transition:
-        border-color 0.2s ease,
-        background 0.2s ease;
-}
-
-
-.soc-intel-item:hover {
-
-    background: rgba(0,217,255,0.025);
-
-    border-color: rgba(0,217,255,0.22);
-}
-
-
-.soc-intel-label {
-
-    display: block;
-
-    margin-bottom: 9px;
-
-    color: #65818f;
-
-    font-size: 9px;
-
-    font-weight: 700;
-
-    letter-spacing: 1px;
-
-    text-transform: uppercase;
-}
-
-
-.soc-intel-value {
-
-    color: #d8e9f0;
-
-    font-size: 13px;
-
-    font-weight: 500;
-
-    line-height: 1.5;
-
-    word-break: break-word;
-}
-
-
-.soc-ip-value {
-
-    color: #00d9ff !important;
-
-    font-family:
-        "Courier New",
-        monospace;
-
-    font-size: 16px !important;
-
-    font-weight: 700 !important;
-
-    letter-spacing: 0.4px;
-
-    text-shadow: 0 0 12px rgba(0,217,255,0.18);
-}
-
-
-.soc-coordinates {
-
-    color: #9fc4d2 !important;
-
-    font-family:
-        "Courier New",
-        monospace;
-
-    font-size: 12px !important;
-}
-
-
-.soc-confidence-container {
-
-    margin-top: 8px;
-}
-
-
-.soc-confidence-top {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 7px;
-}
-
-
-.soc-confidence-text {
-
-    color: #dcecf4;
-
-    font-size: 12px;
-
-    font-weight: 600;
-}
-
-
-.soc-confidence-percent {
-
-    color: #00d9ff;
-
-    font-size: 11px;
-
-    font-family: monospace;
-}
-
-
-.soc-confidence-bar {
-
-    width: 100%;
-
-    height: 5px;
-
-    overflow: hidden;
-
-    border-radius: 10px;
-
-    background: rgba(255,255,255,0.07);
-}
-
-
-.soc-confidence-fill {
-
-    width: 72%;
-
-    height: 100%;
-
-    border-radius: inherit;
-
-    background:
-        linear-gradient(
-            90deg,
-            #008db3,
-            #00d9ff
-        );
-
-    box-shadow: 0 0 10px rgba(0,217,255,0.35);
-}
-
-
-.soc-evidence-footer {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 15px;
-
-    margin-top: 20px;
-
-    padding-top: 15px;
-
-    border-top: 1px solid rgba(130,180,200,0.10);
-
-    color: #607b89;
-
-    font-size: 10px;
-
-    letter-spacing: 0.5px;
-}
-
-
-.soc-evidence-source strong {
-
-    color: #8faeb9;
-
-    font-weight: 600;
-}
-
-
-.soc-analysis-time {
-
-    color: #526b77;
-
-    white-space: nowrap;
-}
-
-
 @media (max-width: 768px) {
-
-    .soc-geo-intelligence-panel {
-
-        padding: 17px;
-    }
-
-
-    .soc-geo-header {
-
-        align-items: flex-start;
-
-        flex-direction: column;
-    }
-
-
-    .soc-geo-grid {
-
-        grid-template-columns: 1fr !important;
-    }
-
-
-    .soc-evidence-footer {
-
-        align-items: flex-start;
-
-        flex-direction: column;
-    }
 
 }
 
@@ -9068,17 +6296,6 @@ button[aria-disabled="true"] {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-}
-
-
-/* ============================================================
-   NAVIGATION GROUP
-============================================================ */
-
-.sidebar .navigation {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
 }
 
 
@@ -10852,35 +8069,6 @@ button[aria-disabled="true"] {
 }
 
 
-.mailtrace-investigation-modal {
-
-    width: 470px;
-
-    max-width:
-        calc(100vw - 32px);
-
-    background:
-        linear-gradient(
-            145deg,
-            #102534,
-            #091720
-        );
-
-    border:
-        1px solid rgba(42, 190, 245, 0.3);
-
-    border-radius: 16px;
-
-    padding: 24px;
-
-    box-shadow:
-        0 35px 100px rgba(0, 0, 0, 0.7);
-
-    animation:
-        mailtraceModalIn 0.25s ease;
-}
-
-
 @keyframes mailtraceModalIn {
 
     from {
@@ -10900,181 +8088,6 @@ button[aria-disabled="true"] {
             translateY(0)
             scale(1);
     }
-}
-
-
-.mailtrace-modal-header {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 22px;
-}
-
-
-.mailtrace-modal-header h2 {
-
-    margin: 0;
-
-    font-size: 20px;
-
-    color:
-        #e8f3f7;
-}
-
-
-.mailtrace-modal-close {
-
-    width: 32px;
-    height: 32px;
-
-    border-radius: 8px;
-
-    border:
-        1px solid rgba(88, 131, 151, 0.25);
-
-    background:
-        transparent;
-
-    color:
-        #8ba3b0;
-
-    cursor: pointer;
-
-    font-size: 19px;
-}
-
-
-.mailtrace-form-group {
-
-    margin-bottom: 16px;
-}
-
-
-.mailtrace-form-group label {
-
-    display: block;
-
-    font-size: 12px;
-
-    color:
-        #9db3bf;
-
-    margin-bottom: 7px;
-}
-
-
-.mailtrace-form-group input,
-.mailtrace-form-group textarea,
-.mailtrace-form-group select {
-
-    width: 100%;
-
-    box-sizing: border-box;
-
-    background:
-        rgba(7, 23, 32, 0.8);
-
-    border:
-        1px solid rgba(60, 112, 138, 0.28);
-
-    border-radius: 8px;
-
-    padding:
-        11px 13px;
-
-    color:
-        #dceaf0;
-
-    outline: none;
-
-    font-family: inherit;
-}
-
-
-.mailtrace-form-group input:focus,
-.mailtrace-form-group textarea:focus,
-.mailtrace-form-group select:focus {
-
-    border-color:
-        #29c8ff;
-
-    box-shadow:
-        0 0 0 3px rgba(34, 191, 255, 0.08);
-}
-
-
-.mailtrace-form-actions {
-
-    display: flex;
-
-    justify-content: flex-end;
-
-    gap: 10px;
-
-    margin-top: 22px;
-}
-
-
-.mailtrace-cancel-btn {
-
-    padding:
-        10px 17px;
-
-    background:
-        transparent;
-
-    border:
-        1px solid rgba(80, 124, 145, 0.3);
-
-    border-radius: 8px;
-
-    color:
-        #9fb5c0;
-
-    cursor: pointer;
-}
-
-
-.mailtrace-submit-btn {
-
-    padding:
-        10px 20px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    color: white;
-
-    font-weight: 600;
-
-    background:
-        linear-gradient(
-            135deg,
-            #1b7eb5,
-            #299fd8
-        );
-
-    box-shadow:
-        0 8px 20px rgba(21, 136, 194, 0.25);
-
-    transition: 0.2s ease;
-}
-
-
-.mailtrace-submit-btn:hover {
-
-    transform:
-        translateY(-1px);
-
-    box-shadow:
-        0 10px 24px rgba(21, 136, 194, 0.38);
 }
 
 
@@ -11152,130 +8165,6 @@ button[aria-disabled="true"] {
 }
 
 
-/* MAILTRACE_SOC_INTERACTIVE_END */
-
-/* MAILTRACE_SOC_REFERENCE_FIX_START */
-
-
-/* ============================================================
-   MAILTRACE AI
-   SECURITY OPERATIONS CENTER
-   REFERENCE UI ALIGNMENT SYSTEM
-   ============================================================ */
-
-
-/* ------------------------------------------------------------
-   MAIN SOC TOP PANEL
------------------------------------------------------------- */
-
-.soc-overview,
-.security-overview,
-.dashboard-overview,
-.soc-header-card {
-
-    min-height: 122px !important;
-
-    padding: 20px 26px !important;
-
-    border-radius: 12px !important;
-
-    display: flex !important;
-
-    align-items: center !important;
-
-    box-sizing: border-box !important;
-
-}
-
-
-/* ------------------------------------------------------------
-   MAIN CONTENT LAYOUT
------------------------------------------------------------- */
-
-.soc-overview-content,
-.security-overview-content,
-.dashboard-overview-content {
-
-    width: 100% !important;
-
-    display: flex !important;
-
-    align-items: center !important;
-
-    justify-content: space-between !important;
-
-    gap: 20px !important;
-
-}
-
-
-/* ------------------------------------------------------------
-   LEFT SIDE
------------------------------------------------------------- */
-
-.soc-overview-left,
-.security-overview-left,
-.overview-main-content {
-
-    min-width: 360px !important;
-
-    max-width: 520px !important;
-
-}
-
-
-/* ------------------------------------------------------------
-   TITLE
------------------------------------------------------------- */
-
-.soc-overview h1,
-.security-overview h1,
-.dashboard-overview h1,
-.soc-title {
-
-    margin: 0 !important;
-
-    font-size: 22px !important;
-
-    line-height: 1.2 !important;
-
-    font-weight: 700 !important;
-
-    letter-spacing: 0.3px !important;
-
-    display: inline-flex !important;
-
-    align-items: center !important;
-
-    vertical-align: middle !important;
-
-}
-
-
-/* ------------------------------------------------------------
-   DESCRIPTION
------------------------------------------------------------- */
-
-.soc-overview p,
-.security-overview p,
-.dashboard-overview p,
-.soc-description {
-
-    margin-top: 7px !important;
-
-    margin-bottom: 0 !important;
-
-    max-width: 510px !important;
-
-    font-size: 13px !important;
-
-    line-height: 1.55 !important;
-
-    color: #9aaebe !important;
-
-}
-
-
 /* ------------------------------------------------------------
    LIVE BADGE
 ------------------------------------------------------------ */
@@ -11312,116 +8201,6 @@ button[aria-disabled="true"] {
 
 
 /* ------------------------------------------------------------
-   RIGHT INFO AREA
------------------------------------------------------------- */
-
-.soc-overview-right,
-.security-overview-right,
-.overview-meta,
-.soc-meta {
-
-    display: flex !important;
-
-    align-items: center !important;
-
-    justify-content: flex-end !important;
-
-    flex: 1 !important;
-
-    gap: 0 !important;
-
-    min-width: 0 !important;
-
-}
-
-
-/* ------------------------------------------------------------
-   INDIVIDUAL INFO BLOCK
------------------------------------------------------------- */
-
-.soc-info-item,
-.overview-info-item,
-.status-item,
-.soc-meta-item {
-
-    min-width: 150px !important;
-
-    height: 58px !important;
-
-    padding: 0 20px !important;
-
-    display: flex !important;
-
-    align-items: center !important;
-
-    gap: 12px !important;
-
-    border-left: 1px solid rgba(52, 105, 132, 0.35) !important;
-
-    box-sizing: border-box !important;
-
-}
-
-
-/* FIRST INFO BLOCK */
-
-.soc-info-item:first-child,
-.overview-info-item:first-child,
-.status-item:first-child,
-.soc-meta-item:first-child {
-
-    border-left: 1px solid rgba(52, 105, 132, 0.35) !important;
-
-}
-
-
-/* ------------------------------------------------------------
-   INFO ICON BOX
------------------------------------------------------------- */
-
-.soc-info-icon,
-.overview-info-icon,
-.status-icon,
-.soc-meta-icon {
-
-    width: 42px !important;
-
-    min-width: 42px !important;
-
-    height: 42px !important;
-
-    display: inline-flex !important;
-
-    align-items: center !important;
-
-    justify-content: center !important;
-
-    border-radius: 9px !important;
-
-    box-sizing: border-box !important;
-
-}
-
-
-/* ------------------------------------------------------------
-   INFO ICON SVG
------------------------------------------------------------- */
-
-.soc-info-icon svg,
-.overview-info-icon svg,
-.status-icon svg,
-.soc-meta-icon svg {
-
-    width: 21px !important;
-
-    height: 21px !important;
-
-    stroke-width: 1.9 !important;
-
-}
-
-
-/* ------------------------------------------------------------
    INFO TEXT WRAPPER
 ------------------------------------------------------------ */
 
@@ -11439,84 +8218,6 @@ button[aria-disabled="true"] {
     justify-content: center !important;
 
     gap: 4px !important;
-
-}
-
-
-/* ------------------------------------------------------------
-   INFO LABEL
------------------------------------------------------------- */
-
-.soc-info-label,
-.overview-info-label,
-.status-label,
-.soc-meta-label {
-
-    font-size: 11px !important;
-
-    line-height: 1 !important;
-
-    color: #8ca2b4 !important;
-
-    white-space: nowrap !important;
-
-}
-
-
-/* ------------------------------------------------------------
-   INFO VALUE
------------------------------------------------------------- */
-
-.soc-info-value,
-.overview-info-value,
-.status-value,
-.soc-meta-value {
-
-    font-size: 13px !important;
-
-    line-height: 1.2 !important;
-
-    font-weight: 600 !important;
-
-    color: #d8e3ec !important;
-
-    white-space: nowrap !important;
-
-    overflow: visible !important;
-
-    text-overflow: clip !important;
-
-}
-
-
-/* ------------------------------------------------------------
-   PREVENT SYSTEM STATUS TEXT TRUNCATION
------------------------------------------------------------- */
-
-.soc-info-item,
-.overview-info-item {
-
-    overflow: visible !important;
-
-}
-
-
-.soc-info-value,
-.overview-info-value {
-
-    max-width: none !important;
-
-}
-
-
-.soc-info-item .system-status-text,
-.overview-info-item .system-status-text {
-
-    white-space: nowrap !important;
-
-    overflow: visible !important;
-
-    text-overflow: clip !important;
 
 }
 
@@ -11548,23 +8249,6 @@ button[aria-disabled="true"] {
 }
 
 
-/* ------------------------------------------------------------
-   CALENDAR BLOCK
------------------------------------------------------------- */
-
-.mailtrace-calendar-date {
-
-    font-size: 12px !important;
-
-    font-weight: 600 !important;
-
-    color: #d8e3ec !important;
-
-    white-space: nowrap !important;
-
-}
-
-
 .mailtrace-calendar-trigger {
 
     cursor: pointer !important;
@@ -11580,91 +8264,10 @@ button[aria-disabled="true"] {
 
 
 /* ------------------------------------------------------------
-   NEW INVESTIGATION BUTTON
------------------------------------------------------------- */
-
-.new-investigation-btn,
-.soc-new-investigation,
-.overview-action-btn {
-
-    min-width: 176px !important;
-
-    height: 54px !important;
-
-    margin-left: 18px !important;
-
-    padding: 0 22px !important;
-
-    display: inline-flex !important;
-
-    align-items: center !important;
-
-    justify-content: center !important;
-
-    gap: 10px !important;
-
-    border-radius: 8px !important;
-
-    font-size: 14px !important;
-
-    font-weight: 650 !important;
-
-    white-space: nowrap !important;
-
-}
-
-
-/* ------------------------------------------------------------
    RESPONSIVE SAFETY
 ------------------------------------------------------------ */
 
 @media (max-width: 1450px) {
-
-    .soc-info-item,
-    .overview-info-item,
-    .status-item,
-    .soc-meta-item {
-
-        min-width: 130px !important;
-
-        padding-left: 14px !important;
-
-        padding-right: 14px !important;
-
-    }
-
-
-    .soc-overview-left,
-    .security-overview-left,
-    .overview-main-content {
-
-        min-width: 310px !important;
-
-        max-width: 430px !important;
-
-    }
-
-
-    .new-investigation-btn,
-    .soc-new-investigation,
-    .overview-action-btn {
-
-        min-width: 160px !important;
-
-    }
-
-}
-
-
-/* ------------------------------------------------------------
-   FINAL SOC PANEL ALIGNMENT
------------------------------------------------------------- */
-
-.soc-overview *,
-.security-overview *,
-.dashboard-overview * {
-
-    box-sizing: border-box !important;
 
 }
 
@@ -11706,33 +8309,6 @@ button[aria-disabled="true"] {
     overflow: visible !important;
 
     text-overflow: clip !important;
-
-}
-
-
-/* ============================================================
-   LAST UPDATED
-============================================================ */
-
-.last-updated,
-.update-time {
-
-    white-space: nowrap !important;
-
-}
-
-
-/* ============================================================
-   DATE SELECTOR
-============================================================ */
-
-.date-selector,
-.calendar-trigger,
-.date-display {
-
-    white-space: nowrap !important;
-
-    cursor: pointer;
 
 }
 
@@ -12426,9 +9002,6 @@ button[data-mailtrace-analysis-bound="true"] {
 }
 
 @media (max-width: 1200px) {
-    .lower-grid {
-        grid-template-columns: 1fr !important;
-    }
 }
 
 /* =========================================================
@@ -12548,9 +9121,6 @@ button[data-mailtrace-analysis-bound="true"] {
 }
 
 @media (max-width: 1200px) {
-    .lower-grid {
-        grid-template-columns: 1fr !important;
-    }
 }
 
 /* =========================================================
@@ -13088,10 +9658,6 @@ button[data-mailtrace-analysis-bound="true"] {
 }
 
 @media (max-width: 760px) {
-    .main-content .page {
-        padding-left: 92px !important;
-        padding-right: 12px !important;
-    }
 
     .soc-command-center {
         display: grid !important;
@@ -13897,17 +10463,12 @@ body.file-origin-mode .file-origin-notice a:hover { border-color:#ffc45f; color:
 .investigation-result .ioc-evidence-card { overflow: hidden; border-color: rgba(27, 192, 220, .22); background: radial-gradient(ellipse at 8% 0%, rgba(12, 136, 164, .1), transparent 42%), linear-gradient(145deg, #0b1b29, #07131e); }
 .investigation-result .ioc-evidence-card > .result-card-title { align-items: center; justify-content: space-between; gap: 12px; }
 .ioc-status-chip { padding: 5px 8px; border: 1px solid rgba(102, 142, 164, .22); border-radius: 999px; color: #9db3c0; background: rgba(122, 148, 165, .08); font-size: 8px; font-weight: 750; letter-spacing: .06em; }
-.ioc-status-chip.ioc-high { border-color: rgba(248, 83, 108, .3); color: #ff9aaa; background: rgba(160, 35, 56, .12); }
-.ioc-status-chip.ioc-medium { border-color: rgba(242, 180, 77, .3); color: #f1cc81; background: rgba(155, 104, 24, .12); }
 .ioc-score-layout { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(220px, .95fr); gap: 13px; margin-top: 4px; }
 .ioc-score-panel { min-width: 0; padding: 17px 18px; border: 1px solid rgba(96, 143, 166, .18); border-radius: 12px; background: rgba(3, 12, 21, .55); }
 .ioc-score-heading { display: flex; justify-content: space-between; gap: 12px; color: #8ba6b6; font-size: 8px; font-weight: 800; letter-spacing: .12em; }
 .ioc-score-heading span:last-child { color: #738a99; font: 9px "JetBrains Mono", Consolas, monospace; letter-spacing: 0; }
 .ioc-score-value { display: flex; align-items: baseline; gap: 7px; margin-top: 10px; }
 .ioc-score-value strong { color: #dcebf1; font: 700 32px/1 "JetBrains Mono", Consolas, monospace; }
-.ioc-score-panel.ioc-high .ioc-score-value strong { color: #ff8294; }
-.ioc-score-panel.ioc-medium .ioc-score-value strong { color: #f4c86f; }
-.ioc-score-panel.ioc-low .ioc-score-value strong { color: #60d4e8; }
 .ioc-score-value span { color: #8298a7; font-size: 10px; }
 .ioc-score-track { height: 6px; margin-top: 12px; overflow: hidden; border-radius: 999px; background: rgba(123, 146, 162, .16); }
 .ioc-score-track span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #2cc6dd, #eeae51 70%, #f45a72); transition: width .25s ease; }
@@ -13938,7 +10499,6 @@ body.file-origin-mode .file-origin-notice a:hover { border-color:#ffc45f; color:
 .result-backend-heading p { margin: 0; color: #8096a5; font-size: 9px; }
 .result-backend-module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(225px, 100%), 1fr)); gap: 9px; }
 .result-backend-module { min-width: 0; padding: 13px; border: 1px solid rgba(113, 148, 173, .16); border-top: 2px solid #4b8cdd; border-radius: 10px; background: rgba(5, 15, 25, .65); }
-.result-backend-violet { border-top-color: #a77af4; } .result-backend-cyan { border-top-color: #36c4d8; } .result-backend-amber { border-top-color: #eab458; }
 .result-backend-module h4 { margin: 0 0 9px; color: #d9e6ed; font-size: 10px; }
 .result-backend-module dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 0; }
 .result-backend-module dl > div { display: grid; gap: 3px; min-width: 0; }
@@ -13981,7 +10541,6 @@ body.file-origin-mode .file-origin-notice a:hover { border-color:#ffc45f; color:
 .flagged-investigation-item { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 5px 8px; padding: 9px; border: 1px solid rgba(102, 139, 157, .14); border-radius: 8px; text-align: left; background: rgba(13, 31, 44, .78); cursor: pointer; }
 .flagged-investigation-item:hover { border-color: rgba(45, 195, 217, .42); background: rgba(20, 54, 69, .8); }
 .flagged-item-severity { align-self: start; padding: 4px 6px; border-radius: 5px; color: #e6c77d; background: rgba(167, 116, 33, .15); font-size: 7px; font-weight: 800; }
-.flagged-item-severity.severity-critical,.flagged-item-severity.severity-high,.flagged-item-severity.severity-high-risk { color: #ff9aab; background: rgba(176, 37, 61, .16); }
 .flagged-investigation-item strong,.flagged-investigation-item small { grid-column: 2; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .flagged-investigation-item strong { color: #d5e3e9; font-size: 9px; } .flagged-investigation-item small { color: #8299a7; font-size: 8px; }
 .flagged-investigation-item .flagged-item-case { color: #72d8e6; font-weight: 750; letter-spacing: .03em; }
@@ -14019,9 +10578,6 @@ body.file-origin-mode .file-origin-notice a:hover { border-color:#ffc45f; color:
 .investigation-result .url-label { color: #7592a4; font-size: 8px; font-weight: 800; letter-spacing: .12em; }
 .investigation-result .url-value { display: -webkit-box; max-width: 100%; max-height: 3.45em; overflow: hidden; padding: 0 !important; color: #83deee !important; background: transparent !important; font: 500 10px/1.5 "JetBrains Mono", Consolas, monospace !important; overflow-wrap: anywhere; word-break: break-all; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
 .investigation-result .url-risk { flex: 0 0 auto; padding: 5px 8px; border: 1px solid rgba(138, 158, 174, .24); border-radius: 999px; color: #c0ccd4; background: rgba(112, 132, 148, .1); font-size: 8px; font-weight: 800; letter-spacing: .06em; }
-.investigation-result .url-risk-low { border-color: rgba(62, 198, 148, .28); color: #72dfb3; background: rgba(27, 142, 97, .12); }
-.investigation-result .url-risk-medium, .investigation-result .url-risk-moderate { border-color: rgba(237, 179, 82, .3); color: #f2c474; background: rgba(169, 115, 28, .13); }
-.investigation-result .url-risk-high, .investigation-result .url-risk-critical, .investigation-result .url-risk-malicious { border-color: rgba(251, 95, 116, .32); color: #ff91a1; background: rgba(177, 38, 60, .14); }
 .investigation-result .url-full-details { min-width: 0; border-top: 1px solid rgba(118, 146, 165, .12); border-bottom: 1px solid rgba(118, 146, 165, .12); }
 .investigation-result .url-full-details summary { width: fit-content; padding: 8px 0; color: #71cfe1; font-size: 9px; font-weight: 650; cursor: pointer; }
 .investigation-result .url-full-details summary:hover { color: #c2f6fc; }
@@ -14142,7 +10698,6 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, .main-
     box-shadow: 0 18px 44px rgba(0, 0, 0, .2), inset 0 1px 0 rgba(255, 255, 255, .045);
 }
 .investigation-result .result-overview-score-wrap { align-content: start; padding-top: 4px; }
-.investigation-result .result-overview-unknown { --result-accent: #9aafbd; }
 .investigation-result .result-score-ring { width: 116px; height: 116px; }
 .investigation-result .result-overview-main { display: grid; gap: 13px; }
 .investigation-result .result-overview-heading { align-items: flex-start; }
@@ -14245,3 +10800,63 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, .main-
     .ip-result-toolbar { align-items: flex-start; }
     .report-card-actions { justify-content: flex-start; }
 }
+
+
+/* Verified organization sign-in for the SOC workspace */
+.mailtrace-auth-button {
+    min-height: 34px;
+    margin-left: 10px;
+    padding: 0 13px;
+    border: 1px solid rgba(72, 192, 220, .45);
+    border-radius: 8px;
+    background: rgba(15, 54, 72, .86);
+    color: #c8f4ff;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.mailtrace-auth-button:hover:not(:disabled) { background: rgba(22, 83, 105, .95); border-color: #48c0dc; }
+.mailtrace-auth-button:disabled { opacity: .6; cursor: not-allowed; }
+@media (max-width: 650px) { .mailtrace-auth-button { margin: 6px 0 0; } }
+
+
+
+/* Durable SOC SLA alerts panel */
+#casesPage .soc-sla-alerts-panel { margin: 0 0 16px; padding: 16px; }
+#casesPage .soc-alerts-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:12px; }
+#casesPage .soc-alerts-heading p { margin:6px 0 0; max-width:720px; color:#8ea9b7; font-size:11px; line-height:1.5; }
+#casesPage .soc-alerts-controls { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+#casesPage .soc-alerts-controls .select-control { min-height:34px; }
+#casesPage .soc-alert-summary { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 12px; }
+#casesPage .soc-alert-summary span { padding:7px 10px; border:1px solid rgba(72,145,171,.24); border-radius:7px; background:rgba(7,27,40,.52); color:#9db7c4; font-size:10px; }
+#casesPage .soc-alert-summary strong { color:#e4f3f8; font-size:12px; }
+#casesPage .soc-alert-table { min-width:850px; }
+#casesPage .soc-alert-status { display:inline-flex; padding:4px 7px; border:1px solid rgba(72,145,171,.28); border-radius:6px; color:#c5eaf5; font-size:10px; font-weight:750; }
+#casesPage #socSlaAlertsContent[aria-busy="true"] { opacity:.75; }
+@media (max-width:650px) { #casesPage .soc-alerts-controls { width:100%; } #casesPage .soc-alerts-controls .select-control, #casesPage .soc-alerts-controls button { flex:1; } }
+
+/* SOC routing queue and assignment-state indicators */
+#casesPage .soc-queue-summary { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 14px; }
+#casesPage .soc-queue-summary span { display:flex; gap:6px; align-items:center; padding:8px 11px; border:1px solid rgba(72,145,171,.24); border-radius:8px; color:#9db7c4; background:rgba(7,27,40,.62); font-size:10px; }
+#casesPage .soc-queue-summary strong { color:#e4f3f8; font-size:13px; }
+#casesPage .investigations-table { min-width:1100px; }
+#casesPage .investigations-table th { white-space:nowrap; }
+#casesPage .investigations-table td { vertical-align:top; }
+#casesPage .investigations-table td small { display:block; margin-top:4px; color:#809aa9; font-size:10px; line-height:1.4; overflow-wrap:anywhere; }
+#casesPage .soc-priority { display:inline-flex; padding:4px 7px; border-radius:6px; font-size:10px; font-weight:800; letter-spacing:.04em; }
+#casesPage .soc-routing-status { display:inline-block; padding:4px 7px; border-radius:6px; border:1px solid rgba(72,145,171,.25); color:#b9dbe6; font-size:10px; }
+#casesPage .soc-case-overdue td { background:rgba(124,31,42,.08); }
+.soc-sla-overdue { color:#ff9e9e !important; font-weight:750; }
+#caseDetailPage .case-claim-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; }
+#caseDetailPage .case-claim-actions button { min-height:34px; padding:0 11px; border:1px solid rgba(67,164,193,.35); border-radius:8px; background:#0c2a3a; color:#bfeef7; font-size:10px; cursor:pointer; }
+#caseDetailPage .case-claim-actions button:disabled { opacity:.55; cursor:not-allowed; }
+#caseDetailPage .soc-case-routing-meta { margin:14px 0; padding:16px; }
+#caseDetailPage .soc-assignment-history { margin-top:14px; padding:16px; }
+#caseDetailPage .soc-audit-list { display:grid; gap:8px; margin-top:12px; }
+#caseDetailPage .soc-audit-item { display:grid; gap:5px; padding:11px; border:1px solid rgba(74,121,143,.22); border-radius:8px; background:rgba(5,17,27,.48); }
+#caseDetailPage .soc-audit-item strong { color:#c9eaf4; font-size:11px; }
+#caseDetailPage .soc-audit-item span, #caseDetailPage .soc-audit-item small { color:#8ea9b7; font-size:10px; }
+@media (max-width:650px) { #caseDetailPage .case-claim-actions { justify-content:flex-start; } }
