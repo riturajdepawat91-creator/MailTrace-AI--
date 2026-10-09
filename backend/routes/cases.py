@@ -4,6 +4,7 @@ from typing import Optional
 import uuid
 
 from database.database import get_connection, claim_case_for_analyst, release_case_claim
+from services.access_control import is_production
 
 
 router = APIRouter(
@@ -70,6 +71,19 @@ def _enforce_case_claim_owner(connection, case_id: str, request: Request):
         )
 
 
+def _case_tenant_params(request: Request):
+    principal = getattr(request.state, "principal", None)
+    tenant_id = getattr(principal, "tenant_id", "__local__")
+    # Older local databases predate tenant_id and contain NULL case rows.
+    # Keep those visible only to the synthetic local-development principal.
+    include_legacy_local = (
+        not is_production()
+        and tenant_id == "local"
+        and getattr(principal, "subject_id", None) == "local-dev-analyst"
+    )
+    return tenant_id, int(include_legacy_local)
+
+
 @router.post("/{case_id}/claim")
 def claim_case(case_id: str, request: Request):
     principal = _require_analyst_identity(request)
@@ -117,6 +131,8 @@ def release_case(case_id: str, request: Request):
 @router.get("")
 def list_cases(request: Request):
 
+    tenant_id, include_legacy_local = _case_tenant_params(request)
+
     connection = get_connection()
 
     try:
@@ -141,7 +157,7 @@ def list_cases(request: Request):
              AND cc.tenant_id=?
              AND cc.status='ACTIVE'
              AND datetime(cc.lease_expires_at) > datetime('now')
-            WHERE cases.tenant_id = ?
+            WHERE (cases.tenant_id = ? OR (cases.tenant_id IS NULL AND ? = 1))
               AND (cases.title NOT LIKE 'Automated % email review %'
                OR EXISTS (
                     SELECT 1
@@ -150,8 +166,9 @@ def list_cases(request: Request):
                       AND a.recommended_action = 'QUARANTINE'
                       AND a.confidence = 'HIGH'
                  )
+              )
             ORDER BY cases.created_at DESC
-        """, (getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"), getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"))).fetchall()
+        """, (tenant_id, tenant_id, include_legacy_local)).fetchall()
 
         return {
             "success": True,
@@ -170,6 +187,8 @@ def list_cases(request: Request):
 
 @router.get("/{case_id}")
 def get_case(case_id: str, request: Request):
+
+    tenant_id, include_legacy_local = _case_tenant_params(request)
 
     connection = get_connection()
 
@@ -196,7 +215,7 @@ def get_case(case_id: str, request: Request):
              AND cc.status='ACTIVE'
              AND datetime(cc.lease_expires_at) > datetime('now')
             WHERE cases.case_id = ?
-              AND cases.tenant_id = ?
+              AND (cases.tenant_id = ? OR (cases.tenant_id IS NULL AND ? = 1))
               AND (
                     title NOT LIKE 'Automated % email review %'
                     OR EXISTS (
@@ -209,10 +228,11 @@ def get_case(case_id: str, request: Request):
                     )
               )
         """, (
-            getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"),
+            tenant_id,
             case_id,
-            getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"),
-            getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"),
+            tenant_id,
+            include_legacy_local,
+            tenant_id,
         )).fetchone()
 
         if case is None:
