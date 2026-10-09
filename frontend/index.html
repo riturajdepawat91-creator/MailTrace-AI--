@@ -10,60 +10,56 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=20261005-ui-fix-33">
+
+    <!-- Exact reference world-map libraries -->
+    <script defer src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+    <script defer src="https://unpkg.com/lucide@latest"></script>
+
 </head>
 
 <body>
 
+    <script>
+        if (window.location.protocol === "file:") {
+            document.body.classList.add("file-origin-mode");
+        }
+    </script>
+
     <!-- ================= SIDEBAR ================= -->
 
     <aside class="sidebar">
+<nav class="navigation">
 
-        <div class="brand">
-            <div class="brand-icon">
-                <span>◈</span>
-            </div>
-
-            <div>
-                <h2>MailTrace</h2>
-                <small>AI FORENSICS</small>
-            </div>
-        </div>
-
-        <div class="workspace-label">
-            WORKSPACE
-        </div>
-
-        <nav class="navigation">
-
-            <a href="#" class="nav-item active" data-page="dashboard">
-                <span class="nav-icon">⌂</span>
+            <a href="#" class="nav-item active" data-page="dashboard" aria-label="Dashboard">
+                <span class="nav-icon"><i data-lucide="house"></i></span>
                 <span>Dashboard</span>
             </a>
 
-            <a href="#" class="nav-item" data-page="investigation">
-                <span class="nav-icon">⌕</span>
+            <a href="#" class="nav-item" data-page="investigation" aria-label="Investigations">
+                <span class="nav-icon"><i data-lucide="search"></i></span>
                 <span>Investigations</span>
             </a>
 
-            <a href="#" class="nav-item" data-page="cases">
-                <span class="nav-icon">▣</span>
+            <a href="#" class="nav-item" data-page="cases" aria-label="Cases">
+                <span class="nav-icon"><i data-lucide="folder"></i></span>
                 <span>Cases</span>
-                <span class="nav-count">8</span>
+                <span class="nav-count" id="openCasesNavCount">—</span>
             </a>
 
-            <a href="#" class="nav-item" data-page="campaigns">
-                <span class="nav-icon">◎</span>
+            <a href="#" class="nav-item" data-page="campaigns" aria-label="Campaigns">
+                <span class="nav-icon"><i data-lucide="target"></i></span>
                 <span>Campaigns</span>
             </a>
 
-            <a href="#" class="nav-item" data-page="reports">
-                <span class="nav-icon">▤</span>
+            <a href="#" class="nav-item" data-page="reports" aria-label="Reports">
+                <span class="nav-icon"><i data-lucide="file-text"></i></span>
                 <span>Reports</span>
             </a>
 
-            <a href="#" class="nav-item" data-page="ip-intelligence">
-    <span class="nav-icon">⌁</span>
+            <a href="#" class="nav-item" data-page="ip-intelligence" aria-label="IP Intelligence">
+    <span class="nav-icon"><i data-lucide="network"></i></span>
     <span>IP Intelligence</span>
 </a>
 
@@ -75,13 +71,8 @@
 
         <nav class="navigation">
 
-            <a href="#" class="nav-item">
-                <span class="nav-icon">⚙</span>
-                <span>Settings</span>
-            </a>
-
-            <a href="#" class="nav-item">
-                <span class="nav-icon">?</span>
+            <a href="#" class="nav-item" data-page="help-docs" aria-label="Help and documentation">
+                <span class="nav-icon"><i data-lucide="circle-help"></i></span>
                 <span>Help & Docs</span>
             </a>
 
@@ -93,8 +84,8 @@
                 <span class="status-dot"></span>
 
                 <div>
-                    <strong>System Operational</strong>
-                    <small>All services running</small>
+                    <strong id="sidebarSystemStatusValue" data-status="checking" aria-live="polite">Checking backend…</strong>
+                    <small id="sidebarSystemStatusDetail" aria-live="polite">Checking API readiness</small>
                 </div>
             </div>
 
@@ -103,11 +94,11 @@
                 <div class="avatar">RD</div>
 
                 <div class="user-info">
-                    <strong>Analyst</strong>
-                    <small>Security Operations</small>
+                    <strong>Rituraj</strong>
+                    <small>Analyst · Local workspace</small>
                 </div>
 
-                <button class="more-btn">•••</button>
+                <button class="more-btn" id="analystMenuToggle" type="button" aria-label="Analyst menu" aria-haspopup="dialog" aria-expanded="false">&#8942;</button>
 
             </div>
 
@@ -120,39 +111,137 @@
 
     <main class="main-content">
 
+        <aside class="file-origin-notice" role="alert" aria-live="polite">
+            <div>
+                <strong>Open MailTrace through its local server</strong>
+                <span>Direct file mode blocks dashboard and API requests. Start MailTrace, then use the local web address.</span>
+            </div>
+            <a href="http://127.0.0.1:5503/index.html">Open the working website</a>
+        </aside>
+
         <!-- TOPBAR -->
 
-        <header class="topbar">
+       <header class="topbar">
 
-            <div class="breadcrumb">
-                <span>Security Operations</span>
-                <span class="separator">/</span>
-                <strong>Dashboard</strong>
+    <!-- HEADER LEFT -->
+    <div class="topbar-left">
+
+        <button
+    id="sidebarToggle"
+    class="menu-toggle"
+    type="button"
+    aria-label="Toggle sidebar"
+    aria-expanded="false"
+>
+    <span class="menu-icon" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+    </span>
+</button>
+
+        <div class="brand-mini">
+
+            <div class="brand-icon mailtrace-logo" aria-label="MailTrace">
+    <svg
+        class="mailtrace-logo-svg"
+        viewBox="0 0 48 48"
+        aria-hidden="true"
+    >
+        <!-- Clean security shield -->
+        <path
+            class="logo-shield"
+            d="M24 5
+               L37 10
+               V21
+               C37 30 32 37 24 42
+               C16 37 11 30 11 21
+               V10
+               Z"
+        />
+
+        <!-- Email mark -->
+        <path
+            class="logo-envelope"
+            d="M15.5 17.5
+               H32.5
+               V29
+               H15.5
+               Z"
+        />
+
+        <path
+            class="logo-envelope-fold"
+            d="M16 18
+               L24 24
+               L32 18"
+        />
+
+        <!-- Trace signal -->
+        <path
+            class="logo-trace"
+            d="M18 33
+               H21.5
+               L24 30
+               L27 33
+               H30"
+        />
+    </svg>
+</div>
+
+            <div class="brand-text">
+                <h2>MailTrace</h2>
+                <small>AI FORENSICS</small>
             </div>
 
-            <div class="topbar-actions">
+        </div>
 
-                <button class="icon-button notification">
-                    ◔
-                    <span class="notification-dot"></span>
-                </button>
+        <div class="topbar-divider"></div>
 
-                <div class="topbar-divider"></div>
+        <div class="page-title">
 
-                <div class="top-user">
-                    <div class="avatar small">RD</div>
+            <h1>Dashboard</h1>
 
-                    <div>
-                        <strong>Rituraj</strong>
-                        <small>Analyst</small>
-                    </div>
+            <p>
+                Monitor your security operations
+            </p>
 
-                    <span class="chevron">⌄</span>
-                </div>
+        </div>
 
+    </div>
+<!-- HEADER RIGHT -->
+    <div class="topbar-right">
+
+        <button
+            class="icon-button notification"
+            type="button"
+            aria-label="Open flagged investigations"
+            aria-expanded="false"
+            title="Open flagged investigations"
+        >
+            &#128276;
+            <span class="notification-badge" id="flaggedInvestigationCount" role="status" aria-live="polite" aria-atomic="true" hidden></span>
+        </button>
+<div class="topbar-divider"></div>
+
+        <div class="top-user" id="topAnalystMenuToggle" role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-label="Open analyst profile">
+
+            <div class="avatar small">
+                RD
             </div>
 
-        </header>
+            <div>
+                <strong>Rituraj</strong>
+                <small>Analyst</small>
+            </div>
+
+            <span class="chevron">&#8964;</span>
+
+        </div>
+
+    </div>
+
+</header>
 
 <!-- ================= PAGE ================= -->
 
@@ -160,165 +249,738 @@
 
     <div class="dashboard-content">
 
-        <!-- ================= PAGE HEADER ================= -->
 
-        <div class="page-header">
+        <!-- =========================================================
+             REAL-TIME THREAT MONITORING
+             ========================================================= -->
 
-            <div>
 
-                <div class="eyebrow">
-                    SECURITY OVERVIEW
-                </div>
+<!-- =========================================================
+     SECURITY OPERATIONS CENTER
+     ========================================================= -->
 
-                <h1>
-                    Threat Intelligence Dashboard
-                </h1>
+<section
+    class="soc-command-center"
+    id="realtimeThreatMonitoring"
+>
 
-                <p>
-                    Monitor email threats, investigations and infrastructure intelligence.
-                </p>
+    <!-- LEFT TITLE -->
+
+    <div class="soc-command-main">
+
+        <div class="soc-command-heading">
+
+            <div class="soc-title-row">
+
+                <h2>
+                    Security Operations Center
+                </h2>
+
+                <span class="soc-live-badge">
+
+                    <span class="soc-live-dot"></span>
+
+                    LIVE
+
+                </span>
 
             </div>
 
-            <button
-                class="primary-btn"
-                id="newInvestigationBtn"
-            >
-                <span>＋</span>
-                New Investigation
-            </button>
+
+            <p>
+                Monitor active threats, investigations and security intelligence
+                across your organization.
+            </p>
 
         </div>
+
+    </div>
+
+
+    <!-- STATUS ITEMS -->
+
+    <div class="soc-command-status">
+
+
+        <!-- SYSTEM STATUS -->
+
+        <div class="soc-status-item">
+
+            <div class="soc-status-icon cyan">
+
+                <i data-lucide="server"></i>
+
+            </div>
+
+
+            <div class="soc-status-content">
+
+                <span>
+                    System Status
+                </span>
+
+                    <strong id="backendSystemStatusValue" data-status="checking" aria-live="polite">Checking backend…</strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- LAST UPDATED -->
+
+        <div class="soc-status-item">
+
+            <div class="soc-status-icon blue">
+
+                <i data-lucide="clock-3"></i>
+
+            </div>
+
+
+            <div class="soc-status-content">
+
+                <span>
+                    Last Updated
+                </span>
+
+                <strong>
+
+                    <span
+                        id="threatLastUpdated"
+                    >
+                        Checking…
+                    </span>
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- TODAY -->
+
+        <div class="soc-status-item">
+
+            <div class="soc-status-icon purple">
+
+                <i data-lucide="calendar-days"></i>
+
+            </div>
+
+
+            <div class="soc-status-content">
+
+                <span>
+                    Security Overview
+                </span>
+
+                <strong id="securityOverviewDate" aria-label="Selected dashboard date">Loading date…</strong>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- REAL-TIME CLOCK -->
+
+    <div class="soc-command-action soc-clock-action">
+
+        <div
+            class="mailtrace-digital-clock"
+            id="mailtraceDigitalClock"
+            role="timer"
+            aria-label="Current local time"
+        >
+
+            <div class="mailtrace-clock-top">
+                <span class="mailtrace-clock-live-dot"></span>
+                <span>LOCAL TIME</span>
+                <span class="mailtrace-clock-zone">IST</span>
+            </div>
+
+            <div class="mailtrace-clock-time" id="mailtraceClockTime">--:--:--</div>
+
+            <div class="mailtrace-clock-date" id="mailtraceClockDate">Loading date...</div>
+
+        </div>
+
+        <button
+            type="button"
+            id="newInvestigationBtn"
+            class="soc-new-investigation-btn"
+        >
+            <i data-lucide="plus" aria-hidden="true"></i>
+            <span>New Investigation</span>
+        </button>
+
+    </div>
+
+
+    <!-- HIDDEN COMPATIBILITY ELEMENTS
+         Existing dashboard JS may use these IDs -->
+
+    <div
+        class="soc-compatibility"
+        aria-hidden="true"
+    >
+
+        <span id="threatLevelValue">
+            Medium
+        </span>
+
+
+        <button
+            type="button"
+            id="viewAllReportsBtn"
+        >
+            View All Reports
+        </button>
+
+    </div>
+
+</section>
 
 
         <!-- ================= STAT CARDS ================= -->
 
         <div class="stats-grid">
 
-            <div class="stat-card">
+    <!-- =================================================
+         TOTAL ANALYSED
+         ================================================= -->
 
-                <div class="stat-top">
+    <div class="stat-card stat-card-cyan">
 
-                    <span>
-                        Total Analysed
-                    </span>
+        <div class="stat-top">
 
-                    <div class="stat-icon cyan">
-                        ◉
-                    </div>
+            <span class="stat-title">
+                Total Analysed
+            </span>
 
-                </div>
-
-                <div class="stat-value">
-                    1,284
-                </div>
-
-                <div class="stat-bottom positive">
-
-                    <span>
-                        ↑ 12.8%
-                    </span>
-
-                    <span>
-                        vs last 30 days
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <span>
-                        Threats Detected
-                    </span>
-
-                    <div class="stat-icon red">
-                        !
-                    </div>
-
-                </div>
-
-                <div class="stat-value">
-                    173
-                </div>
-
-                <div class="stat-bottom danger-text">
-
-                    <span>
-                        ↑ 8.4%
-                    </span>
-
-                    <span>
-                        vs last 30 days
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <span>
-                        Active Cases
-                    </span>
-
-                    <div class="stat-icon violet">
-                        ◈
-                    </div>
-
-                </div>
-
-                <div class="stat-value">
-                    08
-                </div>
-
-                <div class="stat-bottom">
-
-                    <span class="neutral-text">
-                        3 high priority
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <span>
-                        Campaigns
-                    </span>
-
-                    <div class="stat-icon amber">
-                        ◎
-                    </div>
-
-                </div>
-
-                <div class="stat-value">
-                    14
-                </div>
-
-                <div class="stat-bottom">
-
-                    <span class="neutral-text">
-                        4 active campaigns
-                    </span>
-
-                </div>
-
+            <div class="stat-icon cyan">
+                <i data-lucide="scan-search"></i>
             </div>
 
         </div>
+
+        <div class="stat-value" id="dashboardTotalAnalysed" aria-busy="true">
+            …
+        </div>
+
+        <div class="stat-bottom positive">
+
+            <span class="stat-change">
+                LIVE
+            </span>
+
+            <span class="stat-period" id="dashboardTotalContext">
+                investigations
+            </span>
+
+        </div>
+
+        <div class="stat-sparkline" aria-hidden="true">
+
+            <svg viewBox="0 0 260 42"
+                 preserveAspectRatio="none">
+
+                <defs>
+                    <linearGradient
+                        id="sparkCyan"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1">
+
+                        <stop
+                            offset="0%"
+                            stop-color="#00c8ff"
+                            stop-opacity="0.22" />
+
+                        <stop
+                            offset="100%"
+                            stop-color="#00c8ff"
+                            stop-opacity="0" />
+
+                    </linearGradient>
+                </defs>
+
+                <path
+                    class="spark-area spark-cyan-area"
+                    d="M0 34
+                       L8 28
+                       L16 31
+                       L24 23
+                       L32 29
+                       L40 18
+                       L48 25
+                       L56 20
+                       L64 27
+                       L72 15
+                       L80 22
+                       L88 17
+                       L96 25
+                       L104 14
+                       L112 21
+                       L120 11
+                       L128 20
+                       L136 15
+                       L144 24
+                       L152 13
+                       L160 21
+                       L168 10
+                       L176 18
+                       L184 14
+                       L192 24
+                       L200 12
+                       L208 20
+                       L216 9
+                       L224 17
+                       L232 12
+                       L240 21
+                       L248 10
+                       L260 16
+                       L260 42
+                       L0 42 Z" />
+
+                <path
+                    class="spark-line spark-cyan"
+                    d="M0 34
+                       L8 28
+                       L16 31
+                       L24 23
+                       L32 29
+                       L40 18
+                       L48 25
+                       L56 20
+                       L64 27
+                       L72 15
+                       L80 22
+                       L88 17
+                       L96 25
+                       L104 14
+                       L112 21
+                       L120 11
+                       L128 20
+                       L136 15
+                       L144 24
+                       L152 13
+                       L160 21
+                       L168 10
+                       L176 18
+                       L184 14
+                       L192 24
+                       L200 12
+                       L208 20
+                       L216 9
+                       L224 17
+                       L232 12
+                       L240 21
+                       L248 10
+                       L260 16" />
+
+            </svg>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         THREATS DETECTED
+         ================================================= -->
+
+    <div class="stat-card stat-card-red">
+
+        <div class="stat-top">
+
+            <span class="stat-title">
+                Threats Detected
+            </span>
+
+            <div class="stat-icon red">
+                <i data-lucide="shield-alert"></i>
+            </div>
+
+        </div>
+
+        <div class="stat-value" id="dashboardThreatsDetected" aria-busy="true">
+            …
+        </div>
+
+        <div class="stat-bottom danger-text">
+
+            <span class="stat-change">
+                LIVE
+            </span>
+
+            <span class="stat-period" id="dashboardThreatsContext">
+                detected threats
+            </span>
+
+        </div>
+
+        <div class="stat-sparkline" aria-hidden="true">
+
+            <svg viewBox="0 0 260 42"
+                 preserveAspectRatio="none">
+
+                <defs>
+                    <linearGradient
+                        id="sparkRed"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1">
+
+                        <stop
+                            offset="0%"
+                            stop-color="#ff315b"
+                            stop-opacity="0.20" />
+
+                        <stop
+                            offset="100%"
+                            stop-color="#ff315b"
+                            stop-opacity="0" />
+
+                    </linearGradient>
+                </defs>
+
+                <path
+                    class="spark-area spark-red-area"
+                    d="M0 34
+                       L8 30
+                       L16 33
+                       L24 20
+                       L32 29
+                       L40 14
+                       L48 25
+                       L56 17
+                       L64 30
+                       L72 12
+                       L80 24
+                       L88 9
+                       L96 27
+                       L104 15
+                       L112 29
+                       L120 18
+                       L128 26
+                       L136 11
+                       L144 23
+                       L152 8
+                       L160 24
+                       L168 15
+                       L176 28
+                       L184 12
+                       L192 21
+                       L200 9
+                       L208 25
+                       L216 17
+                       L224 27
+                       L232 13
+                       L240 22
+                       L248 11
+                       L260 17
+                       L260 42
+                       L0 42 Z" />
+
+                <path
+                    class="spark-line spark-red"
+                    d="M0 34
+                       L8 30
+                       L16 33
+                       L24 20
+                       L32 29
+                       L40 14
+                       L48 25
+                       L56 17
+                       L64 30
+                       L72 12
+                       L80 24
+                       L88 9
+                       L96 27
+                       L104 15
+                       L112 29
+                       L120 18
+                       L128 26
+                       L136 11
+                       L144 23
+                       L152 8
+                       L160 24
+                       L168 15
+                       L176 28
+                       L184 12
+                       L192 21
+                       L200 9
+                       L208 25
+                       L216 17
+                       L224 27
+                       L232 13
+                       L240 22
+                       L248 11
+                       L260 17" />
+
+            </svg>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         ACTIVE CASES
+         ================================================= -->
+
+    <div class="stat-card stat-card-violet">
+
+        <div class="stat-top">
+
+            <span class="stat-title">
+                Active Cases
+            </span>
+
+            <div class="stat-icon violet">
+                <i data-lucide="folder-open-dot"></i>
+            </div>
+
+        </div>
+
+        <div class="stat-value" id="dashboardActiveCases" aria-busy="true">
+            …
+        </div>
+
+        <div class="stat-bottom">
+
+            <span class="neutral-text" id="dashboardCasesContext">
+                open cases
+            </span>
+
+        </div>
+
+        <div class="stat-sparkline" aria-hidden="true">
+
+            <svg viewBox="0 0 260 42"
+                 preserveAspectRatio="none">
+
+                <defs>
+                    <linearGradient
+                        id="sparkViolet"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1">
+
+                        <stop
+                            offset="0%"
+                            stop-color="#b44cff"
+                            stop-opacity="0.20" />
+
+                        <stop
+                            offset="100%"
+                            stop-color="#b44cff"
+                            stop-opacity="0" />
+
+                    </linearGradient>
+                </defs>
+
+                <path
+                    class="spark-area spark-violet-area"
+                    d="M0 32
+                       L10 25
+                       L20 30
+                       L30 18
+                       L40 28
+                       L50 20
+                       L60 31
+                       L70 16
+                       L80 25
+                       L90 13
+                       L100 28
+                       L110 19
+                       L120 30
+                       L130 15
+                       L140 24
+                       L150 11
+                       L160 27
+                       L170 18
+                       L180 29
+                       L190 14
+                       L200 25
+                       L210 17
+                       L220 28
+                       L230 12
+                       L240 23
+                       L250 16
+                       L260 21
+                       L260 42
+                       L0 42 Z" />
+
+                <path
+                    class="spark-line spark-violet"
+                    d="M0 32
+                       L10 25
+                       L20 30
+                       L30 18
+                       L40 28
+                       L50 20
+                       L60 31
+                       L70 16
+                       L80 25
+                       L90 13
+                       L100 28
+                       L110 19
+                       L120 30
+                       L130 15
+                       L140 24
+                       L150 11
+                       L160 27
+                       L170 18
+                       L180 29
+                       L190 14
+                       L200 25
+                       L210 17
+                       L220 28
+                       L230 12
+                       L240 23
+                       L250 16
+                       L260 21" />
+
+            </svg>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         CAMPAIGNS
+         ================================================= -->
+
+    <div class="stat-card stat-card-amber">
+
+        <div class="stat-top">
+
+            <span class="stat-title">
+                Campaigns
+            </span>
+
+            <div class="stat-icon amber">
+                <i data-lucide="radar"></i>
+            </div>
+
+        </div>
+
+        <div class="stat-value" id="dashboardCampaigns" aria-busy="true">
+            …
+        </div>
+
+        <div class="stat-bottom">
+
+            <span class="neutral-text" id="dashboardCampaignsContext">
+                correlated campaigns
+            </span>
+
+        </div>
+
+        <div class="stat-sparkline" aria-hidden="true">
+
+            <svg viewBox="0 0 260 42"
+                 preserveAspectRatio="none">
+
+                <defs>
+                    <linearGradient
+                        id="sparkAmber"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1">
+
+                        <stop
+                            offset="0%"
+                            stop-color="#ff9d00"
+                            stop-opacity="0.20" />
+
+                        <stop
+                            offset="100%"
+                            stop-color="#ff9d00"
+                            stop-opacity="0" />
+
+                    </linearGradient>
+                </defs>
+
+                <path
+                    class="spark-area spark-amber-area"
+                    d="M0 33
+                       L10 27
+                       L20 31
+                       L30 22
+                       L40 30
+                       L50 17
+                       L60 26
+                       L70 21
+                       L80 29
+                       L90 14
+                       L100 25
+                       L110 18
+                       L120 30
+                       L130 16
+                       L140 26
+                       L150 12
+                       L160 24
+                       L170 19
+                       L180 28
+                       L190 15
+                       L200 25
+                       L210 17
+                       L220 29
+                       L230 13
+                       L240 24
+                       L250 18
+                       L260 20
+                       L260 42
+                       L0 42 Z" />
+
+                <path
+                    class="spark-line spark-amber"
+                    d="M0 33
+                       L10 27
+                       L20 31
+                       L30 22
+                       L40 30
+                       L50 17
+                       L60 26
+                       L70 21
+                       L80 29
+                       L90 14
+                       L100 25
+                       L110 18
+                       L120 30
+                       L130 16
+                       L140 26
+                       L150 12
+                       L160 24
+                       L170 19
+                       L180 28
+                       L190 15
+                       L200 25
+                       L210 17
+                       L220 29
+                       L230 13
+                       L240 24
+                       L250 18
+                       L260 20" />
+
+            </svg>
+
+        </div>
+
+    </div>
+
+</div>
 
 
         <!-- ================= MAIN GRID ================= -->
@@ -379,7 +1041,9 @@
                     </div>
 
 
-                    <div class="chart-area">
+                <div class="chart-area" data-ready="false">
+
+                    <div class="chart-state" role="status">Loading threat activity…</div>
 
                         <div class="grid-line line-1"></div>
                         <div class="grid-line line-2"></div>
@@ -492,118 +1156,56 @@
             <div class="panel distribution-panel">
 
                 <div class="panel-header">
-
                     <div>
-
-                        <h3>
-                            Threat Distribution
-                        </h3>
-
-                        <p>
-                            Classification breakdown
-                        </p>
-
+                        <h3>Threat Distribution</h3>
+                        <p>Classification breakdown</p>
                     </div>
-
                 </div>
 
+                <div class="distribution-content">
 
-                <div class="donut-wrapper">
-
-                    <div class="donut">
-
-                        <div class="donut-center">
-
-                            <strong>
-                                173
-                            </strong>
-
-                            <span>
-                                Threats
-                            </span>
-
+                    <div class="donut-wrapper">
+                        <div class="donut">
+                            <div class="donut-center">
+                                <strong>—</strong>
+                                <span>Total</span>
+                            </div>
                         </div>
+                    </div>
 
+                    <div class="legend">
+                        <div class="legend-row">
+                            <span><i class="legend-dot phishing"></i><span class="legend-name">Critical</span></span>
+                            <strong><span class="legend-count">0</span> <span class="legend-percent">(0%)</span></strong>
+                        </div>
+                        <div class="legend-row">
+                            <span><i class="legend-dot impersonation"></i><span class="legend-name">High</span></span>
+                            <strong><span class="legend-count">0</span> <span class="legend-percent">(0%)</span></strong>
+                        </div>
+                        <div class="legend-row">
+                            <span><i class="legend-dot bec"></i><span class="legend-name">Medium</span></span>
+                            <strong><span class="legend-count">0</span> <span class="legend-percent">(0%)</span></strong>
+                        </div>
+                        <div class="legend-row">
+                            <span><i class="legend-dot malware"></i><span class="legend-name">Low Risk</span></span>
+                            <strong><span class="legend-count">0</span> <span class="legend-percent">(0%)</span></strong>
+                        </div>
+                        <div class="legend-row">
+                            <span><i class="legend-dot unclassified"></i><span class="legend-name">Unclassified</span></span>
+                            <strong><span class="legend-count">0</span> <span class="legend-percent">(0%)</span></strong>
+                        </div>
                     </div>
 
                 </div>
 
-
-                <div class="legend">
-
-                    <div class="legend-row">
-
-                        <span>
-
-                            <i class="legend-dot phishing"></i>
-
-                            Phishing
-
-                        </span>
-
-                        <strong>
-                            42%
-                        </strong>
-
-                    </div>
-
-
-                    <div class="legend-row">
-
-                        <span>
-
-                            <i class="legend-dot impersonation"></i>
-
-                            Impersonation
-
-                        </span>
-
-                        <strong>
-                            27%
-                        </strong>
-
-                    </div>
-
-
-                    <div class="legend-row">
-
-                        <span>
-
-                            <i class="legend-dot bec"></i>
-
-                            BEC / Fraud
-
-                        </span>
-
-                        <strong>
-                            18%
-                        </strong>
-
-                    </div>
-
-
-                    <div class="legend-row">
-
-                        <span>
-
-                            <i class="legend-dot malware"></i>
-
-                            Malware
-
-                        </span>
-
-                        <strong>
-                            13%
-                        </strong>
-
-                    </div>
-
-                </div>
+                <a href="#" class="distribution-breakdown" id="viewThreatBreakdown">
+                    View full breakdown <span aria-hidden="true">›</span>
+                </a>
 
             </div>
 
         </div>
-
+        <!-- ================= END MAIN GRID ================= -->
 
         <!-- ================= LOWER GRID ================= -->
 
@@ -622,7 +1224,7 @@
                         </h3>
 
                         <p>
-                            Latest security cases requiring attention
+                            Latest analysed emails and forensic findings
                         </p>
 
                     </div>
@@ -648,19 +1250,19 @@
                             <tr>
 
                                 <th>
-                                    CASE
+                                    INVESTIGATION
                                 </th>
 
                                 <th>
-                                    SUBJECT
+                                    EMAIL / SENDER
                                 </th>
 
                                 <th>
-                                    THREAT
+                                    VERDICT
                                 </th>
 
                                 <th>
-                                    RISK
+                                    SCORE
                                 </th>
 
                                 <th>
@@ -668,7 +1270,7 @@
                                 </th>
 
                                 <th>
-                                    TIME
+                                    CREATED
                                 </th>
 
                             </tr>
@@ -933,279 +1535,28 @@
                     </div>
 
 
-                    <button class="icon-button">
+                    <button class="icon-button" id="openDashboardCampaigns" type="button" aria-label="View all campaigns">
                         ↗
                     </button>
 
                 </div>
 
 
-                <div class="campaign-list">
-
-                    <div class="campaign-item">
-
-                        <div class="campaign-icon red-bg">
-                            ⚠
-                        </div>
-
-
-                        <div class="campaign-info">
-
-                            <div class="campaign-title">
-
-                                CAMPAIGN-004
-
-                                <span class="risk-pill critical">
-                                    Critical
-                                </span>
-
-                            </div>
-
-
-                            <small>
-                                Credential harvesting
-                            </small>
-
-
-                            <div class="campaign-meta">
-
-                                <span>
-                                    17 emails
-                                </span>
-
-                                <span>
-                                    •
-                                </span>
-
-                                <span>
-                                    6 indicators
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="campaign-item">
-
-                        <div class="campaign-icon amber-bg">
-                            ◈
-                        </div>
-
-
-                        <div class="campaign-info">
-
-                            <div class="campaign-title">
-
-                                CAMPAIGN-003
-
-                                <span class="risk-pill high-risk">
-                                    High
-                                </span>
-
-                            </div>
-
-
-                            <small>
-                                Payment diversion
-                            </small>
-
-
-                            <div class="campaign-meta">
-
-                                <span>
-                                    9 emails
-                                </span>
-
-                                <span>
-                                    •
-                                </span>
-
-                                <span>
-                                    4 indicators
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="campaign-item">
-
-                        <div class="campaign-icon violet-bg">
-                            ◎
-                        </div>
-
-
-                        <div class="campaign-info">
-
-                            <div class="campaign-title">
-
-                                CAMPAIGN-002
-
-                                <span class="risk-pill medium-risk">
-                                    Medium
-                                </span>
-
-                            </div>
-
-
-                            <small>
-                                Executive impersonation
-                            </small>
-
-
-                            <div class="campaign-meta">
-
-                                <span>
-                                    6 emails
-                                </span>
-
-                                <span>
-                                    •
-                                </span>
-
-                                <span>
-                                    3 indicators
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                <div class="campaign-list" id="dashboardCampaignList" aria-live="polite"><div class="campaign-loading">Loading campaigns from threat intelligence...</div></div>
 
             </div>
 
         </div>
 
-
-        <!-- ================= QUICK ACTIONS ================= -->
-
-        <div class="quick-actions">
-
-            <div class="quick-action-header">
-
-                <div>
-
-                    <h3>
-                        Quick Actions
-                    </h3>
-
-                    <p>
-                        Start a new security workflow
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="quick-action-grid">
-
-                <button
-                    class="quick-card"
-                    id="uploadEmail"
-                >
-
-                    <div class="quick-icon cyan">
-                        ↑
-                    </div>
-
-
-                    <div>
-
-                        <strong>
-                            Analyse Email
-                        </strong>
-
-                        <span>
-                            Upload a .eml file for investigation
-                        </span>
-
-                    </div>
-
-
-                    <span class="arrow">
-                        →
-                    </span>
-
-                </button>
-
-
-                <button class="quick-card">
-
-                    <div class="quick-icon violet">
-                        ◎
-                    </div>
-
-
-                    <div>
-
-                        <strong>
-                            Explore Campaigns
-                        </strong>
-
-                        <span>
-                            Find correlated threat activity
-                        </span>
-
-                    </div>
-
-
-                    <span class="arrow">
-                        →
-                    </span>
-
-                </button>
-
-
-                <button class="quick-card">
-
-                    <div class="quick-icon amber">
-                        ▤
-                    </div>
-
-
-                    <div>
-
-                        <strong>
-                            Generate Report
-                        </strong>
-
-                        <span>
-                            Create a forensic investigation report
-                        </span>
-
-                    </div>
-
-
-                    <span class="arrow">
-                        →
-                    </span>
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-    </div>
     <!-- ================= END DASHBOARD CONTENT ================= -->
-
+    </div>
 
 </section>
 <!-- ================= END PAGE ================= -->
 
 
 </main>
+
 
 
 <!-- ================= MODAL ================= -->
@@ -1288,7 +1639,1103 @@
 </div>
 
 
-<script src="script.js"></script>
+<script src="script.js?v=20261005-ui-fix-33"></script>
+
+
+    <!-- <script src="header-animation.js"></script> -->
+    <script src="realtime-threat-intelligence.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+    }
+});
+</script>
+<!-- MAILTRACE_SOC_INTERACTIVE_START -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* ========================================================
+       UTILITIES
+    ======================================================== */
+
+    function findElementByText(text) {
+
+        const elements = Array.from(
+            document.querySelectorAll("*")
+        );
+
+        return elements.find(el => {
+
+            const ownText =
+                el.childElementCount === 0
+                    ? el.textContent.trim()
+                    : "";
+
+            return ownText === text;
+        });
+    }
+
+
+    function getClickableParent(element) {
+
+        if (!element) return null;
+
+        let parent = element;
+
+        for (let i = 0; i < 5; i++) {
+
+            if (!parent) break;
+
+            const style =
+                window.getComputedStyle(parent);
+
+            if (
+                parent.tagName === "BUTTON" ||
+                parent.tagName === "A" ||
+                parent.parentElement
+            ) {
+                return parent.parentElement || parent;
+            }
+
+            parent = parent.parentElement;
+        }
+
+        return element;
+    }
+
+
+    function removeExistingPopups() {
+
+        document
+            .querySelectorAll(
+                ".mailtrace-calendar-popup, .mailtrace-status-popup"
+            )
+            .forEach(el => el.remove());
+    }
+
+
+    function showToast(message) {
+
+        const oldToast =
+            document.querySelector(".mailtrace-toast");
+
+        if (oldToast) oldToast.remove();
+
+        const toast =
+            document.createElement("div");
+
+        toast.className =
+            "mailtrace-toast";
+
+        toast.innerHTML =
+            '<span class="mailtrace-live-dot"></span>' +
+            message;
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+
+            toast.style.opacity = "0";
+
+            setTimeout(() => toast.remove(), 300);
+
+        }, 3500);
+    }
+
+
+    /* ========================================================
+       LIVE STATUS
+    ======================================================== */
+
+    function setupSystemStatus() {
+        const statusText = document.getElementById("backendSystemStatusValue");
+        const sidebarStatus = document.getElementById("sidebarSystemStatusValue");
+        const target = statusText?.closest(".soc-status-item");
+        if (!statusText || !target || target.dataset.statusBound === "true") return;
+        target.dataset.statusBound = "true";
+        target.classList.add("soc-interactive-item");
+        target.setAttribute("role", "button");
+        target.setAttribute("tabindex", "0");
+
+        const openStatus = event => {
+            event?.preventDefault?.();
+            event?.stopPropagation?.();
+            removeExistingPopups();
+            const rect = target.getBoundingClientRect();
+            const popup = document.createElement("div");
+            popup.className = "mailtrace-status-popup";
+            popup.style.top = `${Math.min(rect.bottom + 10, window.innerHeight - 190)}px`;
+            popup.style.left = `${Math.min(Math.max(12, rect.left), window.innerWidth - 300)}px`;
+            const ready = statusText.dataset.status === "online";
+            popup.innerHTML = `<h3><span class="mailtrace-live-dot ${ready ? "is-online" : "is-offline"}"></span>System Status</h3>
+                <div class="mailtrace-status-row"><span>API readiness</span><span class="mailtrace-status-value">${ready ? "Online" : "Unavailable"}</span></div>
+                <div class="mailtrace-status-row"><span>Database-backed data</span><span class="mailtrace-status-value">${ready ? "Reachable" : "Not confirmed"}</span></div>
+                <div class="mailtrace-status-row"><span>Analyst session</span><span class="mailtrace-status-value">Local workspace</span></div>
+                <p class="mailtrace-status-note">Threat-intelligence provider coverage depends on the sources configured for this backend.</p>`;
+            document.body.appendChild(popup);
+        };
+        target.addEventListener("click", openStatus);
+        target.addEventListener("keydown", event => { if (event.key === "Enter" || event.key === " ") openStatus(event); });
+        sidebarStatus?.closest(".system-status")?.addEventListener("click", openStatus);
+    }
+
+
+    /* ========================================================
+       LAST UPDATED LIVE TIMER
+    ======================================================== */
+
+    function setupLastUpdated() {
+        const updatedText = document.getElementById("threatLastUpdated");
+        if (!updatedText || updatedText.dataset.timerBound === "true") return;
+        updatedText.dataset.timerBound = "true";
+        let lastSuccess = 0;
+        const renderAge = () => {
+            if (!lastSuccess) {
+                updatedText.textContent = "Backend unavailable";
+                return;
+            }
+            const seconds = Math.max(0, Math.floor((Date.now() - lastSuccess) / 1000));
+            updatedText.textContent = seconds < 10 ? "just now" : seconds < 60 ? `${seconds}s ago` : `${Math.floor(seconds / 60)} min ago`;
+        };
+        const refreshTimestamp = () => { lastSuccess = Date.now(); renderAge(); };
+        window.mailtraceRefreshTimestamp = refreshTimestamp;
+        window.mailtraceSetBackendFreshness = ready => {
+            if (ready) refreshTimestamp();
+            else { lastSuccess = 0; renderAge(); }
+        };
+        renderAge();
+        window.setInterval(renderAge, 15000);
+    }
+
+
+    /* ========================================================
+       CALENDAR SYSTEM
+    ======================================================== */
+
+    let selectedDate = new Date();
+
+    let calendarDate = new Date();
+
+
+    function formatDisplayDate(date) {
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                weekday: "short",
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+    }
+
+
+    function setupCalendar() {
+
+        const todayText =
+            document.getElementById("securityOverviewDate");
+
+        if (!todayText) return;
+
+        const target =
+            todayText.closest(".soc-status-item") || todayText.parentElement;
+
+        if (!target) return;
+
+        target.classList.add(
+            "soc-interactive-item"
+        );
+
+
+        target.addEventListener(
+            "click",
+            function (e) {
+
+                e.stopPropagation();
+
+                removeExistingPopups();
+
+                openCalendar(
+                    target,
+                    todayText
+                );
+            }
+        );
+    }
+
+
+    function openCalendar(
+        anchor,
+        displayElement
+    ) {
+
+        const rect =
+            anchor.getBoundingClientRect();
+
+
+        const popup =
+            document.createElement("div");
+
+        popup.className =
+            "mailtrace-calendar-popup";
+
+
+        let popupLeft =
+            rect.left;
+
+
+        if (
+            popupLeft + 320 >
+            window.innerWidth
+        ) {
+
+            popupLeft =
+                window.innerWidth - 335;
+        }
+
+
+        popup.style.top =
+            (rect.bottom + 10) + "px";
+
+        popup.style.left =
+            Math.max(15, popupLeft) + "px";
+
+
+        document.body.appendChild(popup);
+
+
+        function renderCalendar() {
+
+            popup.innerHTML = "";
+
+
+            const year =
+                calendarDate.getFullYear();
+
+            const month =
+                calendarDate.getMonth();
+
+
+            const monthName =
+                calendarDate.toLocaleString(
+                    "en-US",
+                    {
+                        month: "long",
+                        year: "numeric"
+                    }
+                );
+
+
+            const firstDay =
+                new Date(
+                    year,
+                    month,
+                    1
+                ).getDay();
+
+
+            const daysInMonth =
+                new Date(
+                    year,
+                    month + 1,
+                    0
+                ).getDate();
+
+
+            const today =
+                new Date();
+
+
+            const header =
+                document.createElement("div");
+
+            header.className =
+                "mailtrace-calendar-header";
+
+            header.innerHTML = `
+                <button class="mailtrace-calendar-nav calendar-prev">
+                    &#8249;
+                </button>
+
+                <div class="mailtrace-calendar-title">
+
+                </div>
+
+                <button class="mailtrace-calendar-nav calendar-next">
+                    &#8250;
+                </button>
+            `;
+
+
+            const weekdays =
+                document.createElement("div");
+
+            weekdays.className =
+                "mailtrace-calendar-weekdays";
+
+
+            [
+                "Sun",
+                "Mon",
+                "Tue",
+                "Wed",
+                "Thu",
+                "Fri",
+                "Sat"
+            ].forEach(day => {
+
+                const span =
+                    document.createElement("span");
+
+                span.textContent = day;
+
+                weekdays.appendChild(span);
+            });
+
+
+            const grid =
+                document.createElement("div");
+
+            grid.className =
+                "mailtrace-calendar-grid";
+
+
+            for (
+                let i = 0;
+                i < firstDay;
+                i++
+            ) {
+
+                const empty =
+                    document.createElement("div");
+
+                empty.className =
+                    "mailtrace-calendar-day empty";
+
+                grid.appendChild(empty);
+            }
+
+
+            for (
+                let day = 1;
+                day <= daysInMonth;
+                day++
+            ) {
+
+                const date =
+                    new Date(
+                        year,
+                        month,
+                        day
+                    );
+
+
+                const button =
+                    document.createElement("button");
+
+                button.className =
+                    "mailtrace-calendar-day";
+
+                button.textContent =
+                    day;
+
+
+                if (
+                    date.toDateString() ===
+                    today.toDateString()
+                ) {
+
+                    button.classList.add(
+                        "today"
+                    );
+                }
+
+
+                if (
+                    date.toDateString() ===
+                    selectedDate.toDateString()
+                ) {
+
+                    button.classList.add(
+                        "selected"
+                    );
+                }
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        selectedDate =
+                            new Date(date);
+
+                        displayElement.textContent =
+                            formatDisplayDate(
+                                selectedDate
+                            );
+
+                        popup.remove();
+
+
+                        showToast(
+                            "Dashboard date updated"
+                        );
+
+                        if (
+                            window.mailtraceRefreshTimestamp
+                        ) {
+
+                            window.mailtraceRefreshTimestamp();
+                        }
+
+
+                        document.dispatchEvent(
+                            new CustomEvent(
+                                "mailtraceDateChanged",
+                                {
+                                    detail: {
+                                        date:
+                                            selectedDate
+                                    }
+                                }
+                            )
+                        );
+                    }
+                );
+
+
+                grid.appendChild(button);
+            }
+
+
+            const footer =
+                document.createElement("div");
+
+            footer.className =
+                "mailtrace-calendar-footer";
+
+
+            footer.innerHTML = `
+                <button class="calendar-today-btn">
+                    Today
+                </button>
+
+                <span style="
+                    font-size:10px;
+                    color:#607987;
+                ">
+                    Select analysis date
+                </span>
+            `;
+
+
+            popup.appendChild(header);
+
+            popup.appendChild(weekdays);
+
+            popup.appendChild(grid);
+
+            popup.appendChild(footer);
+
+
+            popup
+                .querySelector(".calendar-prev")
+                .addEventListener(
+                    "click",
+                    function () {
+
+                        calendarDate =
+                            new Date(
+                                year,
+                                month - 1,
+                                1
+                            );
+
+                        renderCalendar();
+                    }
+                );
+
+
+            popup
+                .querySelector(".calendar-next")
+                .addEventListener(
+                    "click",
+                    function () {
+
+                        calendarDate =
+                            new Date(
+                                year,
+                                month + 1,
+                                1
+                            );
+
+                        renderCalendar();
+                    }
+                );
+
+
+            popup
+                .querySelector(".calendar-today-btn")
+                .addEventListener(
+                    "click",
+                    function () {
+
+                        selectedDate =
+                            new Date();
+
+                        calendarDate =
+                            new Date();
+
+                        displayElement.textContent =
+                            formatMailTraceDate(selectedDate);
+
+                        popup.remove();
+
+                        showToast(
+                            "Returned to today's security overview"
+                        );
+                    }
+                );
+        }
+
+
+        renderCalendar();
+    }
+
+
+    /* ========================================================
+       INVESTIGATION BUTTON
+       The dashboard button is already wired by script.js to the
+       native Start Investigation upload modal. Do not create a
+       second "New Investigation" form here.
+    ======================================================== */
+
+    function setupInvestigationButtons() {
+        // Intentionally left empty.
+        // script.js handles #newInvestigationBtn and opens
+        // #investigationModal (Start Investigation) directly.
+    }
+
+
+    /* ========================================================
+       CLICK OUTSIDE POPUP
+    ======================================================== */
+
+    document.addEventListener(
+        "click",
+        function (e) {
+
+            if (
+                !e.target.closest(
+                    ".mailtrace-calendar-popup"
+                ) &&
+                !e.target.closest(
+                    ".mailtrace-status-popup"
+                )
+            ) {
+
+                removeExistingPopups();
+            }
+        }
+    );
+
+
+    /* ========================================================
+       ESCAPE KEY
+    ======================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (e) {
+
+            if (e.key === "Escape") {
+
+                removeExistingPopups();
+
+                const modal =
+                    document.querySelector(
+                        ".mailtrace-investigation-overlay"
+                    );
+
+                if (modal) {
+
+                    modal.remove();
+                }
+            }
+        }
+    );
+
+
+    /* ========================================================
+       INITIALIZE
+    ======================================================== */
+
+    function initializeSOC() {
+
+        setupSystemStatus();
+
+        setupLastUpdated();
+
+        setupCalendar();
+
+        setupInvestigationButtons();
+
+        console.log(
+            "MailTrace SOC Interactive System Loaded"
+        );
+    }
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeSOC
+        );
+
+    }
+
+    else {
+
+        initializeSOC();
+    }
+
+})();
+
+</script>
+
+<!-- MAILTRACE_SOC_INTERACTIVE_END -->
+
+
+
+
+
+
+<!-- MAILTRACE_SOC_DATE_SYNC_START -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    function formatMailTraceDate(date) {
+
+        const months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+        ];
+
+
+        const day =
+            String(date.getDate()).padStart(2, "0");
+
+
+        const month =
+            months[date.getMonth()];
+
+
+        const year =
+            date.getFullYear();
+
+
+        return day + " " + month + " " + year;
+
+    }
+
+
+    function addLiveDot(element) {
+
+        if (!element) return;
+
+
+        if (
+            element.querySelector(
+                ".mailtrace-live-dot"
+            )
+        ) {
+            return;
+        }
+
+
+        const dot =
+            document.createElement("span");
+
+
+        dot.className =
+            "mailtrace-live-dot";
+
+
+        element.appendChild(dot);
+
+    }
+
+
+    function findCalendarBlock() {
+
+        const elements =
+            Array.from(
+                document.querySelectorAll(
+                    "div, span, button, a"
+                )
+            );
+
+
+        for (
+            const element of elements
+        ) {
+
+            const text =
+                element.textContent
+                    .replace(/\s+/g, " ")
+                    .trim();
+
+
+            if (
+                text === "Security Overview"
+            ) {
+
+                return element.parentElement;
+
+            }
+
+        }
+
+
+        return null;
+
+    }
+
+
+    function updateCalendarDisplay(
+        selectedDate
+    ) {
+        const formattedDate = formatMailTraceDate(selectedDate);
+        const dateElement = document.getElementById("securityOverviewDate");
+        if (!dateElement) return;
+
+        dateElement.textContent = formattedDate;
+        dateElement.setAttribute("aria-label", `Selected date ${formattedDate}`);
+        dateElement.closest(".soc-status-item")?.classList.add("mailtrace-calendar-trigger");
+
+    }
+
+
+    function updateSystemStatusText() {
+
+        const elements =
+            Array.from(
+                document.querySelectorAll(
+                    "div, span, p"
+                )
+            );
+
+
+        elements.forEach(
+            function (element) {
+
+                const text =
+                    element.textContent
+                        .replace(/\s+/g, " ")
+                        .trim();
+
+
+                if (
+                    text === "System Status"
+                ) {
+
+                    const parent =
+                        element.parentElement;
+
+
+                    if (!parent) return;
+
+
+                    parent.classList.add(
+                        "soc-info-text"
+                    );
+
+
+                    const siblings =
+                        parent.querySelectorAll(
+                            "span, div, p"
+                        );
+
+
+                    siblings.forEach(
+                        function (child) {
+
+                            const childText =
+                                child.textContent
+                                    .replace(/\s+/g, " ")
+                                    .trim();
+
+
+                            if (
+                                childText ===
+                                "System Ope..."
+                            ) {
+
+                                child.textContent =
+                                    "System Operational";
+
+
+                                child.classList.add(
+                                    "system-status-text"
+                                );
+
+                            }
+
+                        }
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    function updateLastUpdatedDot() {
+
+        const elements =
+            Array.from(
+                document.querySelectorAll(
+                    "div, span, p"
+                )
+            );
+
+
+        elements.forEach(
+            function (element) {
+
+                const text =
+                    element.textContent
+                        .replace(/\s+/g, " ")
+                        .trim();
+
+
+                if (
+                    text === "Last Updated"
+                ) {
+
+                    const parent =
+                        element.parentElement;
+
+
+                    if (!parent) return;
+
+
+                    const children =
+                        parent.querySelectorAll(
+                            "span, div, p"
+                        );
+
+
+                    children.forEach(
+                        function (child) {
+
+                            const childText =
+                                child.textContent
+                                    .replace(/\s+/g, " ")
+                                    .trim();
+
+
+                            if (
+                                childText === "just now" ||
+                                childText === "Just now"
+                            ) {
+
+                                child.textContent =
+                                    "Just now ";
+
+
+                                addLiveDot(
+                                    child
+                                );
+
+                            }
+
+                        }
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    function watchCalendarPopup() {
+
+        document.addEventListener(
+            "click",
+            function () {
+
+                setTimeout(
+                    function () {
+
+                        const popup =
+                            document.querySelector(
+                                ".mailtrace-calendar-popup"
+                            );
+
+
+                        if (!popup) {
+
+                            return;
+
+                        }
+
+
+                        const dayButtons =
+                            popup.querySelectorAll(
+                                "button"
+                            );
+
+
+                        dayButtons.forEach(
+                            function (button) {
+
+                                if (
+                                    button.dataset.mailtraceDateSync
+                                ) {
+
+                                    return;
+
+                                }
+
+
+                                button.dataset.mailtraceDateSync =
+                                    "true";
+
+
+                                button.addEventListener(
+                                    "click",
+                                    function () {
+
+                                        const text =
+                                            button.textContent
+                                                .trim();
+
+
+                                        const day =
+                                            parseInt(
+                                                text,
+                                                10
+                                            );
+
+
+                                        if (
+                                            !isNaN(day) &&
+                                            day >= 1 &&
+                                            day <= 31
+                                        ) {
+
+                                            setTimeout(
+                                                function () {
+
+                                                    const existingDate =
+                                                        new Date();
+
+
+                                                    existingDate.setDate(
+                                                        day
+                                                    );
+
+
+                                                    updateCalendarDisplay(
+                                                        existingDate
+                                                    );
+
+                                                },
+                                                50
+                                            );
+
+                                        }
+
+                                    }
+                                );
+
+                            }
+                        );
+
+                    },
+                    80
+                );
+
+            }
+        );
+
+    }
+
+
+    function initializeMailTraceSocReferenceFix() {
+
+        updateSystemStatusText();
+
+        updateLastUpdatedDot();
+
+        updateCalendarDisplay(
+            new Date()
+        );
+
+        watchCalendarPopup();
+
+
+        console.log(
+            "MailTrace SOC Reference UI Sync Loaded"
+        );
+
+    }
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeMailTraceSocReferenceFix
+        );
+
+    }
+
+    else {
+
+        initializeMailTraceSocReferenceFix();
+
+    }
+
+
+})();
+
+</script>
+
+<!-- MAILTRACE_SOC_DATE_SYNC_END -->
 
 </body>
 </html>

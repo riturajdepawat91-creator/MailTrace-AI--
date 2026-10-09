@@ -4,6 +4,131 @@ import re
 from typing import Any
 
 
+def validate_email_authentication(
+    raw_email: bytes,
+    sender: str | None,
+    header_values: dict[str, Any],
+    smtp_context: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    """Validate DKIM signatures and inspect DMARC DNS policy.
+
+    Authentication-Results and Received-SPF inside an uploaded message are
+    attacker-controlled evidence. SPF cannot be recomputed without trusted
+    SMTP connection metadata, so it is explicitly left unverified here.
+    """
+    validation: dict[str, Any] = {
+        "spf": {"status": "UNVERIFIED_NO_TRUSTED_SMTP_IP"},
+        "dkim": {"status": "NOT_PRESENT"},
+        "dmarc": {"status": "UNKNOWN"},
+        "reported_headers_trusted": False,
+    }
+
+    try:
+        import dkim
+        import dns.resolver
+        from email.utils import parseaddr
+
+        resolver = dns.resolver.Resolver()
+        resolver.timeout = 1.5
+        resolver.lifetime = 3.0
+
+        if smtp_context:
+            import ipaddress
+            import spf
+
+            client_ip = ipaddress.ip_address(smtp_context["client_ip"])
+            if not client_ip.is_global:
+                validation["spf"] = {
+                    "status": "NOT_VERIFIABLE_NON_PUBLIC_CLIENT_IP",
+                    "reason": "SPF checks require the public SMTP client IP.",
+                }
+            else:
+                mail_from = smtp_context["mail_from"]
+                if mail_from == "<>":
+                    mail_from = f"postmaster@{smtp_context['helo']}"
+                try:
+                    spf_result, explanation = spf.check2(
+                        i=str(client_ip),
+                        s=mail_from,
+                        h=smtp_context["helo"],
+                        timeout=2,
+                        querytime=6,
+                    )
+                    validation["spf"] = {
+                        "status": spf_result.upper(),
+                        "explanation": str(explanation)[:300],
+                        "client_ip": str(client_ip),
+                        "mail_from": smtp_context["mail_from"],
+                        "helo": smtp_context["helo"],
+                        "context_source": "hmac_authenticated_webhook",
+                    }
+                except Exception as error:
+                    validation["spf"] = {
+                        "status": "TEMPERROR",
+                        "error": type(error).__name__,
+                    }
+
+        def dnsfunc(name: bytes, timeout: float = 5) -> bytes:
+            query_name = name.decode("ascii", errors="ignore").rstrip(".")
+            answers = resolver.resolve(query_name, "TXT", lifetime=3.0)
+            return b"".join(
+                b"".join(record.strings)
+                for record in answers
+            )
+
+        signatures = header_values.get("dkim_signature", [])
+        if signatures:
+            verifier = dkim.DKIM(raw_email)
+            outcomes = []
+            for index in range(min(len(signatures), 2)):
+                try:
+                    outcomes.append(bool(verifier.verify(idx=index, dnsfunc=dnsfunc)))
+                except Exception as error:
+                    outcomes.append(None)
+                    validation["dkim"]["error"] = type(error).__name__
+
+            if any(outcomes):
+                validation["dkim"] = {"status": "PASS"}
+            elif all(outcome is False for outcome in outcomes):
+                validation["dkim"] = {"status": "FAIL"}
+            else:
+                validation["dkim"]["status"] = "TEMPORARY_ERROR_OR_INVALID_KEY"
+
+        address = parseaddr(sender or "")[1]
+        domain = address.rsplit("@", 1)[-1].strip().lower().rstrip(".")
+        if not domain or "." not in domain:
+            validation["dmarc"] = {"status": "NO_VALID_FROM_DOMAIN"}
+        else:
+            try:
+                answers = resolver.resolve(f"_dmarc.{domain}", "TXT", lifetime=3.0)
+                records = [
+                    b"".join(record.strings).decode("utf-8", errors="replace")
+                    for record in answers
+                ]
+                dmarc_record = next(
+                    (record for record in records if record.lower().startswith("v=dmarc1")),
+                    None,
+                )
+                validation["dmarc"] = (
+                    {"status": "POLICY_FOUND", "record": dmarc_record, "domain": domain}
+                    if dmarc_record
+                    else {"status": "NO_POLICY", "domain": domain}
+                )
+            except dns.resolver.NXDOMAIN:
+                validation["dmarc"] = {"status": "NO_POLICY", "domain": domain}
+            except Exception as error:
+                validation["dmarc"] = {
+                    "status": "DNS_LOOKUP_ERROR",
+                    "domain": domain,
+                    "error": type(error).__name__,
+                }
+    except Exception as error:
+        validation["validation_engine"] = "UNAVAILABLE"
+        validation["error"] = type(error).__name__
+
+    return validation
+
+
 def _extract_result(
     text: str,
     key: str
@@ -25,7 +150,9 @@ def _extract_result(
 
 
 def analyze_authentication(
-    headers: dict[str, Any]
+    headers: dict[str, Any],
+    raw_email: bytes | None = None,
+    smtp_context: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """
     Analyze SPF, DKIM and DMARC evidence from
@@ -238,13 +365,31 @@ def analyze_authentication(
     else:
         risk = "LOW"
 
-    return {
+    result = {
         "spf": spf,
         "dkim": dkim,
         "dmarc": dmarc,
+        "reported_results": {
+            "spf": spf,
+            "dkim": dkim,
+            "dmarc": dmarc,
+        },
+        "authentication_results_trusted": False,
         "dkim_signature_present": dkim_signature_present,
         "sender_return_path_alignment": alignment,
         "risk": risk,
         "findings": findings,
         "finding_count": len(findings)
     }
+
+    result["validation"] = (
+        validate_email_authentication(raw_email, sender, authentication, smtp_context)
+        if raw_email is not None
+        else {
+            "spf": {"status": "UNVERIFIED_NO_TRUSTED_SMTP_IP"},
+            "dkim": {"status": "NOT_VALIDATED"},
+            "dmarc": {"status": "NOT_VALIDATED"},
+            "reported_headers_trusted": False,
+        }
+    )
+    return result

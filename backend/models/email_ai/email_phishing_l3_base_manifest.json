@@ -1,0 +1,149 @@
+{
+  "engine": "mailtrace-email-ai",
+  "model_name": "email-phishing-l3-base",
+  "model_type": "tfidf_logistic_regression",
+  "model_version": "1.0.0",
+  "task": "binary_email_phishing_detection",
+  "classes": [
+    "LEGITIMATE",
+    "PHISHING"
+  ],
+  "positive_class": "PHISHING",
+  "feature_count": 60000,
+  "vectorizer": {
+    "ngram_range": [
+      1,
+      2
+    ],
+    "min_df": 2,
+    "max_df": 0.995,
+    "max_features": 60000,
+    "dtype": "float32"
+  },
+  "classifier": {
+    "type": "LogisticRegression",
+    "solver": "liblinear",
+    "class_weight": "balanced",
+    "max_iter": 1500
+  },
+  "dataset": {
+    "path": "C:\\Users\\ritur\\New folder\\mailtrace\\MailTrace-AI\\backend\\data\\email_ai\\normalized\\meajor_phishing_binary.jsonl",
+    "sha256": "c0fe5fef82ab284b74e19078b54dc4820de49ef29e7576731abff3c8ecaf3ac5",
+    "usable_rows": 106290,
+    "distribution": {
+      "LEGITIMATE": 58362,
+      "PHISHING": 47928
+    }
+  },
+  "split": {
+    "train": 74402,
+    "validation": 15944,
+    "test": 15944,
+    "seed": 42
+  },
+  "metrics": {
+    "validation": {
+      "accuracy": 0.9873933768188661,
+      "precision": 0.9825990885236846,
+      "recall": 0.9895688456189151,
+      "f1": 0.9860716513062158,
+      "roc_auc": 0.9992452327773547,
+      "pr_auc": 0.9990468071672126,
+      "confusion_matrix": [
+        [
+          8628,
+          126
+        ],
+        [
+          75,
+          7115
+        ]
+      ],
+      "classification_report": {
+        "LEGITIMATE": {
+          "precision": 0.9913822819717338,
+          "recall": 0.9856065798492117,
+          "f1-score": 0.9884859941570716,
+          "support": 8754.0
+        },
+        "PHISHING": {
+          "precision": 0.9825990885236846,
+          "recall": 0.9895688456189151,
+          "f1-score": 0.9860716513062158,
+          "support": 7190.0
+        },
+        "accuracy": 0.9873933768188661,
+        "macro avg": {
+          "precision": 0.9869906852477093,
+          "recall": 0.9875877127340634,
+          "f1-score": 0.9872788227316437,
+          "support": 15944.0
+        },
+        "weighted avg": {
+          "precision": 0.9874214715796444,
+          "recall": 0.9873933768188661,
+          "f1-score": 0.9873972381925926,
+          "support": 15944.0
+        }
+      }
+    },
+    "final_holdout_test": {
+      "accuracy": 0.9887732062217762,
+      "precision": 0.9854570637119113,
+      "recall": 0.98970649603561,
+      "f1": 0.9875772086890138,
+      "roc_auc": 0.9990069383081694,
+      "pr_auc": 0.9984687329947116,
+      "confusion_matrix": [
+        [
+          8650,
+          105
+        ],
+        [
+          74,
+          7115
+        ]
+      ],
+      "classification_report": {
+        "LEGITIMATE": {
+          "precision": 0.9915176524530032,
+          "recall": 0.9880068532267275,
+          "f1-score": 0.9897591395388752,
+          "support": 8755.0
+        },
+        "PHISHING": {
+          "precision": 0.9854570637119113,
+          "recall": 0.98970649603561,
+          "f1-score": 0.9875772086890138,
+          "support": 7189.0
+        },
+        "accuracy": 0.9887732062217762,
+        "macro avg": {
+          "precision": 0.9884873580824572,
+          "recall": 0.9888566746311688,
+          "f1-score": 0.9886681741139445,
+          "support": 15944.0
+        },
+        "weighted avg": {
+          "precision": 0.988784989855179,
+          "recall": 0.9887732062217762,
+          "f1-score": 0.9887753273913806,
+          "support": 15944.0
+        }
+      }
+    }
+  },
+  "artifact": {
+    "path": "C:\\Users\\ritur\\New folder\\mailtrace\\MailTrace-AI\\backend\\models\\email_ai\\email_phishing_l3_base.joblib",
+    "bytes": 1178939,
+    "sha256": "47ee7275f9a1a9b23edbcf0fabc71b88c2836f0d7ce4ad56bcf28496d70ad4a4"
+  },
+  "calibration": {
+    "status": "NOT_CALIBRATED",
+    "next_stage": "HOLDOUT_SIGMOID_CALIBRATION"
+  },
+  "production_ready": false,
+  "production_status": "BASELINE_ONLY_REQUIRES_CALIBRATION_AND_ORGANIZATION_SPECIFIC_VALIDATION",
+  "training_seconds": 59.14,
+  "generated_at_utc": "2026-09-05T15:58:55Z"
+}

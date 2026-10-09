@@ -40,3 +40,12 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+## Local MailTrace runtime and data
+backend/venv/
+backend/data/
+backend/runtime_data/
+backend/runtime_test_artifacts/
+backend/test-data/
+backend/test_attachment_files/
+backend/models/**/*.joblib

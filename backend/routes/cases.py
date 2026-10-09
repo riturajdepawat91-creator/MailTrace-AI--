@@ -1,9 +1,9 @@
-﻿from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 from typing import Optional
 import uuid
 
-from database.database import get_connection
+from database.database import get_connection, claim_case_for_analyst, release_case_claim
 
 
 router = APIRouter(
@@ -37,12 +37,85 @@ class AddNoteRequest(BaseModel):
     author: Optional[str] = "Analyst"
 
 
+def _require_analyst_identity(request: Request):
+    principal = getattr(request.state, "principal", None)
+    if (
+        principal is None
+        or not principal.roles.intersection(
+            {"analyst", "soc_lead", "tenant_admin", "platform_admin", "admin"}
+        )
+        or not principal.subject_id
+    ):
+        raise HTTPException(
+            status_code=403,
+            detail="A SOC analyst identity is required for case claiming.",
+        )
+    return principal
+
+
+def _enforce_case_claim_owner(connection, case_id: str, request: Request):
+    principal = getattr(request.state, "principal", None)
+    if principal is None:
+        return
+    active = connection.execute("""
+        SELECT assigned_analyst, lease_expires_at
+        FROM case_claims
+        WHERE case_id=? AND tenant_id=? AND status='ACTIVE'
+          AND datetime(lease_expires_at) > datetime('now')
+    """, (case_id, principal.tenant_id)).fetchone()
+    if active and principal.subject_id != active["assigned_analyst"]:
+        raise HTTPException(
+            status_code=423,
+            detail="Another analyst currently owns this case claim.",
+        )
+
+
+@router.post("/{case_id}/claim")
+def claim_case(case_id: str, request: Request):
+    principal = _require_analyst_identity(request)
+    assignment, claimed = claim_case_for_analyst(
+        case_id=case_id,
+        tenant_id=principal.tenant_id,
+        analyst_subject=principal.subject_id,
+        lease_minutes=20,
+    )
+    if assignment is None:
+        raise HTTPException(status_code=404, detail="Case not found.")
+    if not claimed:
+        raise HTTPException(
+            status_code=409,
+            detail={
+                "message": "Case is currently claimed by another analyst.",
+                "assignment": assignment,
+            },
+        )
+    return {"success": True, "assignment": assignment}
+
+
+@router.post("/{case_id}/release")
+def release_case(case_id: str, request: Request):
+    principal = _require_analyst_identity(request)
+    assignment, released = release_case_claim(
+        case_id=case_id,
+        tenant_id=principal.tenant_id,
+        analyst_subject=principal.subject_id,
+    )
+    if assignment is None:
+        raise HTTPException(status_code=404, detail="Case has no claim.")
+    if not released:
+        raise HTTPException(
+            status_code=409,
+            detail="Only the analyst who currently owns the claim can release it.",
+        )
+    return {"success": True, "assignment": assignment}
+
+
 # ==========================================
 # LIST CASES
 # ==========================================
 
 @router.get("")
-def list_cases():
+def list_cases(request: Request):
 
     connection = get_connection()
 
@@ -50,17 +123,35 @@ def list_cases():
 
         rows = connection.execute("""
             SELECT
-                case_id,
-                title,
-                description,
-                severity,
-                status,
-                threat_score,
-                created_at,
-                updated_at
+                cases.case_id,
+                cases.title,
+                cases.description,
+                cases.severity,
+                cases.status,
+                cases.threat_score,
+                cases.created_at,
+                cases.updated_at,
+                cc.assigned_analyst,
+                cc.claimed_at,
+                cc.lease_expires_at,
+                cc.status AS assignment_status
             FROM cases
-            ORDER BY created_at DESC
-        """).fetchall()
+            LEFT JOIN case_claims cc
+              ON cc.case_id=cases.case_id
+             AND cc.tenant_id=?
+             AND cc.status='ACTIVE'
+             AND datetime(cc.lease_expires_at) > datetime('now')
+            WHERE cases.tenant_id = ?
+              AND (cases.title NOT LIKE 'Automated % email review %'
+               OR EXISTS (
+                    SELECT 1
+                    FROM email_alerts a
+                    WHERE a.case_id = cases.case_id
+                      AND a.recommended_action = 'QUARANTINE'
+                      AND a.confidence = 'HIGH'
+                 )
+            ORDER BY cases.created_at DESC
+        """, (getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"), getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"))).fetchall()
 
         return {
             "success": True,
@@ -78,7 +169,7 @@ def list_cases():
 # ==========================================
 
 @router.get("/{case_id}")
-def get_case(case_id: str):
+def get_case(case_id: str, request: Request):
 
     connection = get_connection()
 
@@ -86,17 +177,43 @@ def get_case(case_id: str):
 
         case = connection.execute("""
             SELECT
-                case_id,
-                title,
-                description,
-                severity,
-                status,
-                threat_score,
-                created_at,
-                updated_at
+                cases.case_id,
+                cases.title,
+                cases.description,
+                cases.severity,
+                cases.status,
+                cases.threat_score,
+                cases.created_at,
+                cases.updated_at,
+                cc.assigned_analyst,
+                cc.claimed_at,
+                cc.lease_expires_at,
+                cc.status AS assignment_status
             FROM cases
-            WHERE case_id = ?
-        """, (case_id,)).fetchone()
+            LEFT JOIN case_claims cc
+              ON cc.case_id=cases.case_id
+             AND cc.tenant_id=?
+             AND cc.status='ACTIVE'
+             AND datetime(cc.lease_expires_at) > datetime('now')
+            WHERE cases.case_id = ?
+              AND cases.tenant_id = ?
+              AND (
+                    title NOT LIKE 'Automated % email review %'
+                    OR EXISTS (
+                        SELECT 1
+                        FROM email_alerts a
+                        WHERE a.case_id = cases.case_id
+                          AND a.tenant_id = ?
+                          AND a.recommended_action = 'QUARANTINE'
+                          AND a.confidence = 'HIGH'
+                    )
+              )
+        """, (
+            getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"),
+            case_id,
+            getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"),
+            getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"),
+        )).fetchone()
 
         if case is None:
 
@@ -119,9 +236,9 @@ def get_case(case_id: str):
             FROM case_investigations ci
             LEFT JOIN investigations i
                 ON i.investigation_id = ci.investigation_id
-            WHERE ci.case_id = ?
+            WHERE ci.case_id = ? AND ci.tenant_id = ?
             ORDER BY ci.created_at DESC
-        """, (case_id,)).fetchall()
+        """, (case_id, getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"))).fetchall()
 
         notes = connection.execute("""
             SELECT
@@ -130,9 +247,9 @@ def get_case(case_id: str):
                 author,
                 created_at
             FROM case_notes
-            WHERE case_id = ?
+            WHERE case_id = ? AND tenant_id = ?
             ORDER BY created_at DESC
-        """, (case_id,)).fetchall()
+        """, (case_id, getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"))).fetchall()
 
         evidence = connection.execute("""
             SELECT
@@ -143,13 +260,22 @@ def get_case(case_id: str):
                 investigation_id,
                 created_at
             FROM evidence
-            WHERE case_id = ?
+            WHERE case_id = ? AND tenant_id = ?
             ORDER BY created_at DESC
-        """, (case_id,)).fetchall()
+        """, (case_id, getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"))).fetchall()
+
+        case_payload = dict(case)
+        principal = getattr(request.state, "principal", None)
+        case_payload["assignment_mine"] = bool(
+            principal
+            and principal.subject_id
+            and case_payload.get("assigned_analyst") == principal.subject_id
+            and case_payload.get("assignment_status") == "ACTIVE"
+        )
 
         return {
             "success": True,
-            "case": dict(case),
+            "case": case_payload,
             "investigations": [dict(row) for row in investigations],
             "notes": [dict(row) for row in notes],
             "evidence": [dict(row) for row in evidence]
@@ -165,7 +291,7 @@ def get_case(case_id: str):
 # ==========================================
 
 @router.post("")
-def create_case(request: CreateCaseRequest):
+def create_case(request: CreateCaseRequest, http_request: Request):
 
     case_id = (
         "CASE-"
@@ -183,15 +309,17 @@ def create_case(request: CreateCaseRequest):
         connection.execute("""
             INSERT INTO cases (
                 case_id,
+                tenant_id,
                 title,
                 description,
                 severity,
                 status,
                 threat_score
             )
-            VALUES (?, ?, ?, ?, 'OPEN', 0)
+            VALUES (?, ?, ?, ?, ?, 'OPEN', 0)
         """, (
             case_id,
+            getattr(getattr(http_request.state, "principal", None), "tenant_id", "__local__"),
             request.title,
             request.description or "",
             severity
@@ -223,7 +351,8 @@ def create_case(request: CreateCaseRequest):
 @router.patch("/{case_id}")
 def update_case(
     case_id: str,
-    request: UpdateCaseRequest
+    request: UpdateCaseRequest,
+    http_request: Request,
 ):
 
     connection = get_connection()
@@ -233,8 +362,8 @@ def update_case(
         existing = connection.execute("""
             SELECT case_id
             FROM cases
-            WHERE case_id = ?
-        """, (case_id,)).fetchone()
+            WHERE case_id = ? AND tenant_id = ?
+        """, (case_id, getattr(getattr(http_request.state, "principal", None), "tenant_id", "__local__"))).fetchone()
 
         if existing is None:
 
@@ -242,6 +371,8 @@ def update_case(
                 status_code=404,
                 detail="Case not found."
             )
+
+        _enforce_case_claim_owner(connection, case_id, http_request)
 
         fields = []
         values = []
@@ -279,9 +410,9 @@ def update_case(
             f"""
             UPDATE cases
             SET {", ".join(fields)}
-            WHERE case_id = ?
+            WHERE case_id = ? AND tenant_id = ?
             """,
-            values
+            values + [getattr(getattr(http_request.state, "principal", None), "tenant_id", "__local__")]
         )
 
         connection.commit()
@@ -303,7 +434,8 @@ def update_case(
 @router.post("/{case_id}/investigations/{investigation_id}")
 def attach_investigation(
     case_id: str,
-    investigation_id: str
+    investigation_id: str,
+    request: Request,
 ):
 
     connection = get_connection()
@@ -313,8 +445,8 @@ def attach_investigation(
         case = connection.execute("""
             SELECT case_id
             FROM cases
-            WHERE case_id = ?
-        """, (case_id,)).fetchone()
+            WHERE case_id = ? AND tenant_id = ?
+        """, (case_id, getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"))).fetchone()
 
         if case is None:
 
@@ -323,13 +455,15 @@ def attach_investigation(
                 detail="Case not found."
             )
 
+        _enforce_case_claim_owner(connection, case_id, request)
+
         investigation = connection.execute("""
             SELECT
                 investigation_id,
                 threat_score
             FROM investigations
-            WHERE investigation_id = ?
-        """, (investigation_id,)).fetchone()
+            WHERE investigation_id = ? AND tenant_id = ?
+        """, (investigation_id, getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"))).fetchone()
 
         if investigation is None:
 
@@ -341,11 +475,13 @@ def attach_investigation(
         connection.execute("""
             INSERT OR IGNORE INTO case_investigations (
                 case_id,
+                tenant_id,
                 investigation_id
             )
-            VALUES (?, ?)
+            VALUES (?, ?, ?)
         """, (
             case_id,
+            getattr(getattr(request.state, "principal", None), "tenant_id", "__local__"),
             investigation_id
         ))
 
@@ -357,10 +493,11 @@ def attach_investigation(
                     ?
                 ),
                 updated_at = CURRENT_TIMESTAMP
-            WHERE case_id = ?
+            WHERE case_id = ? AND tenant_id = ?
         """, (
             int(investigation["threat_score"] or 0),
-            case_id
+            case_id,
+            getattr(getattr(request.state, "principal", None), "tenant_id", "__local__")
         ))
 
         connection.commit()
@@ -382,7 +519,8 @@ def attach_investigation(
 @router.post("/{case_id}/notes")
 def add_case_note(
     case_id: str,
-    request: AddNoteRequest
+    request: AddNoteRequest,
+    http_request: Request,
 ):
 
     connection = get_connection()
@@ -392,8 +530,8 @@ def add_case_note(
         case = connection.execute("""
             SELECT case_id
             FROM cases
-            WHERE case_id = ?
-        """, (case_id,)).fetchone()
+            WHERE case_id = ? AND tenant_id = ?
+        """, (case_id, getattr(getattr(http_request.state, "principal", None), "tenant_id", "__local__"))).fetchone()
 
         if case is None:
 
@@ -402,15 +540,19 @@ def add_case_note(
                 detail="Case not found."
             )
 
+        _enforce_case_claim_owner(connection, case_id, http_request)
+
         cursor = connection.execute("""
             INSERT INTO case_notes (
                 case_id,
+                tenant_id,
                 note,
                 author
             )
-            VALUES (?, ?, ?)
+            VALUES (?, ?, ?, ?)
         """, (
             case_id,
+            getattr(getattr(http_request.state, "principal", None), "tenant_id", "__local__"),
             request.note,
             request.author or "Analyst"
         ))

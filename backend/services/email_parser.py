@@ -16,6 +16,8 @@ from services.ip_intelligence import (
 )
 
 from services.url_analysis import analyze_urls
+from services.advanced_url_intelligence import analyze_urls_deception
+from services.link_deception_intelligence import analyze_link_deception_to_dict
 
 
 # ==========================================
@@ -30,10 +32,33 @@ from services.url_analysis import analyze_urls
 # ==========================================
 
 def parse_email(file_content: bytes, filename: str):
+    forensics_input = file_content
+    if filename.lower().endswith(".msg"):
+        try:
+            import extract_msg
+        except ImportError as error:
+            raise RuntimeError(
+                "Native Outlook .msg support requires the 'extract-msg' package."
+            ) from error
 
-    message = BytesParser(
-        policy=policy.default
-    ).parsebytes(file_content)
+        outlook_message = extract_msg.openMsg(
+            file_content,
+            delayAttachments=True,
+        )
+        try:
+            normalized_message = outlook_message.asEmailMessage()
+            forensics_input = normalized_message.as_bytes()
+            message = BytesParser(
+                policy=policy.default
+            ).parsebytes(
+                forensics_input
+            )
+        finally:
+            outlook_message.close()
+    else:
+        message = BytesParser(
+            policy=policy.default
+        ).parsebytes(file_content)
 
 
     # --------------------------------------
@@ -44,6 +69,7 @@ def parse_email(file_content: bytes, filename: str):
 
     body = extract_body(message)
 
+    html_body = extract_html_body(message)
     attachments = extract_attachments(message)
 
     urls = extract_urls(body)
@@ -56,9 +82,21 @@ def parse_email(file_content: bytes, filename: str):
         urls
     )
 
-    authentication = analyze_authentication(
-        message
+    # ======================================
+    # ADVANCED URL DECEPTION INTELLIGENCE
+    # ======================================
+    advanced_url_intelligence = analyze_urls_deception(
+        urls
     )
+
+    # ======================================
+    # RENDERED-LINK DECEPTION INTELLIGENCE
+    # ======================================
+    link_deception_intelligence = analyze_link_deception_to_dict(
+        html_body
+    )
+
+    authentication = analyze_authentication(message)
 
     received_chain = extract_received_chain(
         message
@@ -98,6 +136,10 @@ def parse_email(file_content: bytes, filename: str):
     return {
 
         "filename": filename,
+
+        "source_format": "outlook_msg" if filename.lower().endswith(".msg") else "eml",
+
+        "_forensics_input": forensics_input if filename.lower().endswith(".msg") else None,
 
         "basic_information": {
 
@@ -156,6 +198,13 @@ def parse_email(file_content: bytes, filename: str):
         # ==================================
 
         "url_intelligence": url_intelligence,
+
+        # New future capability kept separate from existing URL output.
+        "advanced_url_intelligence": advanced_url_intelligence,
+
+        # Rendered-link / visible-text versus href deception analysis.
+        "link_deception_intelligence":
+            link_deception_intelligence,
 
         "attachments": attachments,
 
@@ -277,6 +326,64 @@ def extract_body(message: Message):
     return "\n".join(
         body_parts
     ).strip()
+
+
+
+# ==========================================
+# HTML BODY EXTRACTION
+# ==========================================
+
+MAX_HTML_PART_CHARS = 2 * 1024 * 1024
+MAX_HTML_PARTS = 32
+
+
+def extract_html_body(message: Message):
+
+    html_parts = []
+    total_chars = 0
+
+    for part in message.walk():
+
+        if len(html_parts) >= MAX_HTML_PARTS:
+            break
+
+        if (
+            part.get_content_type() != "text/html"
+            or
+            part.get_content_disposition() == "attachment"
+        ):
+            continue
+
+        try:
+
+            content = part.get_content()
+
+        except Exception:
+
+            continue
+
+        if not content:
+            continue
+
+        remaining = (
+            MAX_HTML_PART_CHARS
+            - total_chars
+        )
+
+        if remaining <= 0:
+            break
+
+        content = content[:remaining]
+
+        html_parts.append(
+            content
+        )
+
+        total_chars += len(content)
+
+    return "\n".join(
+        html_parts
+    )
 
 
 # ==========================================
@@ -440,6 +547,18 @@ def analyze_authentication(message: Message):
         )
 
 
+    results["reported_results"] = {
+        "spf": results["spf"],
+        "dkim": results["dkim"],
+        "dmarc": results["dmarc"],
+    }
+    results["authentication_results_trusted"] = False
+    results["validation"] = {
+        "spf": {"status": "UNVERIFIED_NO_TRUSTED_SMTP_IP"},
+        "dkim": {"status": "NOT_VALIDATED"},
+        "dmarc": {"status": "NOT_VALIDATED"},
+        "reported_headers_trusted": False,
+    }
     return results
 
 
@@ -504,6 +623,11 @@ def analyze_threat(
 
     indicators = []
 
+    validated_authentication = authentication.get("validation", {})
+    validated_spf = validated_authentication.get("spf", {}).get("status")
+    validated_dkim = validated_authentication.get("dkim", {}).get("status")
+    validated_dmarc = validated_authentication.get("dmarc", {}).get("status")
+
     # --------------------------------------
     # SCORE BREAKDOWN
     # --------------------------------------
@@ -544,7 +668,7 @@ def analyze_threat(
     # SPF
     # --------------------------------------
 
-    if authentication.get("spf") == "FAIL":
+    if validated_spf == "FAIL":
 
         score += 20
 
@@ -574,7 +698,7 @@ def analyze_threat(
     # DKIM
     # --------------------------------------
 
-    if authentication.get("dkim") == "FAIL":
+    if validated_dkim == "FAIL":
 
         score += 20
 
@@ -604,7 +728,7 @@ def analyze_threat(
     # DMARC
     # --------------------------------------
 
-    if authentication.get("dmarc") == "FAIL":
+    if validated_dmarc == "FAIL":
 
         score += 25
 
@@ -959,7 +1083,8 @@ def analyze_threat(
 
         "indicators":
             indicators
-,
+
+,
 
         "score_breakdown":
             score_breakdown
