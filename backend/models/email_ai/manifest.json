@@ -1,0 +1,97 @@
+{
+  "engine": "mailtrace-email-ai",
+  "model_name": "email-phishing-l3",
+  "model_type": "tfidf_logistic_regression_calibrated",
+  "model_version": "1.1.0",
+  "task": "binary_email_phishing_detection",
+  "classes": [
+    "LEGITIMATE",
+    "PHISHING"
+  ],
+  "positive_class": "PHISHING",
+  "dataset": {
+    "path": "C:\\Users\\ritur\\New folder\\mailtrace\\MailTrace-AI\\backend\\data\\email_ai\\normalized\\meajor_phishing_binary.jsonl",
+    "sha256": "c0fe5fef82ab284b74e19078b54dc4820de49ef29e7576731abff3c8ecaf3ac5",
+    "usable_rows": 106290,
+    "distribution": {
+      "LEGITIMATE": 58362,
+      "PHISHING": 47928
+    }
+  },
+  "split": {
+    "train": 74402,
+    "validation": 15944,
+    "test": 15944,
+    "seed": 42
+  },
+  "calibration": {
+    "method": "sigmoid",
+    "status": "VALIDATED_ON_HOLDOUT"
+  },
+  "metrics": {
+    "validation_base": {
+      "accuracy": 0.9869543401906673,
+      "precision": 0.9819160684704583,
+      "recall": 0.9892906815020862,
+      "f1": 0.9855895801579604,
+      "roc_auc": 0.9992529860380932,
+      "pr_auc": 0.999059396914922
+    },
+    "validation_calibrated": {
+      "accuracy": 0.986138986452584,
+      "precision": 0.9828183455729528,
+      "recall": 0.9865090403337969,
+      "f1": 0.9846602346081765,
+      "roc_auc": 0.9991054039909592,
+      "pr_auc": 0.9988796246176027
+    },
+    "final_holdout_test": {
+      "accuracy": 0.9869543401906673,
+      "precision": 0.9859390226924684,
+      "recall": 0.9851161496731117,
+      "f1": 0.9855274144169218,
+      "roc_auc": 0.998858939497562,
+      "pr_auc": 0.9982021432422289,
+      "confusion_matrix": [
+        [
+          8654,
+          101
+        ],
+        [
+          107,
+          7082
+        ]
+      ],
+      "classification_report": {
+        "LEGITIMATE": {
+          "precision": 0.9877867823307842,
+          "recall": 0.9884637350085665,
+          "f1-score": 0.98812514272665,
+          "support": 8755.0
+        },
+        "PHISHING": {
+          "precision": 0.9859390226924684,
+          "recall": 0.9851161496731117,
+          "f1-score": 0.9855274144169218,
+          "support": 7189.0
+        },
+        "accuracy": 0.9869543401906673,
+        "macro avg": {
+          "precision": 0.9868629025116262,
+          "recall": 0.986789942340839,
+          "f1-score": 0.9868262785717858,
+          "support": 15944.0
+        },
+        "weighted avg": {
+          "precision": 0.9869536448471006,
+          "recall": 0.9869543401906673,
+          "f1-score": 0.9869538514058626,
+          "support": 15944.0
+        }
+      }
+    }
+  },
+  "production_ready": false,
+  "production_status": "REQUIRES_ORGANIZATION_SPECIFIC_VALIDATION",
+  "training_seconds": 601.51
+}

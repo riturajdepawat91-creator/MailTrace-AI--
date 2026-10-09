@@ -1,8 +1,9 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from typing import Any
 
 from .header_parser import parse_email_headers
+from .header_anomaly_detector import detect_header_anomalies
 from .ip_extractor import extract_ip_candidates, extract_public_ips
 from .relay_chain import build_relay_chain, summarize_relay_chain
 from .authentication_analyzer import analyze_authentication
@@ -17,6 +18,8 @@ from .origin_scoring import (
 def analyze_email_forensics(
     raw_email: bytes | str,
     ip_intelligence: dict[str, dict[str, Any]] | None = None,
+    verify_authentication: bool = True,
+    smtp_context: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """
     Complete email-forensics evidence pipeline.
@@ -45,6 +48,18 @@ def analyze_email_forensics(
         "received",
         []
     )
+    # -----------------------------------------------------
+    # ADVANCED HEADER ANOMALY DETECTION
+    # -----------------------------------------------------
+
+    header_anomaly_analysis = detect_header_anomalies(headers)
+
+
+
+
+
+
+
 
     # -----------------------------------------------------
     # IP EXTRACTION
@@ -88,9 +103,24 @@ def analyze_email_forensics(
     # AUTHENTICATION ANALYSIS
     # -----------------------------------------------------
 
-    authentication_analysis = analyze_authentication(
-        headers
-    )
+    authentication_analysis = analyze_authentication(headers)
+    if verify_authentication:
+        authentication_analysis["validation"] = analyze_authentication(
+            headers,
+            raw_email=(
+                raw_email.encode("utf-8", errors="replace")
+                if isinstance(raw_email, str)
+                else raw_email
+            ),
+            smtp_context=smtp_context,
+        )["validation"]
+    else:
+        authentication_analysis["validation"] = {
+            "spf": {"status": "UNVERIFIED_NO_TRUSTED_SMTP_IP"},
+            "dkim": {"status": "NOT_VALIDATED_MSG_CONVERSION"},
+            "dmarc": {"status": "NOT_VALIDATED"},
+            "reported_headers_trusted": False,
+        }
 
     # -----------------------------------------------------
     # TIMELINE ANALYSIS
@@ -136,6 +166,8 @@ def analyze_email_forensics(
 
         "authentication_analysis": authentication_analysis,
 
+        "header_anomaly_analysis": header_anomaly_analysis,
+
         "timeline_analysis": timeline_analysis,
 
         "url_analysis": url_analysis,
@@ -172,9 +204,3 @@ def analyze_email_forensics(
             )
         }
     }
-
-
-
-
-
-

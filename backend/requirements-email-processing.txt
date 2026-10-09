@@ -1,0 +1,6 @@
+# Optional runtime dependencies for native Outlook .msg files and
+# cryptographic/DNS-backed sender-authentication validation.
+extract-msg==0.49.0
+dnspython>=2.6,<3
+dkimpy>=1.1.8,<2
+pyspf==2.0.14

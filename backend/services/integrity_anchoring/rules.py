@@ -1,0 +1,33 @@
+﻿"""
+Independent Evidence Integrity Anchoring rules.
+
+This module deliberately does not replace or duplicate the
+Evidence Custody chain. It consumes a canonical commitment and
+creates/verifies an external or test anchor over that commitment.
+"""
+
+ANALYSIS_NAME = "independent_evidence_integrity_anchoring"
+ANALYSIS_VERSION = "1.0.0"
+
+MAX_EVIDENCE_ID_CHARS = 128
+MAX_PROVIDER_NAME_CHARS = 128
+MAX_EXTERNAL_REFERENCE_CHARS = 512
+MAX_PROOF_BYTES = 1024 * 1024
+MAX_METADATA_ITEMS = 64
+
+SUPPORTED_COMMITMENT_ALGORITHM = "sha256"
+
+ANCHOR_STATUS_PENDING = "PENDING"
+ANCHOR_STATUS_ANCHORED = "ANCHORED"
+ANCHOR_STATUS_VERIFIED = "VERIFIED"
+ANCHOR_STATUS_FAILED = "FAILED"
+ANCHOR_STATUS_REJECTED = "REJECTED"
+
+TRUST_LEVEL_LOCAL = "LOCAL_TEST_ONLY"
+TRUST_LEVEL_EXTERNAL = "EXTERNAL_UNVERIFIED"
+TRUST_LEVEL_TSA = "TSA_VERIFIED"
+
+PROVIDER_LOCAL = "local"
+PROVIDER_RFC3161 = "rfc3161"
+
+MAX_CLOCK_SKEW_SECONDS = 300

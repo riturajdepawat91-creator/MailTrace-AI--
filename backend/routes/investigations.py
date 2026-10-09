@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
 from database.database import (
-    get_all_investigations,
+    get_all_investigation_summaries,
     get_investigation
 )
 
@@ -19,7 +19,7 @@ def list_investigations():
 
     try:
 
-        investigations = get_all_investigations()
+        investigations = get_all_investigation_summaries()
 
         return {
             "success": True,
