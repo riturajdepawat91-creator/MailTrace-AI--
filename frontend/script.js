@@ -5109,7 +5109,13 @@ const existingResult =
 
 
             const mapAction = resultSection.querySelector("#resultMapHeaderAction");
-            mapAction.addEventListener("click", () => openInvestigationMapView(ipIntelligence));
+            mapAction.addEventListener("click", () => {
+                if (analysis.investigation_id) {
+                    openReportMap(analysis.investigation_id, "Map View");
+                    return;
+                }
+                openInvestigationMapView(ipIntelligence);
+            });
             setPageHeader("Analysis Result", "Email security assessment and forensic evidence");
 
             if (window.lucide?.createIcons) window.lucide.createIcons();
@@ -6274,6 +6280,11 @@ const existingResult =
 
                 if (investigationsPage) {
                     investigationsPage.remove();
+                }
+
+                if (data.investigation.analysis && typeof data.investigation.analysis === "object") {
+                    data.investigation.analysis.investigation_id =
+                        data.investigation.analysis.investigation_id || investigationId;
                 }
 
                 showInvestigationResult(
@@ -8114,8 +8125,18 @@ const existingResult =
 
         function openInvestigationMapView(ipIntelligence) {
 
-            const nodes = Array.isArray(ipIntelligence)
+            // Analysis responses may expose IP intelligence as an object keyed
+            // by IP, while the standalone IP lookup passes an array.
+            const ipIntelligenceItems = Array.isArray(ipIntelligence)
                 ? ipIntelligence
+                : ipIntelligence && typeof ipIntelligence === "object"
+                    ? Object.entries(ipIntelligence).map(([ip, item]) => ({
+                        ...(item && typeof item === "object" ? item : {}),
+                        ip: item?.ip || item?.observed_ip || item?.address || ip
+                    }))
+                    : [];
+
+            const nodes = ipIntelligenceItems
                     .map(item => ({
                         ip: item.ip || item.observed_ip || item.address || "Observed IP",
                         city: item.city || "",
@@ -8173,7 +8194,7 @@ const existingResult =
         }
 
 
-        async function openReportMap(investigationId) {
+        async function openReportMap(investigationId, mapTitle = "Report Map View") {
             if (!investigationId) return;
 
             disposeReportMapModal();
@@ -8186,7 +8207,7 @@ const existingResult =
                     <button class="report-map-close" aria-label="Close">×</button>
                     <div class="report-map-title">
                         <div class="eyebrow">GEOLOCATION INTELLIGENCE</div>
-                        <h2 id="reportMapTitle">Report Map View</h2>
+                        <h2 id="reportMapTitle">${escapeHtml(mapTitle)}</h2>
                         <p>${escapeHtml(investigationId)}</p>
                     </div>
                     <div class="report-map-canvas" id="reportMapCanvas">
@@ -8221,7 +8242,7 @@ const existingResult =
                         <span>${escapeHtml(error.message || "The backend did not return map data.")}</span>
                         <button type="button" class="map-request-retry">Try again</button>
                     </div>`;
-                    canvas.querySelector(".map-request-retry")?.addEventListener("click", () => openReportMap(investigationId));
+                    canvas.querySelector(".map-request-retry")?.addEventListener("click", () => openReportMap(investigationId, mapTitle));
                 }
             }
         }
@@ -8405,7 +8426,8 @@ const existingResult =
     const map = L.map(mapElement, {
         zoomControl: true,
         attributionControl: true,
-        maxZoom: 18
+        // OpenFreeMap's embedded style renders reliably through zoom level 17.
+        maxZoom: 17
     });
 
     window.currentReportLeafletMap = map;
@@ -8496,20 +8518,7 @@ const existingResult =
                 duration: 0.65
             });
 
-            // Leaflet and the embedded MapLibre canvas can briefly lose their
-            // paint after a marker interaction (notably inside the responsive
-            // report modal). Re-measure without panning and repaint the basemap.
-            window.requestAnimationFrame(() => {
-                window.requestAnimationFrame(() => {
-                    if (!mapElement.isConnected || window.currentReportLeafletMap !== map) return;
-                    map.invalidateSize({ pan: false });
-                    map.eachLayer(layer => {
-                        if (typeof layer.getMaplibreMap === "function") {
-                            layer.getMaplibreMap().resize();
-                        }
-                    });
-                });
-            });
+
         });
 
         markers.push([lat, lng]);
