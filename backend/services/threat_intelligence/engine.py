@@ -515,6 +515,7 @@ class ThreatIntelligenceEngine:
                     "status": threatfox.get(
                         "status",
                     ),
+                    **({"error_type": threatfox["error_type"]} if threatfox.get("error_type") else {}),
                 },
                 "urlhaus": {
                     "success": urlhaus.get(
@@ -532,6 +533,7 @@ class ThreatIntelligenceEngine:
                     "status": urlhaus.get(
                         "status",
                     ),
+                    **({"error_type": urlhaus["error_type"]} if urlhaus.get("error_type") else {}),
                 },
             },
             "count": len(normalized),

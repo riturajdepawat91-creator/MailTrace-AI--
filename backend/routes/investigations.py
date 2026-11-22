@@ -20,6 +20,8 @@ def list_investigations(request: Request):
     try:
 
         principal = getattr(request.state, "principal", None)
+        if principal is None:
+            raise HTTPException(status_code=401, detail="Authentication required.")
         investigations = get_all_investigation_summaries(
             principal.tenant_id if principal else None
         )
@@ -30,12 +32,10 @@ def list_investigations(request: Request):
             "investigations": investigations
         }
 
-    except Exception as error:
-
-        raise HTTPException(
-            status_code=500,
-            detail=f"Failed to fetch investigations: {str(error)}"
-        )
+    except HTTPException:
+        raise
+    except Exception:
+        raise HTTPException(status_code=500, detail="Internal server error.")
 
 
 @router.get("/{investigation_id}")
@@ -47,6 +47,8 @@ def get_single_investigation(
     try:
 
         principal = getattr(request.state, "principal", None)
+        if principal is None:
+            raise HTTPException(status_code=401, detail="Authentication required.")
         investigation = get_investigation(
             investigation_id,
             principal.tenant_id if principal else None,
@@ -60,17 +62,29 @@ def get_single_investigation(
             )
 
         try:
-
-            investigation["analysis"] = json.loads(
-                investigation.get(
-                    "analysis_json",
-                    "{}"
-                )
-            )
-
+            decoded = json.loads(investigation.get("analysis_json", "{}"))
+            if not isinstance(decoded, dict):
+                raise ValueError("stored analysis is not an object")
+            investigation["analysis"] = decoded
+            investigation["analysis_document_status"] = "PASS"
         except Exception:
-
-            investigation["analysis"] = {}
+            # Keep the existing response shape but do not disguise corrupt
+            # persisted analysis as an empty successful report.
+            investigation["analysis"] = {
+                "analysis_status": "ERROR",
+                "threat_analysis": {
+                    "score": None,
+                    "verdict": "REPORT DATA UNAVAILABLE",
+                    "confidence": "UNKNOWN",
+                },
+                "result_statuses": {
+                    "report_document": {
+                        "status": "ERROR",
+                        "message": "Stored analysis document could not be read.",
+                    }
+                },
+            }
+            investigation["analysis_document_status"] = "ERROR"
 
         investigation.pop(
             "analysis_json",
@@ -86,9 +100,6 @@ def get_single_investigation(
 
         raise
 
-    except Exception as error:
+    except Exception:
 
-        raise HTTPException(
-            status_code=500,
-            detail=f"Failed to fetch investigation: {str(error)}"
-        )
+        raise HTTPException(status_code=500, detail="Internal server error.")

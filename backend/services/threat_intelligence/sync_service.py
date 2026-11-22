@@ -22,10 +22,16 @@ def sync_threat_intelligence_feeds(
     providers = result.get("providers", {})
     inserted_by_provider: dict[str, int] = {}
     for provider in providers:
+        provider_ok = bool(providers.get(provider, {}).get("success"))
         provider_indicators = [
             item for item in indicators
-            if isinstance(item, dict)
+            if provider_ok
+            and isinstance(item, dict)
             and str(item.get("source", "")).lower() == str(provider).lower()
+            and isinstance(item.get("ioc"), str)
+            and item.get("ioc").strip()
+            and isinstance(item.get("ioc_type"), str)
+            and item.get("ioc_type").strip()
         ]
         inserted_by_provider[provider] = save_threat_intelligence(provider_indicators)
 

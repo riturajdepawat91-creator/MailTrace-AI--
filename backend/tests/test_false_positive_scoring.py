@@ -100,6 +100,7 @@ def test_fusion_ignores_quoted_or_negated_credential_pressure_phrases():
     for body in (
         'The sample said, "Your account will be suspended immediately. Verify your account."',
         "We will never ask you to verify your account immediately or enter your password.",
+        "Our fraud-prevention training discusses password safety and identity verification.",
     ):
         result = analyze_email_intelligence(
             email={"subject": "Security guidance", "body": body},

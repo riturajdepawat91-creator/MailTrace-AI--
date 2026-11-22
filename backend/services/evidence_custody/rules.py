@@ -131,5 +131,3 @@ FORBIDDEN_EVIDENCE_ID_VALUES = frozenset({
     ".",
     "..",
 })
-
-

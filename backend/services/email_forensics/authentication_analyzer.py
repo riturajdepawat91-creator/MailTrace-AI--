@@ -1,8 +1,9 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import re
 from typing import Any
 from services.domain_alignment import compare_domains, normalized_host
+from services.ip_address_policy import classify_ip
 
 
 def validate_email_authentication(
@@ -34,11 +35,10 @@ def validate_email_authentication(
         resolver.lifetime = 3.0
 
         if smtp_context:
-            import ipaddress
             import spf
 
-            client_ip = ipaddress.ip_address(smtp_context["client_ip"])
-            if not client_ip.is_global:
+            client_policy = classify_ip(smtp_context["client_ip"])
+            if client_policy["enrichment_status"] != "ELIGIBLE":
                 validation["spf"] = {
                     "status": "NOT_VERIFIABLE_NON_PUBLIC_CLIENT_IP",
                     "reason": "SPF checks require the public SMTP client IP.",
@@ -49,7 +49,7 @@ def validate_email_authentication(
                     mail_from = f"postmaster@{smtp_context['helo']}"
                 try:
                     spf_result, explanation = spf.check2(
-                        i=str(client_ip),
+                        i=client_policy["provider_ip"],
                         s=mail_from,
                         h=smtp_context["helo"],
                         timeout=2,
@@ -58,7 +58,7 @@ def validate_email_authentication(
                     validation["spf"] = {
                         "status": spf_result.upper(),
                         "explanation": str(explanation)[:300],
-                        "client_ip": str(client_ip),
+                        "client_ip": client_policy["provider_ip"],
                         "mail_from": smtp_context["mail_from"],
                         "helo": smtp_context["helo"],
                         "context_source": "hmac_authenticated_webhook",

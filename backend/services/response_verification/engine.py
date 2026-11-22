@@ -564,11 +564,17 @@ def verify_response(
                 in observation
             ):
 
-                observed_success = bool(
-                    observation.get(
-                        "success"
-                    )
-                )
+                raw_success = observation.get("success")
+                if isinstance(raw_success, bool):
+                    observed_success = raw_success
+                elif isinstance(raw_success, (int, float)) and raw_success in (0, 1):
+                    observed_success = bool(raw_success)
+                elif isinstance(raw_success, str) and raw_success.strip().lower() in {"true", "yes", "1"}:
+                    observed_success = True
+                elif isinstance(raw_success, str) and raw_success.strip().lower() in {"false", "no", "0"}:
+                    observed_success = False
+                else:
+                    observed_success = None
 
             else:
 
@@ -669,13 +675,10 @@ def verify_response(
     checks.append(
         _build_check(
             "ACTION_COMPLETION",
-            incomplete_actions == 0
-            and len(actions) > 0,
+            "Every response action has verified completion",
+            incomplete_actions == 0 and len(actions) > 0,
             "CRITICAL",
-            (
-                f"Incomplete or unverified "
-                f"actions: {incomplete_actions}"
-            ),
+            f"Incomplete or unverified actions: {incomplete_actions}",
         )
     )
 
@@ -738,15 +741,14 @@ def verify_response(
 
     if response_iocs:
 
+        matched_ioc_observations = sum(
+            1 for ioc in response_iocs if ioc.lower() in ioc_observations
+        )
         checks.append(
             _build_check(
                 "IOC_OBSERVATIONS",
                 "Response IOCs have post-response observations",
-                len(
-                    ioc_observations
-                ) >= len(
-                    response_iocs
-                ),
+                matched_ioc_observations >= len(response_iocs),
                 "HIGH",
                 (
                     f"IOCs={len(response_iocs)}, "

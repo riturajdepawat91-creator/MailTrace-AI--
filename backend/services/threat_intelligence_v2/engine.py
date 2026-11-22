@@ -9481,19 +9481,3 @@ def analyze_threat_intelligence_v2(
     )
 
     return result
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

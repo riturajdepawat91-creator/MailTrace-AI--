@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="MailTrace shield-envelope">
+  <path class="logo-shield" d="M24 5 L37 10 V21 C37 30 32 37 24 42 C16 37 11 30 11 21 V10 Z"/>
+  <path class="logo-envelope" d="M15.5 17.5 H32.5 V29 H15.5 Z"/>
+  <path class="logo-envelope-fold" d="M16 18 L24 24 L32 18"/>
+  <path class="logo-trace" d="M18 33 H21.5 L24 30 L27 33 H30"/>
+  <style>
+    .logo-shield { fill: none; stroke: #00c8ff; stroke-width: 1.7; }
+    .logo-envelope { fill: none; stroke: #8bdcf3; stroke-width: 1.35; }
+    .logo-envelope-fold, .logo-trace { fill: none; stroke: #8bdcf3; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+  </style>
+</svg>
