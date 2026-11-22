@@ -113,3 +113,18 @@ backend/tests/fixtures/phase4_human_review/reconciliation_report.json
 
 # Repository-root pytest temporary databases
 .pytest-tmp/
+
+# Customer desktop build and packaging outputs
+customer-app/dist/
+customer-app/windows/bin/
+customer-app/windows/obj/
+
+# Local test scratch data and protected credential artifacts
+backend/*pytest*/
+backend/.pytest-*/
+backend/phase*-test-tmp*/
+backend/phase*-pytest-temp*/
+backend/phase3-gmail-tmp/
+**/*.dpapi
+credentials.json
+token.json

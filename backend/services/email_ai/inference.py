@@ -83,6 +83,15 @@ def load_model(
 ) -> Tuple[Optional[Any], Dict[str, Any]]:
     model_dir_path = Path(model_dir)
 
+    # Resolve the default relative model path from the backend package as
+    # well as from the current working directory. This keeps inference
+    # working when the API is launched from the repository root
+    # (for example: uvicorn backend.main:app) instead of backend/.
+    if not model_dir_path.is_absolute() and not model_dir_path.exists():
+        backend_relative = Path(__file__).resolve().parents[2] / model_dir_path
+        if backend_relative.exists():
+            model_dir_path = backend_relative
+
     try:
         artifact_path, manifest_path, artifact_kind = (
             _resolve_model_artifact(model_dir_path)

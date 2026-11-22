@@ -949,4 +949,3 @@ else:
     print("MODULE MUST REMAIN UNLOCKED")
 
 sys.exit(0 if FAIL == 0 else 10)
-

@@ -1976,7 +1976,7 @@ def create_email_alert(
         connection.close()
 
 
-def get_email_alerts(limit: int = 100, status: str | None = None) -> list[dict]:
+def get_email_alerts(limit: int = 100, status: str | None = None, tenant_id: str | None = None) -> list[dict]:
     """List alert metadata with safe investigation summary fields."""
     connection = get_connection()
     try:
@@ -1998,9 +1998,12 @@ def get_email_alerts(limit: int = 100, status: str | None = None) -> list[dict]:
             WHERE a.recommended_action = 'QUARANTINE' AND a.confidence = 'HIGH'
         """
         params: tuple = ()
+        if tenant_id is not None:
+            query += " AND i.tenant_id = ?"
+            params = (*params, tenant_id)
         if status:
             query += " AND a.status = ?"
-            params = (status,)
+            params = (*params, status)
         query += " ORDER BY a.created_at DESC, a.id DESC LIMIT ?"
         rows = connection.execute(
             query, (*params, max(1, min(500, int(limit))))
@@ -2032,7 +2035,7 @@ def get_email_alert_by_event(event_id: str) -> dict | None:
         connection.close()
 
 
-def acknowledge_email_alert(alert_id: str, actor: str) -> dict | None:
+def acknowledge_email_alert(alert_id: str, actor: str, tenant_id: str | None = None) -> dict | None:
     """Persist an analyst acknowledgement; repeated acknowledgement is safe."""
     connection = get_connection()
     try:
@@ -2044,8 +2047,9 @@ def acknowledge_email_alert(alert_id: str, actor: str) -> dict | None:
                 acknowledged_at=COALESCE(acknowledged_at, CURRENT_TIMESTAMP),
                 updated_at=CURRENT_TIMESTAMP
             WHERE alert_id=? AND status='NEW'
+              AND (? IS NULL OR EXISTS (SELECT 1 FROM investigations i WHERE i.investigation_id=email_alerts.investigation_id AND i.tenant_id=?))
             """,
-            (actor[:128], alert_id),
+            (actor[:128], alert_id, tenant_id, tenant_id),
         )
         if cursor.rowcount:
             connection.execute(
@@ -2053,7 +2057,8 @@ def acknowledge_email_alert(alert_id: str, actor: str) -> dict | None:
                 (alert_id, actor[:128]),
             )
         row = connection.execute(
-            "SELECT * FROM email_alerts WHERE alert_id=?", (alert_id,)
+            "SELECT * FROM email_alerts WHERE alert_id=? AND (? IS NULL OR EXISTS (SELECT 1 FROM investigations i WHERE i.investigation_id=email_alerts.investigation_id AND i.tenant_id=?))",
+            (alert_id, tenant_id, tenant_id),
         ).fetchone()
         connection.commit()
         return dict(row) if row else None
@@ -2061,7 +2066,7 @@ def acknowledge_email_alert(alert_id: str, actor: str) -> dict | None:
         connection.close()
 
 
-def resolve_email_alert(alert_id: str, actor: str) -> dict | None:
+def resolve_email_alert(alert_id: str, actor: str, tenant_id: str | None = None) -> dict | None:
     connection = get_connection()
     try:
         connection.execute("BEGIN IMMEDIATE")
@@ -2072,8 +2077,9 @@ def resolve_email_alert(alert_id: str, actor: str) -> dict | None:
                 resolved_at=COALESCE(resolved_at, CURRENT_TIMESTAMP),
                 updated_at=CURRENT_TIMESTAMP
             WHERE alert_id=? AND status IN ('NEW', 'ACKNOWLEDGED')
+              AND (? IS NULL OR EXISTS (SELECT 1 FROM investigations i WHERE i.investigation_id=email_alerts.investigation_id AND i.tenant_id=?))
             """,
-            (actor[:128], alert_id),
+            (actor[:128], alert_id, tenant_id, tenant_id),
         )
         if cursor.rowcount:
             connection.execute(
@@ -2081,7 +2087,8 @@ def resolve_email_alert(alert_id: str, actor: str) -> dict | None:
                 (alert_id, actor[:128]),
             )
         row = connection.execute(
-            "SELECT * FROM email_alerts WHERE alert_id=?", (alert_id,)
+            "SELECT * FROM email_alerts WHERE alert_id=? AND (? IS NULL OR EXISTS (SELECT 1 FROM investigations i WHERE i.investigation_id=email_alerts.investigation_id AND i.tenant_id=?))",
+            (alert_id, tenant_id, tenant_id),
         ).fetchone()
         connection.commit()
         return dict(row) if row else None
@@ -2089,12 +2096,15 @@ def resolve_email_alert(alert_id: str, actor: str) -> dict | None:
         connection.close()
 
 
-def get_email_alert_history(alert_id: str) -> list[dict]:
+def get_email_alert_history(alert_id: str, tenant_id: str | None = None) -> list[dict]:
     connection = get_connection()
     try:
         rows = connection.execute(
-            "SELECT action, actor, details_json, created_at FROM email_alert_events WHERE alert_id=? ORDER BY id ASC",
-            (alert_id,),
+            """SELECT e.action, e.actor, e.details_json, e.created_at FROM email_alert_events e
+               JOIN email_alerts a ON a.alert_id=e.alert_id
+               JOIN investigations i ON i.investigation_id=a.investigation_id
+               WHERE e.alert_id=? AND (? IS NULL OR i.tenant_id=?) ORDER BY e.id ASC""",
+            (alert_id, tenant_id, tenant_id),
         ).fetchall()
         history = [dict(row) for row in rows]
         for event in history:
@@ -2311,13 +2321,24 @@ def get_all_investigation_summaries(tenant_id=None):
                 threat_score,
                 threat_verdict,
                 threat_confidence,
+                CASE
+                    WHEN json_valid(COALESCE(analysis_json, '')) = 1
+                     AND json_type(analysis_json) = 'object' THEN 'PASS'
+                    ELSE 'ERROR'
+                END AS analysis_document_status,
                 created_at
             FROM investigations
             {where}
             ORDER BY created_at DESC, id DESC
         """.format(where="WHERE tenant_id = ?" if tenant_id is not None else "")
         rows = connection.execute(query, (tenant_id,) if tenant_id is not None else ()).fetchall()
-        return [protect_investigation_row(dict(row)) for row in rows]
+        summaries = [protect_investigation_row(dict(row)) for row in rows]
+        for item in summaries:
+            if item.get("analysis_document_status") == "ERROR":
+                item["threat_score"] = None
+                item["threat_verdict"] = "REPORT DATA UNAVAILABLE"
+                item["threat_confidence"] = "UNKNOWN"
+        return summaries
     finally:
         connection.close()
 

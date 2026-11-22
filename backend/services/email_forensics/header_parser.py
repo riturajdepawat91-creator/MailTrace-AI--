@@ -1,9 +1,8 @@
 ﻿from __future__ import annotations
 
-from email import policy
-from email.parser import BytesParser
-from email.message import Message
 from typing import Any
+
+from services.email_parsing import parse_email_bytes
 
 
 # =========================================================
@@ -30,15 +29,14 @@ def parse_email_headers(raw_email: bytes | str) -> dict[str, Any]:
             errors="replace"
         )
 
-    message: Message = BytesParser(
-        policy=policy.default
-    ).parsebytes(raw_email)
+    message, parse_diagnostics = parse_email_bytes(raw_email)
 
     # -----------------------------------------------------
     # ALL HEADERS
     # -----------------------------------------------------
 
     all_headers = []
+    header_occurrences: dict[str, list[str]] = {}
 
     for name, value in message.raw_items():
 
@@ -46,19 +44,14 @@ def parse_email_headers(raw_email: bytes | str) -> dict[str, Any]:
             "name": name,
             "value": str(value)
         })
+        header_occurrences.setdefault(name.lower(), []).append(str(value))
 
     # -----------------------------------------------------
     # REPEATED HEADER HELPER
     # -----------------------------------------------------
 
     def get_all(name: str) -> list[str]:
-
-        return [
-            str(value)
-            for header_name, value
-            in message.raw_items()
-            if header_name.lower() == name.lower()
-        ]
+        return list(header_occurrences.get(name.lower(), []))
 
     def get_first(name: str) -> str | None:
 
@@ -141,25 +134,26 @@ def parse_email_headers(raw_email: bytes | str) -> dict[str, Any]:
 
     body_text = ""
     body_html = ""
+    parse_issues = []
 
     try:
         if message.is_multipart():
 
-            for part in message.walk():
+            for part_index, part in enumerate(message.walk()):
 
                 content_type = part.get_content_type()
 
-                if content_type == "text/plain":
+                if content_type == "text/plain" and part.get_content_disposition() != "attachment":
                     try:
                         body_text += part.get_content()
-                    except Exception:
-                        pass
+                    except Exception as error:
+                        parse_issues.append({"code": "BODY_DECODE_FAILED", "part_index": part_index, "error_type": type(error).__name__})
 
-                elif content_type == "text/html":
+                elif content_type == "text/html" and part.get_content_disposition() != "attachment":
                     try:
                         body_html += part.get_content()
-                    except Exception:
-                        pass
+                    except Exception as error:
+                        parse_issues.append({"code": "HTML_BODY_DECODE_FAILED", "part_index": part_index, "error_type": type(error).__name__})
 
         else:
 
@@ -171,7 +165,8 @@ def parse_email_headers(raw_email: bytes | str) -> dict[str, Any]:
             elif content_type == "text/html":
                 body_html = message.get_content()
 
-    except Exception:
+    except Exception as error:
+        parse_issues.append({"code": "MIME_BODY_PARSE_FAILED", "error_type": type(error).__name__})
         body_text = ""
         body_html = ""
 
@@ -183,6 +178,20 @@ def parse_email_headers(raw_email: bytes | str) -> dict[str, Any]:
     # -----------------------------------------------------
 
     return {
+
+        "parsing": {
+            **parse_diagnostics,
+            "status": "PARTIAL" if parse_diagnostics["status"] == "PARTIAL" or parse_issues else "COMPLETE",
+            "issues": parse_issues,
+        },
+
+        "header_occurrences": header_occurrences,
+
+        "duplicate_headers": [
+            {"name": name, "count": len(values), "values": values}
+            for name, values in header_occurrences.items()
+            if len(values) > 1
+        ],
 
         "header_count":
             len(all_headers),
@@ -231,5 +240,3 @@ def parse_email_headers(raw_email: bytes | str) -> dict[str, Any]:
                 len(body_text)
         }
     }
-
-

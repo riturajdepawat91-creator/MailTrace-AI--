@@ -44,4 +44,3 @@ class ThreadAnalysisResult:
             for item in self.evidence
         ]
         return result
-

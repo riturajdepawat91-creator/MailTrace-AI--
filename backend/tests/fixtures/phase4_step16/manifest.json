@@ -1,0 +1,264 @@
+{
+  "schema_version": "1.0",
+  "corpus_id": "mailtrace-phase4-step16-v1",
+  "purpose": "Offline, synthetic regression/evaluation fixtures for email parsing and threat-analysis policy.",
+  "provenance_policy": "Authored for this repository; no real mailbox samples, external threat-feed samples, or provider-derived labels.",
+  "network_policy": "No network access is needed or permitted for fixture parsing. Disable or stub external validators, reputation and enrichment when running analysis tests. Do not visit URL-like strings.",
+  "taxonomy": [
+    {
+      "label": "benign_legitimate",
+      "definition": "Routine expected business communication with no persuasive malicious request."
+    },
+    {
+      "label": "phishing",
+      "definition": "Impersonation or deceptive request intended to induce an unsafe action; not necessarily credential capture."
+    },
+    {
+      "label": "credential_harvesting",
+      "definition": "Explicit attempt to collect passwords, one-time codes, or account authentication data."
+    },
+    {
+      "label": "bec_payment_change",
+      "definition": "Business email compromise pattern requesting a payment or beneficiary change."
+    },
+    {
+      "label": "suspicious_inconclusive",
+      "definition": "Anomaly warrants review, but the available fixture evidence does not establish malicious intent."
+    },
+    {
+      "label": "malformed_email",
+      "definition": "Deliberately malformed RFC 5322-like input for parser robustness; not a threat verdict."
+    },
+    {
+      "label": "authentication_edge_case",
+      "definition": "A message whose content label is independent of untrusted, message-supplied authentication claims."
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "MT-F16-0001",
+      "file": "MT-F16-0001_benign_routine.eml",
+      "sha256": "9e75b09c3bc63f3822303b61a786072d69170720129e2391d04183251ac1b98a",
+      "label": "benign_legitimate",
+      "severity": "none",
+      "provenance": "Authored synthetic fixture; fictional sender and recipient under example.invalid.",
+      "sanitization": "No personal data, secrets, active domains, public IPs, or attachments.",
+      "evidence": [
+        "Routine meeting coordination",
+        "No credential, payment, or link request"
+      ],
+      "rationale": "Ordinary scheduling message with no suspicious action request.",
+      "human_review_status": "not_performed",
+      "expected_parser_notes": [
+        "single text/plain body",
+        "valid basic headers"
+      ],
+      "expected_parser": {
+        "status": "COMPLETE",
+        "url_count": 0,
+        "attachment_count": 0,
+        "from_present": true
+      },
+      "qa_review_status": "PASS",
+      "qa_review_date": "2026-10-16"
+    },
+    {
+      "id": "MT-F16-0002",
+      "file": "MT-F16-0002_benign_risky-words.eml",
+      "sha256": "25ca88b765f8225f079189fcc14e229facf35be7fd18e9ca400c431c78dfdae8",
+      "label": "benign_legitimate",
+      "severity": "none",
+      "provenance": "Authored synthetic fixture; fictional sender and recipient under example.invalid.",
+      "sanitization": "No personal data, secrets, active domains, public IPs, or attachments.",
+      "evidence": [
+        "Compliance notice discusses fraud prevention",
+        "Mentions password and identity verification in a warning not to disclose them",
+        "No external link or urgent account action"
+      ],
+      "rationale": "Negative hard case: risky vocabulary appears in a protective disclaimer, not a request to act.",
+      "human_review_status": "not_performed",
+      "expected_parser_notes": [
+        "single text/plain body",
+        "keyword-only detection must not determine label"
+      ],
+      "expected_parser": {
+        "status": "COMPLETE",
+        "url_count": 0,
+        "attachment_count": 0,
+        "from_present": true
+      },
+      "qa_review_status": "PASS",
+      "qa_review_date": "2026-10-16"
+    },
+    {
+      "id": "MT-F16-0003",
+      "file": "MT-F16-0003_phishing_generic.eml",
+      "sha256": "72c189acfe70fa887dd891f7af66c6dd99d13699f7dd397f3ae813c938089e19",
+      "label": "phishing",
+      "severity": "high",
+      "provenance": "Authored synthetic fixture; fictional brand and domains under example.invalid.",
+      "sanitization": "URL host ends in .invalid and is inert; no personal data, secrets, public IPs, or attachments.",
+      "evidence": [
+        "Unverified sender claims to represent a fictional service",
+        "Threatens account restriction to force immediate action",
+        "Contains a link to a non-matching fictional host"
+      ],
+      "rationale": "Multiple contextual signals indicate impersonation and coercive link use; label is not based on one keyword or authentication result.",
+      "human_review_status": "not_performed",
+      "expected_parser_notes": [
+        "one HTTP URL occurrence",
+        "do not fetch or resolve the URL"
+      ],
+      "expected_parser": {
+        "status": "COMPLETE",
+        "url_count": 1,
+        "attachment_count": 0,
+        "from_present": true
+      },
+      "qa_review_status": "PASS",
+      "qa_review_date": "2026-10-16"
+    },
+    {
+      "id": "MT-F16-0004",
+      "file": "MT-F16-0004_credential-harvesting.eml",
+      "sha256": "f0f48435ab22da928e104e8966d9c27a8dfc0c538a5b27021264033c960d0f6b",
+      "label": "credential_harvesting",
+      "severity": "critical",
+      "provenance": "Authored synthetic fixture; fictional sender, organization and host under example.invalid.",
+      "sanitization": "URL host ends in .invalid and is inert; no real credentials, personal data, public IPs, or attachments.",
+      "evidence": [
+        "Direct request for account password and one-time code",
+        "Threatens suspension unless user submits authentication data",
+        "Credential form URL uses a fictional unrelated host"
+      ],
+      "rationale": "Explicit collection of authentication secrets is the defining behavior.",
+      "human_review_status": "not_performed",
+      "expected_parser_notes": [
+        "one HTTP URL occurrence",
+        "never follow the URL"
+      ],
+      "expected_parser": {
+        "status": "COMPLETE",
+        "url_count": 1,
+        "attachment_count": 0,
+        "from_present": true
+      },
+      "qa_review_status": "PASS",
+      "qa_review_date": "2026-10-16"
+    },
+    {
+      "id": "MT-F16-0005",
+      "file": "MT-F16-0005_bec_payment-change.eml",
+      "sha256": "c36f3e4c1c12f5ab4945b0b8594727659708b57cde7ff77022e64f3a37f9b602",
+      "label": "bec_payment_change",
+      "severity": "high",
+      "provenance": "Authored synthetic fixture; fictional employee identities and organization under example.invalid.",
+      "sanitization": "No real bank details, account numbers, personal data, credentials, URLs, or attachments.",
+      "evidence": [
+        "Sender requests urgent change to an invoice beneficiary",
+        "Asks recipient to bypass normal callback verification",
+        "Request is inconsistent with established payment controls described in message"
+      ],
+      "rationale": "Payment redirection plus an explicit control-bypass request is a synthetic BEC pattern.",
+      "human_review_status": "not_performed",
+      "expected_parser_notes": [
+        "no URL expected",
+        "sender display name alone is not the label basis"
+      ],
+      "expected_parser": {
+        "status": "COMPLETE",
+        "url_count": 0,
+        "attachment_count": 0,
+        "from_present": true
+      },
+      "qa_review_status": "PASS",
+      "qa_review_date": "2026-10-16"
+    },
+    {
+      "id": "MT-F16-0006",
+      "file": "MT-F16-0006_suspicious-inconclusive.eml",
+      "sha256": "e63cf92c5edf5251e2908aadbe807170be8f5baf7fca2b52f71068ade53def27",
+      "label": "suspicious_inconclusive",
+      "severity": "medium",
+      "provenance": "Authored synthetic fixture; fictional sender and recipient under example.invalid.",
+      "sanitization": "No personal data, secrets, active domains, public IPs, or attachments.",
+      "evidence": [
+        "Reply-To domain differs from From domain",
+        "Body asks for a document review but provides no link, credential request, payment change, or verifiable context"
+      ],
+      "rationale": "The identity mismatch merits analyst review, but the message alone does not establish fraud.",
+      "human_review_status": "not_performed",
+      "expected_parser_notes": [
+        "identity mismatch should remain evidence, not proof of maliciousness"
+      ],
+      "expected_parser": {
+        "status": "COMPLETE",
+        "url_count": 0,
+        "attachment_count": 0,
+        "from_present": true
+      },
+      "qa_review_status": "PASS",
+      "qa_review_date": "2026-10-16"
+    },
+    {
+      "id": "MT-F16-0007",
+      "file": "MT-F16-0007_malformed-headers.eml",
+      "sha256": "dde12010c2e62916f54dd7254fc21c440b2bfa3e4d6ca9f6992649580abb8f40",
+      "label": "malformed_email",
+      "severity": "not_applicable",
+      "provenance": "Authored synthetic malformed input for parser robustness.",
+      "sanitization": "Contains only fictional text; no addresses, secrets, URLs, IPs, or attachments.",
+      "evidence": [
+        "Invalid header field name",
+        "Header/body separator and field structure are intentionally malformed"
+      ],
+      "rationale": "This is a parser robustness case, not a maliciousness label; parsers may recover some fields or report an explicit parse status.",
+      "human_review_status": "not_performed",
+      "expected_parser_notes": [
+        "parser must not crash",
+        "preserve explicit parse status and available raw evidence"
+      ],
+      "expected_parser": {
+        "status": "PARTIAL",
+        "url_count": 0,
+        "attachment_count": 0,
+        "from_present": false
+      },
+      "qa_review_status": "PASS",
+      "qa_review_date": "2026-10-16"
+    },
+    {
+      "id": "MT-F16-0008",
+      "file": "MT-F16-0008_auth-claim-untrusted.eml",
+      "sha256": "070c4e8ca1837a24c24db44a4b717ef2377f9b0f494ea499e2516c467ba7ec4b",
+      "label": "authentication_edge_case",
+      "severity": "none",
+      "provenance": "Authored synthetic fixture; fictional sender and recipient under example.invalid.",
+      "sanitization": "No personal data, secrets, active domains, public IPs, or attachments.",
+      "evidence": [
+        "Routine project status body with no risky action request",
+        "Authentication-Results header claims SPF, DKIM and DMARC pass",
+        "Header is supplied inside the email and is not trusted validation evidence"
+      ],
+      "rationale": "Content label is benign; the claimed authentication outcomes must remain untrusted unless independently validated with trusted transport context.",
+      "human_review_status": "not_performed",
+      "expected_parser_notes": [
+        "reported authentication claims distinct from validator statuses",
+        "do not infer benignness solely from PASS claims"
+      ],
+      "expected_parser": {
+        "status": "COMPLETE",
+        "url_count": 0,
+        "attachment_count": 0,
+        "from_present": true,
+        "reported_authentication": {
+          "spf": "PASS",
+          "dkim": "PASS",
+          "dmarc": "PASS"
+        }
+      },
+      "qa_review_status": "PASS",
+      "qa_review_date": "2026-10-16"
+    }
+  ]
+}

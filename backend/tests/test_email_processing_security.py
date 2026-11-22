@@ -52,7 +52,8 @@ class EmailProcessingSecurityTests(unittest.TestCase):
             parsed["authentication"]["authentication_results_trusted"]
         )
 
-    def test_offline_validation_does_not_claim_spf_or_dkim_result(self):
+    @patch("dns.resolver.Resolver")
+    def test_offline_validation_does_not_claim_spf_or_dkim_result(self, resolver_factory):
         raw_email = (
             b"Authentication-Results: attacker; spf=pass; dkim=pass; dmarc=pass\r\n"
             b"\r\nhello\r\n"
@@ -98,6 +99,7 @@ class EmailProcessingSecurityTests(unittest.TestCase):
             )
         self.assertEqual(verified["spf"]["status"], "PASS")
         spf_check.assert_called_once()
+        resolver_factory.return_value.resolve.assert_not_called()
 
     def test_invalid_msg_container_is_rejected(self):
         with self.assertRaises(Exception):

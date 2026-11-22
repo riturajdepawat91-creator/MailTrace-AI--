@@ -208,7 +208,11 @@ def _content_signals(email: Mapping[str, Any]) -> List[Signal]:
     signals: List[Signal] = []
     groups = [
         ("credential_theft", "credential_harvesting_language", 90, .88,
-         ("password","verify your account","verify your identity","login","sign in","credential","authentication","security verification"),
+         ("enter your password", "send your password", "submit your password", "provide your password",
+          "share your password", "password and one-time code", "one-time code", "login credentials",
+          "account credentials", "enter your credentials", "submit your credentials",
+          "provide your credentials", "share your credentials", "verify your account",
+          "verify your identity", "sign in", "log in"),
          "Credential/login verification language detected.", True),
         ("fraud", "financial_fraud_language", 88, .87,
          ("payment","invoice","wire transfer","bank transfer","transfer funds","beneficiary","account details","refund","payment verification"),
@@ -688,6 +692,36 @@ def _derive_attack_intent(signals):
     return intents
 
 
+def _is_protective_security_notice(email):
+    """Recognize narrow, non-actionable security-awareness disclaimers."""
+    if not isinstance(email, Mapping):
+        return False
+    subject = _text(email.get("subject"))
+    body = _text(email.get("body"))
+    text = f"{subject}\n{body}".lower()
+    protective_phrases = (
+        "will never ask you to send a password",
+        "will never ask you to send a password or one-time code",
+        "do not use links in unexpected messages",
+        "never ask you to share your password",
+    )
+    if not any(phrase in text for phrase in protective_phrases):
+        return False
+    if email.get("urls") or email.get("url_evidence"):
+        return False
+    if re.search(r"https?://|\bwww\.", text):
+        return False
+    actionable_phrases = (
+        "click here", "open this", "enter your password", "submit your password",
+        "provide your password", "send your password", "verify your account",
+    )
+    return not any(phrase in text for phrase in actionable_phrases)
+
+
+ML_ONLY_HIGH_RISK_MIN_PROBABILITY = 0.60
+PROTECTIVE_NOTICE_MAX_PROBABILITY = 0.70
+
+
 def _decision(classification,risk_score,overall_confidence,evidence_confidence,signal_count):
     threat=classification in {"PHISHING","BEC","CREDENTIAL_THEFT","INVOICE_FRAUD","PAYMENT_DIVERSION","EXECUTIVE_IMPERSONATION","MALWARE_DELIVERY"}
     legitimate=classification in {"LEGITIMATE","BENIGN","SAFE","HAM"}
@@ -846,6 +880,26 @@ def analyze_email_intelligence(email=None,ai_result=None,forensic=None,threat_in
             fusion_meta.setdefault("score_breakdown", []).append({
                 "component":"evidence_limited_cap", "points":round(unified-uncapped, 6),
                 "source":"authentication passed and no specific threat evidence was present"})
+    # ML-only evidence must not trigger the API's >=50 HIGH RISK mapping
+    # without sufficient probability or independent corroboration. A narrow
+    # security-awareness disclaimer exception protects benign training notices.
+    threat_classes = {"PHISHING", "BEC", "CREDENTIAL_THEFT", "INVOICE_FRAUD", "PAYMENT_DIVERSION", "EXECUTIVE_IMPERSONATION", "MALWARE_DELIVERY"}
+    ml_only_low_confidence = (
+        independent == 0 and model_available and classification in threat_classes
+        and model_probability < ML_ONLY_HIGH_RISK_MIN_PROBABILITY
+    )
+    protective_notice = (
+        independent == 0 and model_available and classification in threat_classes
+        and model_probability < PROTECTIVE_NOTICE_MAX_PROBABILITY and _is_protective_security_notice(email)
+    )
+    if (ml_only_low_confidence or protective_notice) and unified >= 50.0:
+        prior_score = unified
+        unified = 49.0
+        fusion_meta.setdefault("score_breakdown", []).append({
+            "component": "uncorroborated_ml_risk_cap",
+            "points": round(unified - prior_score, 6),
+            "source": "uncorroborated ML-only verdict capped below the HIGH RISK API threshold",
+        })
     breakdown=fusion_meta.get("score_breakdown", [])
     if breakdown:
         # Round-off is absorbed into the final line so displayed points sum to

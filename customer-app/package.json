@@ -1,0 +1,11 @@
+{
+  "name": "mailtrace-customer-app",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Isolated MailTrace AI customer desktop UI and local preview.",
+  "type": "module",
+  "scripts": {
+    "preview": "node server.mjs",
+    "test": "node --test tests/*.test.mjs"
+  }
+}

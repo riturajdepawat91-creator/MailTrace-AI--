@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#04131f">
+  <title>MailTrace – AI Forensics</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/mailtrace-mark.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <div class="app-frame">
+    <header class="titlebar" id="titlebar">
+      <div class="title-brand"><img data-brand-image src="./assets/mailtrace-mark.svg" alt=""><span>MailTrace – AI Forensics</span></div>
+      <div class="window-drag" aria-hidden="true"></div>
+      <div class="window-caption" aria-label="Window controls">
+        <button class="caption-button" data-window="minimize" aria-label="Minimize" title="Minimize"><span></span></button>
+        <button class="caption-button maximize" data-window="maximize" aria-label="Maximize" title="Maximize"><span></span></button>
+        <button class="caption-button close" data-window="close" aria-label="Close" title="Close"><span></span></button>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <aside class="sidebar">
+        <a class="brand" href="#overview" aria-label="MailTrace AI Forensics Overview">
+          <img class="brand-mark" data-brand-image src="./assets/mailtrace-mark.svg" alt="">
+          <span class="brand-copy"><strong>MailTrace</strong><small>AI FORENSICS</small></span>
+        </a>
+        <nav class="primary-nav" aria-label="Main navigation" id="mainNav"></nav>
+        <section class="enterprise-card">
+          <div class="enterprise-icon" id="enterpriseIcon"></div>
+          <div><strong>MailTrace Local-first</strong><p>Customer control. Privacy by design.</p></div>
+          <span class="enterprise-state">CUSTOMER APP</span>
+        </section>
+        <div class="sidebar-footer"><span class="dot muted"></span><span id="sidebarConnection">Local services not connected</span></div>
+      </aside>
+
+      <main class="workspace" id="workspace" tabindex="-1">
+        <section class="view overview-view" id="view-overview" aria-labelledby="pageTitle">
+          <div class="top-grid">
+            <article class="hero-card panel">
+              <div class="hero-copy">
+                <div class="eyebrow">CUSTOMER PROTECTION</div>
+                <h1 id="pageTitle">Welcome back.</h1>
+                <p class="hero-lede">Your email environment is ready for local protection.</p>
+                <div class="hero-status"><span class="status-dot offline"></span><span id="protectionSummary">Protection is not connected</span></div>
+                <div class="hero-chips">
+                  <div class="hero-chip"><span class="chip-icon green" id="agentChipIcon"></span><span><small>Continuous protection</small><strong id="agentChipValue">NOT CONNECTED</strong></span></div>
+                  <div class="hero-chip"><span class="chip-icon blue" id="engineChipIcon"></span><span><small>Local engine</small><strong id="engineVersion">NOT DETECTED</strong></span></div>
+                  <div class="hero-chip"><span class="chip-icon cyan" id="lastScanIcon"></span><span><small>Last scan</small><strong id="lastScanValue">Not available</strong></span></div>
+                </div>
+              </div>
+              <div class="hero-art" aria-hidden="true">
+                <div class="hero-grid"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+                <div class="hero-glow"></div><img data-brand-image src="./assets/mailtrace-mark.svg" alt="">
+              </div>
+            </article>
+
+            <article class="health-card panel">
+              <div class="panel-heading"><div><span class="eyebrow">LIVE SERVICE STATUS</span><h2>System health</h2></div><button class="text-button" data-action="health-details">Details <span class="arrow-char">›</span></button></div>
+              <div class="health-content">
+                <div class="health-ring" id="healthRing" aria-label="Health unavailable"><div><strong id="healthValue">—</strong><small>STATUS</small></div></div>
+                <div class="health-list">
+                  <div class="health-row"><span class="health-icon" id="localEngineHealthIcon"></span><span>Local engine</span><strong class="health-value muted" id="localEngineHealth">Not connected</strong></div>
+                  <div class="health-row"><span class="health-icon" id="mailboxHealthIcon"></span><span>Mailbox sync</span><strong class="health-value muted" id="mailboxHealth">Unavailable</strong></div>
+                  <div class="health-row"><span class="health-icon" id="privacyHealthIcon"></span><span>Data privacy</span><strong class="health-value muted" id="privacyHealth">Not verified</strong></div>
+                  <div class="health-row"><span class="health-icon" id="stabilityHealthIcon"></span><span>Service status</span><strong class="health-value muted" id="stabilityHealth">Unknown</strong></div>
+                </div>
+              </div>
+              <p class="health-foot" id="healthFoot">Connect to a local MailTrace service to check readiness.</p>
+            </article>
+          </div>
+
+          <div class="middle-grid">
+            <section class="quick-section">
+              <div class="section-heading"><div><span class="eyebrow">YOUR WORKSPACE</span><h2>Quick actions</h2></div><span class="section-note">Customer controls</span></div>
+              <div class="quick-grid" id="quickActions"></div>
+            </section>
+            <article class="activity-card panel">
+              <div class="panel-heading compact"><div><span class="eyebrow">RECENT EVENTS</span><h2>Recent activity</h2></div><button class="text-button" data-nav="reports">View all <span class="arrow-char">›</span></button></div>
+              <div class="activity-empty"><div class="empty-orbit"><span id="activityEmptyIcon"></span></div><strong>No activity feed connected</strong><p>Operational events will appear here when the local Agent is available.</p></div>
+              <div class="activity-privacy">Individual SAFE email activity is never shown.</div>
+            </article>
+          </div>
+
+          <div class="analytics-grid">
+            <article class="analytics-card panel threat-card">
+              <div class="analytics-heading"><div><span class="eyebrow">AGGREGATE ONLY</span><h3>Email threat overview</h3></div><span class="info-mark" title="Only authorized aggregate counts are shown.">i</span></div>
+              <div class="threat-overview"><div class="donut empty-donut"><div><strong>—</strong><small>THREATS</small></div></div><div class="legend-list"><div><i class="legend-dot critical"></i><span>Critical</span><b>—</b></div><div><i class="legend-dot high"></i><span>High</span><b>—</b></div><div><i class="legend-dot moderate"></i><span>Moderate</span><b>—</b></div><div><i class="legend-dot safe"></i><span>SAFE aggregate</span><b>—</b></div></div></div>
+              <button class="inline-action" data-nav="threat-center">View authorized analysis <span>›</span></button>
+            </article>
+            <article class="analytics-card panel performance-card">
+              <div class="analytics-heading"><div><span class="eyebrow">THIS DEVICE</span><h3>Local performance</h3></div><span class="live-label" id="telemetryState">Waiting for desktop host</span></div>
+              <div class="metric-list">
+                <div class="metric-row"><span class="metric-name"><i id="cpuIcon"></i>CPU</span><strong id="cpuValue">—</strong><div class="metric-bar"><i id="cpuBar"></i></div></div>
+                <div class="metric-row"><span class="metric-name"><i id="ramIcon"></i>Memory</span><strong id="ramValue">—</strong><div class="metric-bar"><i id="ramBar"></i></div></div>
+                <div class="metric-row"><span class="metric-name"><i id="diskIcon"></i>Disk</span><strong id="diskValue">—</strong><div class="metric-bar"><i id="diskBar"></i></div></div>
+                <div class="metric-row"><span class="metric-name"><i id="networkIcon"></i>Network</span><strong id="networkValue">—</strong><div class="metric-bar"><i id="networkBar"></i></div></div>
+              </div>
+            </article>
+            <article class="analytics-card panel privacy-card">
+              <div class="analytics-heading"><div><span class="eyebrow">LOCAL-FIRST</span><h3>Privacy &amp; data control</h3></div><span class="info-mark" title="Service-reported privacy state only.">i</span></div>
+              <div class="privacy-list">
+                <div><span>SAFE email content</span><strong class="state-cyan">Not persisted by policy</strong></div>
+                <div><span>Evidence encryption</span><strong class="state-muted">Not verified</strong></div>
+                <div><span>SOC evidence sharing</span><strong class="state-muted">Not connected</strong></div>
+                <div><span>Retention</span><strong class="state-muted">Policy not connected</strong></div>
+              </div>
+              <button class="inline-action" data-nav="privacy-center">Review privacy controls <span>›</span></button>
+            </article>
+            <article class="analytics-card panel mailbox-card">
+              <div class="analytics-heading"><div><span class="eyebrow">MAILBOX STATUS</span><h3>Mailbox summary</h3></div><span id="mailboxSummaryStatus" class="health-pill unavailable">NOT CONNECTED</span></div>
+              <div class="mailbox-stats"><div><strong id="mailboxCount">—</strong><span>Connected mailboxes</span></div><div><strong id="scannedToday">—</strong><span>Emails scanned today</span></div></div>
+              <div class="mailbox-health"><span class="status-dot offline"></span><span id="mailboxSummaryText">Mailbox connector unavailable</span></div>
+              <button class="inline-action" data-nav="mailbox-connections">Manage connections <span>›</span></button>
+            </article>
+          </div>
+          <div class="view-footnote">Status values come from local services. Missing integrations are shown as unavailable.</div>
+        </section>
+
+        <section class="view page-view hidden" id="view-page" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <footer class="statusbar"><div class="statusbar-primary"><span id="footerShield"></span><span>Protection: <strong id="footerProtection" class="muted">NOT CONNECTED</strong></span></div><div class="status-divider"></div><div class="status-item"><span id="footerRefresh"></span><span>24-hour reconciliation: <strong class="muted">Unavailable</strong></span></div><div class="status-divider"></div><div class="status-item"><span id="footerVault"></span><span>Evidence vault: <strong class="muted">Not verified</strong></span></div><div class="status-divider"></div><div class="status-item engine-status">Engine: <strong id="footerEngine">Unknown</strong></div><button class="status-link" data-action="feature-request"><span id="footerFeedback"></span>Suggest a feature</button><button class="status-link help-link" data-action="help"><span id="footerHelp"></span>Help</button></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

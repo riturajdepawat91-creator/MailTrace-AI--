@@ -128,21 +128,20 @@ def detect_header_anomalies(
 
     findings: list[dict[str, Any]] = []
 
-    raw_headers = parsed_headers.get("headers", parsed_headers)
+    occurrences = parsed_headers.get("header_occurrences")
+    raw_headers = occurrences if isinstance(occurrences, dict) else parsed_headers.get("headers", parsed_headers)
 
     if not isinstance(raw_headers, dict):
         raw_headers = {}
-
-    normalized_keys = [
-        str(key).lower().strip()
-        for key in raw_headers.keys()
-    ]
 
     # --------------------------------------------------
     # 1. DUPLICATE SENSITIVE HEADERS
     # --------------------------------------------------
 
-    header_counter = Counter(normalized_keys)
+    header_counter = Counter({
+        str(name).lower().strip(): len(values) if isinstance(values, list) else 1
+        for name, values in raw_headers.items()
+    })
 
     for header_name, count in header_counter.items():
 

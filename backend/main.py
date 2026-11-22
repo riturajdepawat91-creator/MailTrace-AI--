@@ -67,6 +67,8 @@ from database.database import (
 from routes.investigations import router as investigations_router
 from routes.cases import router as cases_router
 from routes.soc_routing import router as soc_routing_router
+from services.synthetic_analysis.api import router as synthetic_analysis_router
+from services.synthetic_analysis.store import initialize_synthetic_analysis_reports
 
 from routes.ip_intelligence_routes import router as ip_intelligence_router
 
@@ -298,6 +300,7 @@ SOC_API_PATHS = {
     "/api/analyze-email",
     "/api/analyze-thread",
     "/api/recommendations/build",
+    "/api/synthetic-analysis",
 }
 SOC_ACCESS_ROLES = {
     "analyst", "soc_lead", "tenant_admin", "platform_admin", "admin"
@@ -465,6 +468,7 @@ async def observe_api_requests(request: Request, call_next):
 initialize_database()
 initialize_email_webhook_events()
 initialize_email_alerts()
+initialize_synthetic_analysis_reports()
 initialize_employee_email_reports()
 initialize_case_claims()
 initialize_case_audit()
@@ -1018,6 +1022,10 @@ app.include_router(
 
 app.include_router(
     soc_routing_router
+)
+
+app.include_router(
+    synthetic_analysis_router
 )
 
 # =========================================================

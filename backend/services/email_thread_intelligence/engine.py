@@ -1873,4 +1873,3 @@ def analyze_thread_to_dict(
     messages: Any,
 ) -> dict[str, Any]:
     return analyze_thread(messages).to_dict()
-
